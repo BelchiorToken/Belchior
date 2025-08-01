@@ -2,84 +2,77 @@
 <html lang="en" class="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BEL - Belchior Token</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    function toggleTheme() {
-      const html = document.querySelector('html');
-      html.classList.toggle('dark');
-      html.classList.toggle('light');
-    }
-  </script>
   <style>
     .gold-accent { color: #d4af37; }
     .fun-bg {
       background: linear-gradient(135deg, #ff6f61, #6b5b95);
     }
-    .dark .fun-bg {
-      background: linear-gradient(135deg, #d64541, #4a4062);
+    .button-buy {
+      background: #d4af37;
+      color: white;
+      font-weight: 700;
+      padding: 1rem 2.5rem;
+      border-radius: 0.75rem;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.6);
+      transition: background-color 0.3s ease;
     }
-    .section-bg {
-      background: #fff3e0;
+    .button-buy:hover {
+      background-color: #b7951a;
+      box-shadow: 0 6px 20px rgba(183, 149, 26, 0.8);
     }
-    .dark .section-bg {
-      background: #2c2c2c;
+    body {
+      background: #fff8e1;
+      color: #4b4b4b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
   </style>
 </head>
-<body class="font-sans text-gray-800 dark:text-gray-200 transition-colors duration-300">
+<body>
 
-  <!-- Header with Logo and Theme Toggle -->
-  <header class="fun-bg py-6 text-center">
-    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/refs/heads/main/assets/BEL-Token.png" alt="BEL Token Logo" class="inline-block h-20 mx-auto">
-    <button onclick="toggleTheme()" class="mt-4 px-4 py-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition">
-      Toggle Dark Mode
-    </button>
+  <!-- Header with Logo -->
+  <header class="fun-bg py-8 text-center">
+    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/refs/heads/main/assets/BEL-Token.png" alt="BEL Token Logo" class="inline-block h-24 mx-auto mb-4" />
+    <h1 class="text-5xl font-extrabold text-white drop-shadow-lg">Belchior Token (BEL)</h1>
+    <p class="text-lg text-gray-100 mt-2 max-w-xl mx-auto">
+      Join the Fun of Decentralized Rewards & Playful Crypto Innovation!
+    </p>
   </header>
 
-  <!-- Hero -->
-  <section class="fun-bg text-center py-16">
-    <h1 class="text-5xl font-bold text-white mb-4">BEL Token</h1>
-    <p class="text-xl text-gray-100 mb-6">Join the Fun of Decentralized Rewards!</p>
-    <a href="https://pancakeswap.finance/swap?outputCurrency=YOUR_BEL_TOKEN_ADDRESS" target="_blank" class="px-6 py-3 bg-gold-accent text-white font-semibold rounded-lg hover:bg-yellow-600 transition">
-      Buy BEL & Stake Now
-    </a>
-  </section>
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-6 py-12">
 
-  <!-- About -->
-  <section id="about" class="section-bg py-12 px-4 max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-6 gold-accent">About BEL</h2>
-    <p class="text-lg text-gray-700 dark:text-gray-300">BEL Token brings a playful twist to DeFi! It offers hourly rewards, community games, and flexible staking. Join the adventure!</p>
-  </section>
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold gold-accent mb-6 text-center">Hello Crypto Enthusiasts!</h2>
+      <p class="text-lg mb-4 leading-relaxed">
+        We’re thrilled to announce that Belchior is now live, bringing <strong>[insert project mission]</strong>. Our team is dedicated to building a secure and transparent project, and we’re excited to share this milestone with you. 🌟
+      </p>
+      <ul class="list-disc list-inside text-lg space-y-3">
+        <li><strong>✅ Liquidity Added:</strong> Belchior is now trading on PancakeSwap, with liquidity added to ensure smooth transactions for our community!</li>
+        <li><strong>🔒 Locked for Trust:</strong> To prioritize your safety and confidence, 50% of the liquidity is securely locked. Verify the proofs on BscScan:<br/>
+          <a href="https://bscscan.com/tx/0x39e80fddb74aebf03fb9bddf0bdbbbe411a10a736459d0eb125b2a2658716fb3" target="_blank" class="text-blue-600 underline">Liquidity Proof</a><br/>
+          <a href="https://bscscan.com/tx/0xd4c4f4414c19642db3fa68e6e613dfda9b3a248df79c33b4d2e27f2823c8a9c2" target="_blank" class="text-blue-600 underline">Lock Proof</a>
+        </li>
+        <li><strong>🌍 Join the Journey:</strong> Get involved with Belchior! Trade on PancakeSwap, connect with our community, and stay tuned for exciting updates on partnerships and listings.</li>
+        <li><strong>📢 Join Our Telegram:</strong> Dive into the conversation and get the latest on Belchior at <a href="https://t.me/BELCHIORtoken" target="_blank" class="text-blue-600 underline">https://t.me/BELCHIORtoken</a>! Ask questions, share ideas, and let’s build together!</li>
+      </ul>
+      <p class="text-center mt-10 font-semibold text-xl text-gray-700">Let’s rocket to the moon with Belchior! 🚀 #Belchior #BSC #Crypto</p>
+    </section>
 
-  <!-- Tokenomics -->
-  <section id="tokenomics" class="py-12 px-4 max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-6 gold-accent">Tokenomics</h2>
-    <p class="text-lg text-gray-700 dark:text-gray-300">Total Supply: 100,000,000 BEL<br>Allocation: 50% Liquidity Locked, 30% Community, 20% Growth<br>Rewards: 1 BEL per day per wallet — plus bonuses!</p>
-  </section>
+    <section class="text-center">
+      <a href="https://pancakeswap.finance/swap?outputCurrency=YOUR_BEL_TOKEN_ADDRESS" target="_blank" class="button-buy inline-block">
+        Buy BEL & Stake Now
+      </a>
+    </section>
 
-  <!-- Roadmap -->
-  <section id="roadmap" class="section-bg py-12 px-4 max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-6 gold-accent">Roadmap</h2>
-    <ul class="list-disc list-inside text-lg text-gray-700 dark:text-gray-300">
-      <li>Q3 2025: Launch & Community Growth</li>
-      <li>Q4 2025: Telegram Bot + Games</li>
-      <li>Q1 2026: Listings + Expansion</li>
-    </ul>
-  </section>
+  </main>
 
-  <!-- Community -->
-  <section id="telegram" class="py-12 px-4 max-w-4xl mx-auto text-center">
-    <h2 class="text-3xl font-bold mb-6 gold-accent">Join Our Community</h2>
-    <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">Play, earn, and stay updated on Telegram!</p>
-    <a href="https://t.me/belchiorcommunity" target="_blank" class="inline-block px-6 py-3 bg-gold-accent text-white font-semibold rounded-lg hover:bg-yellow-600 transition">
-      Join Telegram
-    </a>
-  </section>
-
-  <footer class="py-6 text-center bg-gray-800 text-white">
+  <footer class="py-6 text-center bg-gray-800 text-white mt-20">
     <p>&copy; 2025 BEL Token. All rights reserved.</p>
   </footer>
+
 </body>
 </html>
