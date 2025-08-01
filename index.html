@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BEL - Belchior Token</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Added Google Fonts Poppins for modern title -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet" />
+
   <style>
     body {
       background: linear-gradient(to bottom, #0d2149, #ffcc8f); /* logo-inspired deep blue to warm beige */
@@ -32,16 +36,30 @@
       box-shadow: 0 6px 20px rgba(178, 34, 34, 0.8);
     }
 
+    /* Modernized title */
     h1.text-flourish {
-      font-family: 'Georgia', serif;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-weight: 800;
       font-size: 4rem;
-      font-weight: 900;
-      color: #d4af37;
-      text-shadow:
-        2px 2px #0d2149,
-        4px 4px 10px rgba(178, 34, 34, 0.6);
-      letter-spacing: 0.04em;
+      background: linear-gradient(90deg, #d4af37, #ffcc33, #d4af37);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       margin-top: 0.5rem;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.7);
+      animation: shimmer 3s infinite linear;
+    }
+
+    /* subtle shimmer animation */
+    @keyframes shimmer {
+      0% {
+        background-position: -300px 0;
+      }
+      100% {
+        background-position: 300px 0;
+      }
     }
 
     .announcement-box {
@@ -104,7 +122,7 @@
     </section>
 
     <section class="text-center mt-12">
-      <a href="https://pancakeswap.finance/swap?outputCurrency=YOUR_BEL_TOKEN_ADDRESS"
+      <a href="https://pancakeswap.finance/swap?outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
          target="_blank"
          class="button-buy inline-block" rel="noopener noreferrer">
         Buy BEL & Stake Now
