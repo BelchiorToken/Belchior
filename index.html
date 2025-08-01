@@ -1,3 +1,4 @@
+Belchior, [01/08/2025 12:00]
 <!DOCTYPE html>
 <html lang="en" class="light">
 <head>
@@ -6,10 +7,16 @@
   <title>BEL - Belchior Token</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .gold-accent { color: #d4af37; }
+    /* BEL logo colors: Deep Blue (#0d2149), Gold (#d4af37), and Crimson (#b22222) */
     .fun-bg {
-      background: linear-gradient(135deg, #ff6f61, #6b5b95);
+      background: linear-gradient(135deg, #0d2149, #d4af37, #b22222);
     }
+    body {
+      background: #f9f7f1; /* light creamy background to complement logo colors */
+      color: #3a3a3a;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .gold-accent { color: #d4af37; }
     .button-buy {
       background: #d4af37;
       color: white;
@@ -24,10 +31,42 @@
       background-color: #b7951a;
       box-shadow: 0 6px 20px rgba(183, 149, 26, 0.8);
     }
-    body {
-      background: #fff8e1;
-      color: #4b4b4b;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Flourished title styles */
+    h1.text-flourish {
+      font-family: 'Georgia', serif;
+      font-size: 4.5rem;
+      font-weight: 900;
+      color: #d4af37;
+      text-shadow:
+        2px 2px 0 #0d2149,
+        4px 4px 10px rgba(178, 34, 34, 0.7);
+      letter-spacing: 0.05em;
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer {
+      0% {
+        text-shadow:
+          2px 2px 0 #0d2149,
+          4px 4px 10px rgba(178, 34, 34, 0.7);
+      }
+      50% {
+        text-shadow:
+          2px 2px 5px #0d2149,
+          6px 6px 15px rgba(178, 34, 34, 1);
+      }
+      100% {
+        text-shadow:
+          2px 2px 0 #0d2149,
+          4px 4px 10px rgba(178, 34, 34, 0.7);
+      }
+    }
+    /* Make links nice */
+    a {
+      color: #0d2149;
+      text-decoration: underline;
+    }
+    a:hover {
+      color: #b22222;
     }
   </style>
 </head>
@@ -36,7 +75,7 @@
   <!-- Header with Logo -->
   <header class="fun-bg py-8 text-center">
     <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/refs/heads/main/assets/BEL-Token.png" alt="BEL Token Logo" class="inline-block h-24 mx-auto mb-4" />
-    <h1 class="text-5xl font-extrabold text-white drop-shadow-lg">Belchior Token (BEL)</h1>
+    <h1 class="text-flourish">Belchior Token (BEL)</h1>
     <p class="text-lg text-gray-100 mt-2 max-w-xl mx-auto">
       Join the Fun of Decentralized Rewards & Playful Crypto Innovation!
     </p>
@@ -53,12 +92,14 @@
       <ul class="list-disc list-inside text-lg space-y-3">
         <li><strong>✅ Liquidity Added:</strong> Belchior is now trading on PancakeSwap, with liquidity added to ensure smooth transactions for our community!</li>
         <li><strong>🔒 Locked for Trust:</strong> To prioritize your safety and confidence, 50% of the liquidity is securely locked. Verify the proofs on BscScan:<br/>
-          <a href="https://bscscan.com/tx/0x39e80fddb74aebf03fb9bddf0bdbbbe411a10a736459d0eb125b2a2658716fb3" target="_blank" class="text-blue-600 underline">Liquidity Proof</a><br/>
-          <a href="https://bscscan.com/tx/0xd4c4f4414c19642db3fa68e6e613dfda9b3a248df79c33b4d2e27f2823c8a9c2" target="_blank" class="text-blue-600 underline">Lock Proof</a>
+          <a href="https://bscscan.com/tx/0x39e80fddb74aebf03fb9bddf0bdbbbe411a10a736459d0eb125b2a2658716fb3" target="_blank">Liquidity Proof</a><br/>
+          <a href="https://bscscan.com/tx/0xd4c4f4414c19642db3fa68e6e613dfda9b3a248df79c33b4d2e27f2823c8a9c2" target="_blank">Lock Proof</a>
         </li>
         <li><strong>🌍 Join the Journey:</strong> Get involved with Belchior! Trade on PancakeSwap, connect with our community, and stay tuned for exciting updates on partnerships and listings.</li>
-        <li><strong>📢 Join Our Telegram:</strong> Dive into the conversation and get the latest on Belchior at <a href="https://t.me/BELCHIORtoken" target="_blank" class="text-blue-600 underline">https://t.me/BELCHIORtoken</a>! Ask questions, share ideas, and let’s build together!</li>
-      </ul>
+        <li><strong>📢 Join Our Telegram:</strong> Dive into the conversation and get the latest on Belchior at <a href="https://t.me/BELCHIORtoken" target="_blank">https://t.me/BELCHIORtoken</a>! Ask questions, share ideas, and let’s build together!</li>
+
+Belchior, [01/08/2025 12:00]
+</ul>
       <p class="text-center mt-10 font-semibold text-xl text-gray-700">Let’s rocket to the moon with Belchior! 🚀 #Belchior #BSC #Crypto</p>
     </section>
 
