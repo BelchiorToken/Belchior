@@ -11,24 +11,18 @@ title: BEL - Belchior Token
   <title>BEL - Belchior Token</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Dark mode toggle
     function toggleTheme() {
       const html = document.querySelector('html');
-      if (html.classList.contains('light')) {
-        html.classList.remove('light');
-        html.classList.add('dark');
-      } else {
-        html.classList.remove('dark');
-        html.classList.add('light');
-      }
+      html.classList.toggle('dark');
+      html.classList.toggle('light');
     }
   </script>
   <style>
     .gold-accent {
-      color: #d4af37; /* Gold to match your logo */
+      color: #d4af37;
     }
     .fun-bg {
-      background: linear-gradient(135deg, #ff6f61, #6b5b95); /* Playful gradient inspired by fun themes */
+      background: linear-gradient(135deg, #ff6f61, #6b5b95);
     }
     .dark .fun-bg {
       background: linear-gradient(135deg, #d64541, #4a4062);
@@ -42,9 +36,10 @@ title: BEL - Belchior Token
   </style>
 </head>
 <body class="font-sans text-gray-800 dark:text-gray-200 transition-colors duration-300">
-  <!-- Header with Logo and Toggle -->
+
+  <!-- Header -->
   <header class="fun-bg py-6 text-center">
-    <img src="/assets/images/BEL-Token.png" alt="BEL Token Logo" class="inline-block h-20 mx-auto">
+    <img src="BEL-Token.png" alt="BEL Token Logo" class="inline-block h-20 mx-auto">
     <button onclick="toggleTheme()" class="mt-4 px-4 py-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition">
       Toggle Dark Mode
     </button>
@@ -54,7 +49,7 @@ title: BEL - Belchior Token
   <section class="fun-bg text-center py-16">
     <h1 class="text-5xl font-bold text-white mb-4">BEL Token</h1>
     <p class="text-xl text-gray-100 mb-6">Join the Fun of Decentralized Rewards!</p>
-    <a href="https://pancakeswap.finance" target="_blank" class="px-6 py-3 bg-gold-accent text-white font-semibold rounded-lg hover:bg-yellow-600 transition">
+    <a href="https://pancakeswap.finance" target="_blank" class="px-6 py-3 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition">
       Buy BEL & Stake Now
     </a>
   </section>
@@ -62,13 +57,19 @@ title: BEL - Belchior Token
   <!-- About Section -->
   <section id="about" class="section-bg py-12 px-4 max-w-4xl mx-auto">
     <h2 class="text-3xl font-bold text-center mb-6 gold-accent">About BEL</h2>
-    <p class="text-lg text-gray-700 dark:text-gray-300">BEL Token brings a playful twist to DeFi! Created by Belchior Oliveira, it offers hourly rewards, community games, and flexible staking. Join the adventure!</p>
+    <p class="text-lg text-gray-700 dark:text-gray-300">
+      BEL Token brings a playful twist to DeFi! It offers hourly rewards, community games, and flexible staking. Join the adventure!
+    </p>
   </section>
 
   <!-- Tokenomics Section -->
   <section id="tokenomics" class="py-12 px-4 max-w-4xl mx-auto">
     <h2 class="text-3xl font-bold text-center mb-6 gold-accent">Tokenomics</h2>
-    <p class="text-lg text-gray-700 dark:text-gray-300">Total Supply: 1,000,000 BEL<br>Allocation: 50% Community, 30% Development, 20% Marketing<br>Staking Reward: 2% hourly, no lock-ins!</p>
+    <p class="text-lg text-gray-700 dark:text-gray-300">
+      Total Supply: 1,000,000 BEL<br>
+      Allocation: 50% Community, 30% Development, 20% Marketing<br>
+      Staking Reward: 2% hourly, no lock-ins!
+    </p>
   </section>
 
   <!-- Roadmap Section -->
@@ -85,7 +86,7 @@ title: BEL - Belchior Token
   <section id="telegram" class="py-12 px-4 max-w-4xl mx-auto">
     <h2 class="text-3xl font-bold text-center mb-6 gold-accent">Join the Community</h2>
     <p class="text-lg text-gray-700 dark:text-gray-300">Chat, play, and earn with us on Telegram!</p>
-    <a href="https://t.me/belchiorcommunity" target="_blank" class="mt-4 inline-block px-6 py-3 bg-gold-accent text-white font-semibold rounded-lg hover:bg-yellow-600 transition">
+    <a href="https://t.me/belchiorcommunity" target="_blank" class="mt-4 inline-block px-6 py-3 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition">
       Join Telegram
     </a>
   </section>
@@ -93,3 +94,7 @@ title: BEL - Belchior Token
   <!-- Footer -->
   <footer class="py-6 text-center bg-gray-800 text-white">
     <p>&copy; 2025 BEL Token. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
