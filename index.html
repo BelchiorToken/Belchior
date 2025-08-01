@@ -25,74 +25,71 @@ title: BEL - Belchior Token
   </script>
   <style>
     .gold-accent {
-      color: #d4af37; /* Gold color to match the logo */
+      color: #d4af37; /* Gold to match your logo */
     }
-    .hero-bg {
-      background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+    .fun-bg {
+      background: linear-gradient(135deg, #ff6f61, #6b5b95); /* Playful gradient inspired by fun themes */
+    }
+    .dark .fun-bg {
+      background: linear-gradient(135deg, #d64541, #4a4062);
     }
     .section-bg {
-      background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
-    }
-    .dark .hero-bg {
-      background: linear-gradient(135deg, #0d0d0d, #1f1f1f);
+      background: #fff3e0;
     }
     .dark .section-bg {
-      background: linear-gradient(135deg, #1c1c1c, #2d2d2d);
+      background: #2c2c2c;
     }
   </style>
 </head>
 <body class="font-sans text-gray-800 dark:text-gray-200 transition-colors duration-300">
   <!-- Header with Logo and Toggle -->
-  <header class="hero-bg py-6 text-center">
+  <header class="fun-bg py-6 text-center">
     <img src="/assets/images/BEL-Token.png" alt="BEL Token Logo" class="inline-block h-20 mx-auto">
-    <button onclick="toggleTheme()" class="mt-4 px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-full text-sm hover:bg-gray-700 dark:hover:bg-gray-600 transition">
+    <button onclick="toggleTheme()" class="mt-4 px-4 py-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition">
       Toggle Dark Mode
     </button>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero-bg text-center py-20">
+  <section class="fun-bg text-center py-16">
     <h1 class="text-5xl font-bold text-white mb-4">BEL Token</h1>
-    <p class="text-xl text-gray-300 mb-6">The Pinnacle of Decentralized Wealth</p>
-    <a href="https://pancakeswap.finance" target="_blank" class="px-8 py-3 bg-gold-accent text-white font-semibold rounded-lg hover:bg-yellow-600 transition">
-      Buy BEL
+    <p class="text-xl text-gray-100 mb-6">Join the Fun of Decentralized Rewards!</p>
+    <a href="https://pancakeswap.finance" target="_blank" class="px-6 py-3 bg-gold-accent text-white font-semibold rounded-lg hover:bg-yellow-600 transition">
+      Buy BEL & Stake Now
     </a>
   </section>
 
   <!-- About Section -->
   <section id="about" class="section-bg py-12 px-4 max-w-4xl mx-auto">
     <h2 class="text-3xl font-bold text-center mb-6 gold-accent">About BEL</h2>
-    <p class="text-lg text-gray-700 dark:text-gray-300">BEL Token, crafted by Belchior Oliveira, is a premier cryptocurrency designed to redefine decentralized finance. With cutting-edge technology and a commitment to transparency, BEL empowers users worldwide.</p>
+    <p class="text-lg text-gray-700 dark:text-gray-300">BEL Token brings a playful twist to DeFi! Created by Belchior Oliveira, it offers hourly rewards, community games, and flexible staking. Join the adventure!</p>
   </section>
 
   <!-- Tokenomics Section -->
   <section id="tokenomics" class="py-12 px-4 max-w-4xl mx-auto">
     <h2 class="text-3xl font-bold text-center mb-6 gold-accent">Tokenomics</h2>
-    <p class="text-lg text-gray-700 dark:text-gray-300">Total Supply: 1,000,000 BEL<br>Allocation: 50% Community, 30% Development, 20% Marketing<br>Transaction Fee: 2% redistributed to holders.</p>
+    <p class="text-lg text-gray-700 dark:text-gray-300">Total Supply: 1,000,000 BEL<br>Allocation: 50% Community, 30% Development, 20% Marketing<br>Staking Reward: 2% hourly, no lock-ins!</p>
   </section>
 
   <!-- Roadmap Section -->
   <section id="roadmap" class="section-bg py-12 px-4 max-w-4xl mx-auto">
     <h2 class="text-3xl font-bold text-center mb-6 gold-accent">Roadmap</h2>
     <ul class="list-disc list-inside text-lg text-gray-700 dark:text-gray-300">
-      <li>2025 Q1: Token Launch & Initial Distribution</li>
-      <li>2025 Q2: Major Exchange Listings</li>
-      <li>2025 Q3: Advanced DeFi Features</li>
+      <li>2025 Q1: Launch & Staking Live</li>
+      <li>2025 Q2: Telegram Games & Quizzes</li>
+      <li>2025 Q3: Exchange Listings & Rewards</li>
     </ul>
   </section>
 
   <!-- Telegram Section -->
   <section id="telegram" class="py-12 px-4 max-w-4xl mx-auto">
     <h2 class="text-3xl font-bold text-center mb-6 gold-accent">Join the Community</h2>
-    <p class="text-lg text-gray-700 dark:text-gray-300">Connect with us on Telegram for updates and support!</p>
+    <p class="text-lg text-gray-700 dark:text-gray-300">Chat, play, and earn with us on Telegram!</p>
     <a href="https://t.me/belchiorcommunity" target="_blank" class="mt-4 inline-block px-6 py-3 bg-gold-accent text-white font-semibold rounded-lg hover:bg-yellow-600 transition">
       Join Telegram
     </a>
   </section>
 
   <!-- Footer -->
-  <footer class="py-6 text-center bg-gray-900 text-white">
+  <footer class="py-6 text-center bg-gray-800 text-white">
     <p>&copy; 2025 BEL Token. All rights reserved.</p>
-  </footer>
-</body>
-</html>
