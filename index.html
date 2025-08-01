@@ -1,4 +1,3 @@
-Belchior, [01/08/2025 12:00]
 <!DOCTYPE html>
 <html lang="en" class="light">
 <head>
@@ -7,64 +6,56 @@ Belchior, [01/08/2025 12:00]
   <title>BEL - Belchior Token</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* BEL logo colors: Deep Blue (#0d2149), Gold (#d4af37), and Crimson (#b22222) */
-    .fun-bg {
-      background: linear-gradient(135deg, #0d2149, #d4af37, #b22222);
-    }
     body {
-      background: #f9f7f1; /* light creamy background to complement logo colors */
+      background: linear-gradient(to bottom, #0d2149, #ffcc8f); /* logo-inspired deep blue to warm beige */
       color: #3a3a3a;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .gold-accent { color: #d4af37; }
+
+    .gold-accent {
+      color: #d4af37;
+    }
+
     .button-buy {
-      background: #d4af37;
+      background: #0d2149;
       color: white;
       font-weight: 700;
       padding: 1rem 2.5rem;
-      border-radius: 0.75rem;
+      border-radius: 9999px;
       font-size: 1.5rem;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.6);
-      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 15px rgba(13, 33, 73, 0.6);
+      transition: all 0.3s ease;
     }
+
     .button-buy:hover {
-      background-color: #b7951a;
-      box-shadow: 0 6px 20px rgba(183, 149, 26, 0.8);
+      background-color: #b22222;
+      box-shadow: 0 6px 20px rgba(178, 34, 34, 0.8);
     }
-    /* Flourished title styles */
+
     h1.text-flourish {
       font-family: 'Georgia', serif;
-      font-size: 4.5rem;
+      font-size: 4rem;
       font-weight: 900;
       color: #d4af37;
       text-shadow:
-        2px 2px 0 #0d2149,
-        4px 4px 10px rgba(178, 34, 34, 0.7);
-      letter-spacing: 0.05em;
-      animation: shimmer 3s infinite;
+        2px 2px #0d2149,
+        4px 4px 10px rgba(178, 34, 34, 0.6);
+      letter-spacing: 0.04em;
+      margin-top: 0.5rem;
     }
-    @keyframes shimmer {
-      0% {
-        text-shadow:
-          2px 2px 0 #0d2149,
-          4px 4px 10px rgba(178, 34, 34, 0.7);
-      }
-      50% {
-        text-shadow:
-          2px 2px 5px #0d2149,
-          6px 6px 15px rgba(178, 34, 34, 1);
-      }
-      100% {
-        text-shadow:
-          2px 2px 0 #0d2149,
-          4px 4px 10px rgba(178, 34, 34, 0.7);
-      }
+
+    .announcement-box {
+      background-color: #fffaf0;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
-    /* Make links nice */
+
     a {
       color: #0d2149;
       text-decoration: underline;
     }
+
     a:hover {
       color: #b22222;
     }
@@ -73,42 +64,41 @@ Belchior, [01/08/2025 12:00]
 <body>
 
   <!-- Header with Logo -->
-  <header class="fun-bg py-8 text-center">
-    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/refs/heads/main/assets/BEL-Token.png" alt="BEL Token Logo" class="inline-block h-24 mx-auto mb-4" />
+  <header class="text-center pt-10 pb-6">
+    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/refs/heads/main/assets/BEL-Token.png"
+         alt="BEL Token Logo" class="inline-block h-24 mx-auto mb-4" />
     <h1 class="text-flourish">Belchior Token (BEL)</h1>
-    <p class="text-lg text-gray-100 mt-2 max-w-xl mx-auto">
+    <p class="text-lg text-white mt-2 max-w-xl mx-auto">
       Join the Fun of Decentralized Rewards & Playful Crypto Innovation!
     </p>
   </header>
 
   <!-- Main Content -->
-  <main class="max-w-4xl mx-auto px-6 py-12">
-
-    <section class="mb-12">
+  <main class="max-w-3xl mx-auto px-6 py-12">
+    <section class="announcement-box">
       <h2 class="text-3xl font-bold gold-accent mb-6 text-center">Hello Crypto Enthusiasts!</h2>
       <p class="text-lg mb-4 leading-relaxed">
-        We’re thrilled to announce that Belchior is now live, bringing <strong></strong>. Our team is dedicated to building a secure and transparent project, and we’re excited to share this milestone with you. 🌟
+        We’re thrilled to announce that Belchior is now live! Our team is dedicated to building a secure and transparent project, and we’re excited to share this milestone with you. 🌟
       </p>
       <ul class="list-disc list-inside text-lg space-y-3">
         <li><strong>✅ Liquidity Added:</strong> Belchior is now trading on PancakeSwap, with liquidity added to ensure smooth transactions for our community!</li>
-        <li><strong>🔒 Locked for Trust:</strong> To prioritize your safety and confidence, 50% of the liquidity is securely locked. Verify the proofs on BscScan:<br/>
+        <li><strong>🔒 Locked for Trust:</strong> 50% of the liquidity is securely locked. Verify the proofs on BscScan:<br/>
           <a href="https://bscscan.com/tx/0x39e80fddb74aebf03fb9bddf0bdbbbe411a10a736459d0eb125b2a2658716fb3" target="_blank">Liquidity Proof</a><br/>
           <a href="https://bscscan.com/tx/0xd4c4f4414c19642db3fa68e6e613dfda9b3a248df79c33b4d2e27f2823c8a9c2" target="_blank">Lock Proof</a>
         </li>
         <li><strong>🌍 Join the Journey:</strong> Get involved with Belchior! Trade on PancakeSwap, connect with our community, and stay tuned for exciting updates on partnerships and listings.</li>
-        <li><strong>📢 Join Our Telegram:</strong> Dive into the conversation and get the latest on Belchior at <a href="https://t.me/BELCHIORtoken" target="_blank">https://t.me/BELCHIORtoken</a>! Ask questions, share ideas, and let’s build together!</li>
-
-Belchior, [01/08/2025 12:00]
-</ul>
+        <li><strong>📢 Join Our Telegram:</strong> Chat with us and follow updates at <a href="https://t.me/BELCHIORtoken" target="_blank">https://t.me/BELCHIORtoken</a></li>
+      </ul>
       <p class="text-center mt-10 font-semibold text-xl text-gray-700">Let’s rocket to the moon with Belchior! 🚀 #Belchior #BSC #Crypto</p>
     </section>
 
-    <section class="text-center">
-      <a href="https://pancakeswap.finance/swap?outputCurrency=YOUR_BEL_TOKEN_ADDRESS" target="_blank" class="button-buy inline-block">
+    <section class="text-center mt-12">
+      <a href="https://pancakeswap.finance/swap?outputCurrency=YOUR_BEL_TOKEN_ADDRESS"
+         target="_blank"
+         class="button-buy inline-block">
         Buy BEL & Stake Now
       </a>
     </section>
-
   </main>
 
   <footer class="py-6 text-center bg-gray-800 text-white mt-20">
