@@ -6,6 +6,9 @@
   <title>BEL - Belchior Token</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet" />
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     body {
@@ -74,16 +77,6 @@
       color: #b22222;
     }
 
-    .chart-container {
-      margin: 4rem auto 3rem auto;
-      max-width: 900px;
-      width: 90%;
-      border: 2px solid #d4af37;
-      border-radius: 1rem;
-      overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-    }
-
     .chart-mini {
       position: absolute;
       top: 1rem;
@@ -93,6 +86,36 @@
       border: 1px solid #d4af37;
       border-radius: 0.5rem;
       overflow: hidden;
+    }
+
+    /* New Price & Chart container */
+    .price-chart-container {
+      margin: 4rem auto 3rem auto;
+      max-width: 900px;
+      width: 90%;
+      background: white;
+      border: 2px solid #d4af37;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .price-box {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 3rem;
+      color: #d4af37;
+      letter-spacing: 0.05em;
+      user-select: none;
+    }
+
+    canvas {
+      max-width: 100%;
+      height: 300px !important;
     }
   </style>
 </head>
@@ -104,9 +127,9 @@
          alt="BEL Token Logo" class="inline-block h-24 mx-auto mb-4" />
     <div class="chart-mini hidden sm:block">
       <iframe
-  src="https://www.dextools.io/widget-chart/en/bnb/0x3c841c88d3819c901ec0fe29897146dca509552b"
-  width="100%" height="100%" frameborder="0">
-</iframe>
+        src="https://www.dextools.io/widget-chart/en/bnb/0x3c841c88d3819c901ec0fe29897146dca509552b"
+        width="100%" height="100%" frameborder="0">
+      </iframe>
     </div>
     <h1 class="text-flourish">Belchior Token (BEL)</h1>
     <p class="text-lg text-white mt-2 max-w-xl mx-auto">
@@ -134,24 +157,22 @@
     </section>
 
     <section class="text-center mt-12">
-  <div class="flex justify-center gap-6 flex-col sm:flex-row">
-    <a href="https://pancakeswap.finance/swap?outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
-       target="_blank" class="button-buy inline-block">
-      Buy BEL on PancakeSwap
-    </a>
-    <a href="https://www.dextools.io/app/en/bnb/pair-explorer/0x3c841c88d3819c901ec0fe29897146dca509552b"
-       target="_blank" class="button-buy inline-block">
-      View on DEXTools
-    </a>
-  </div>
-</section>
+      <div class="flex justify-center gap-6 flex-col sm:flex-row">
+        <a href="https://pancakeswap.finance/swap?outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
+           target="_blank" class="button-buy inline-block">
+          Buy BEL on PancakeSwap
+        </a>
+        <a href="https://www.dextools.io/app/en/bnb/pair-explorer/0x3c841c88d3819c901ec0fe29897146dca509552b"
+           target="_blank" class="button-buy inline-block">
+          View on DEXTools
+        </a>
+      </div>
+    </section>
 
-    <!-- Full DEXTools Chart Embed -->
-    <section class="chart-container">
-      <iframe
-  src="https://www.dextools.io/widget-chart/en/bnb/0x3c841c88d3819c901ec0fe29897146dca509552b"
-  width="100%" height="600" frameborder="0" allowfullscreen loading="lazy">
-</iframe>
+    <!-- Replacing full DEXTools chart with price box + trend line chart -->
+    <section class="price-chart-container" aria-label="BEL token current price and 7-day price trend">
+      <div class="price-box" id="bel-price">Loading price...</div>
+      <canvas id="priceTrendChart" aria-label="Price trend chart" role="img"></canvas>
     </section>
   </main>
 
@@ -159,6 +180,57 @@
     <p>&copy; 2025 BEL Token. All rights reserved.</p>
   </footer>
 
-</body>
-</html>
+<script>
+  // Contract address on BSC:
+  const contractAddress = '0x3c841c88d3819c901ec0fe29897146dca509552b';
 
+  // CoinGecko API requires token ID, so we use contract address endpoint on BSC
+  const apiUrlPrice = `https://api.coingecko.com/api/v3/simple/token_price/binance-smart-chain?contract_addresses=${contractAddress}&vs_currencies=usd`;
+  const apiUrlChart = `https://api.coingecko.com/api/v3/coins/binance-smart-chain/contract/${contractAddress}/market_chart/?vs_currency=usd&days=7&interval=daily`;
+
+  const priceElem = document.getElementById('bel-price');
+  const ctx = document.getElementById('priceTrendChart').getContext('2d');
+
+  // Fetch current price from CoinGecko
+  async function fetchPrice() {
+    try {
+      const res = await fetch(apiUrlPrice);
+      const data = await res.json();
+      const price = data[contractAddress.toLowerCase()]?.usd;
+
+      if(price) {
+        priceElem.textContent = `Current Price: $${price.toFixed(6)}`;
+      } else {
+        priceElem.textContent = 'Price not available';
+      }
+    } catch (error) {
+      priceElem.textContent = 'Error loading price';
+      console.error('Price fetch error:', error);
+    }
+  }
+
+  // Fetch 7-day price data and plot chart
+  async function fetchPriceTrend() {
+    try {
+      const res = await fetch(apiUrlChart);
+      const data = await res.json();
+
+      if(data && data.prices && data.prices.length > 0) {
+        // data.prices is array of [timestamp, price]
+        const labels = data.prices.map(p => {
+          const d = new Date(p[0]);
+          return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        });
+
+        const prices = data.prices.map(p => p[1]);
+
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Price (USD)',
+              data: prices,
+              borderColor: '#d4af37',
+              backgroundColor: 'rgba(212, 175, 55, 0.3)',
+             
