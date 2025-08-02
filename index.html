@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BEL - Belchior Token</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Added Google Fonts Poppins for modern title -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet" />
 
   <style>
     body {
-      background: linear-gradient(to bottom, #0d2149, #ffcc8f); /* logo-inspired deep blue to warm beige */
+      background: linear-gradient(to bottom, #0d2149, #ffcc8f);
       color: #3a3a3a;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
@@ -36,7 +34,6 @@
       box-shadow: 0 6px 20px rgba(178, 34, 34, 0.8);
     }
 
-    /* Modernized title */
     h1.text-flourish {
       font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       font-weight: 800;
@@ -52,7 +49,6 @@
       animation: shimmer 3s infinite linear;
     }
 
-    /* subtle shimmer animation */
     @keyframes shimmer {
       0% {
         background-position: -300px 0;
@@ -78,7 +74,6 @@
       color: #b22222;
     }
 
-    /* Styles for DEXTools iframe container */
     .chart-container {
       margin: 4rem auto 3rem auto;
       max-width: 900px;
@@ -88,14 +83,30 @@
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     }
+
+    .chart-mini {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 160px;
+      height: 80px;
+      border: 1px solid #d4af37;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Header with Logo -->
-  <header class="text-center pt-10 pb-6">
-    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/refs/heads/main/assets/BEL-Token.png"
+  <!-- Header with Logo and Mini Chart -->
+  <header class="relative text-center pt-10 pb-6">
+    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"
          alt="BEL Token Logo" class="inline-block h-24 mx-auto mb-4" />
+    <div class="chart-mini hidden sm:block">
+      <iframe
+        src="https://www.dextools.io/widget-chart/en/bnb/0x3c841c88d3819c901ec0fe29897146dca509552b"
+        width="100%" height="100%" frameborder="0"></iframe>
+    </div>
     <h1 class="text-flourish">Belchior Token (BEL)</h1>
     <p class="text-lg text-white mt-2 max-w-xl mx-auto">
       Join the Fun of Decentralized Rewards & Playful Crypto Innovation!
@@ -112,36 +123,34 @@
       <ul class="list-disc list-inside text-lg space-y-3">
         <li><strong>✅ Liquidity Added:</strong> Belchior is now trading on PancakeSwap, with liquidity added to ensure smooth transactions for our community!</li>
         <li><strong>🔒 Locked for Trust:</strong> 50% of the liquidity is securely locked. Verify the proofs on BscScan:<br/>
-          <a href="https://bscscan.com/tx/0x39e80fddb74aebf03fb9bddf0bdbbbe411a10a736459d0eb125b2a2658716fb3" target="_blank" rel="noopener noreferrer">Liquidity Proof</a><br/>
-          <a href="https://bscscan.com/tx/0xd4c4f4414c19642db3fa68e6e613dfda9b3a248df79c33b4d2e27f2823c8a9c2" target="_blank" rel="noopener noreferrer">Lock Proof</a>
+          <a href="https://bscscan.com/tx/0x39e80fddb74aebf03fb9bddf0bdbbbe411a10a736459d0eb125b2a2658716fb3" target="_blank">Liquidity Proof</a><br/>
+          <a href="https://bscscan.com/tx/0xd4c4f4414c19642db3fa68e6e613dfda9b3a248df79c33b4d2e27f2823c8a9c2" target="_blank">Lock Proof</a>
         </li>
         <li><strong>🌍 Join the Journey:</strong> Get involved with Belchior! Trade on PancakeSwap, connect with our community, and stay tuned for exciting updates on partnerships and listings.</li>
-        <li><strong>📢 Join Our Telegram:</strong> Chat with us and follow updates at <a href="https://t.me/BELCHIORtoken" target="_blank" rel="noopener noreferrer">https://t.me/BELCHIORtoken</a></li>
+        <li><strong>📢 Join Our Telegram:</strong> Chat with us and follow updates at <a href="https://t.me/BELCHIORtoken" target="_blank">https://t.me/BELCHIORtoken</a></li>
       </ul>
       <p class="text-center mt-10 font-semibold text-xl text-gray-700">Let’s rocket to the moon with Belchior! 🚀 #Belchior #BSC #Crypto</p>
     </section>
 
-    <section class="text-center mt-12">
+    <section class="text-center mt-12 space-y-4">
       <a href="https://pancakeswap.finance/swap?outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
-         target="_blank"
-         class="button-buy inline-block" rel="noopener noreferrer">
+         target="_blank" class="button-buy inline-block">
         Buy BEL & Stake Now
       </a>
+      <div>
+        <a href="https://www.dextools.io/app/en/bnb/pair-explorer/0x3c841c88d3819c901ec0fe29897146dca509552b"
+           target="_blank" class="text-lg underline font-semibold gold-accent">
+          📈 View Chart on DEXTools
+        </a>
+      </div>
     </section>
 
-    <!-- DEXTools Chart Embed -->
+    <!-- Full DEXTools Chart Embed -->
     <section class="chart-container">
       <iframe
-        src="https://www.dextools.io/app/bsc/pair-explorer/0x3c841c88d3819c901ec0fe29897146dca509552b/embed"
-        width="100%"
-        height="600"
-        frameborder="0"
-        allowfullscreen
-        loading="lazy"
-        title="Belchior Token Live Chart - DEXTools"
-      ></iframe>
+        src="https://www.dextools.io/widget-chart/en/bnb/0x3c841c88d3819c901ec0fe29897146dca509552b"
+        width="100%" height="600" frameborder="0" allowfullscreen loading="lazy"></iframe>
     </section>
-
   </main>
 
   <footer class="py-6 text-center bg-gray-800 text-white mt-20">
