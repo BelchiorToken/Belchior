@@ -8,81 +8,69 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet" />
   <style>
     body {
-      background: linear-gradient(to bottom right, #0b1120, #1a2a40);
-      color: #e0e7ff;
+      background: linear-gradient(to bottom right, #070a13, #0c1a2a);
+      color: #dbeafe;
       font-family: 'Poppins', sans-serif;
     }
     .gold-accent {
       color: #facc15;
     }
     .button-buy {
-      background: #1e3a8a;
+      background: #1e40af;
       color: white;
       font-weight: 700;
       padding: 1rem 2rem;
       border-radius: 9999px;
       font-size: 1.25rem;
-      box-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
+      box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
       transition: all 0.4s ease-in-out;
       animation: pulseGlow 2s infinite;
     }
     .button-buy:hover {
-      background-color: #facc15;
-      color: #0b1120;
+      background-color: #22c55e;
+      color: #0f172a;
     }
     @keyframes pulseGlow {
-      0% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.4); }
-      50% { box-shadow: 0 0 20px rgba(96, 165, 250, 0.8); }
-      100% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.4); }
+      0% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.8); }
+      100% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
     }
     h1.text-flourish {
       font-weight: 800;
       font-size: 4rem;
-      background: linear-gradient(to right, #60a5fa, #facc15);
+      background: linear-gradient(to right, #22c55e, #facc15);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      text-shadow: 0 0 15px rgba(100, 149, 237, 0.5);
+      text-shadow: 0 0 25px rgba(34, 197, 94, 0.6);
     }
     .announcement-box {
-      background-color: #1e293b;
+      background-color: #0f172a;
       padding: 2rem;
       border-radius: 1rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     }
     a {
       color: #60a5fa;
       text-decoration: underline;
     }
     a:hover {
-      color: #facc15;
-    }
-    .cta-box {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background-color: #facc15;
-      padding: 0.75rem 1rem;
-      border-radius: 1rem;
-      color: #0b1120;
-      font-weight: bold;
-      font-size: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      color: #22c55e;
     }
     .logo-container {
       margin: 4rem auto;
       max-width: 900px;
       background-color: #0f172a;
       border-radius: 1rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
       padding: 2rem;
       text-align: center;
     }
     .values-box {
       background: #1e293b;
-      color: #facc15;
+      color: #22c55e;
       border-radius: 1rem;
       padding: 2rem;
       margin-top: 2rem;
@@ -104,17 +92,47 @@
       background: #0f172a;
       color: #94a3b8;
     }
+    .ticker {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: auto;
+      padding: 0.5rem 2rem;
+      white-space: nowrap;
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+      font-weight: bold;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+      animation: slideTicker 12s linear infinite;
+      z-index: 50;
+      cursor: pointer;
+    }
+    @keyframes slideTicker {
+      0% { right: -100%; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { right: 100%; opacity: 0; }
+    }
   </style>
 </head>
 <body>
+  <!-- Ticker Banner -->
+  <div class="ticker" onclick="addBELToWallet()">
+    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png" alt="BEL" class="h-6 w-6 animate-pulse" />
+    Connect Wallet and Secure your BEL, join the Savings 💾📈
+  </div>
+
   <!-- Header -->
   <header class="relative text-center pt-10 pb-6">
     <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"
          alt="BEL Token Logo" class="h-24 mx-auto mb-4" />
-    <div class="cta-box">💎 Powered by Values</div>
     <h1 class="text-flourish">Belchior Token (BEL)</h1>
-    <p class="text-lg text-blue-100 mt-2 max-w-xl mx-auto">
-      Join the Fun of Decentralized Rewards & Playful Crypto Innovation!
+    <p class="text-lg text-green-400 mt-2 max-w-xl mx-auto font-semibold">
+      🔒 Belchior, saving your wealth and investment
     </p>
   </header>
 
@@ -189,5 +207,31 @@
   <footer class="py-6 text-center">
     <p>&copy; 2025 BEL Token. All rights reserved.</p>
   </footer>
+
+  <!-- Wallet Connect Script -->
+  <script>
+    async function addBELToWallet() {
+      if (window.ethereum) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_watchAsset',
+            params: {
+              type: 'ERC20',
+              options: {
+                address: '0x3c841c88d3819c901ec0fe29897146dca509552b',
+                symbol: 'BEL',
+                decimals: 18,
+                image: 'https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png'
+              }
+            }
+          });
+        } catch (error) {
+          console.error('Error adding token:', error);
+        }
+      } else {
+        alert('Wallet not detected. Please use MetaMask or WalletConnect.');
+      }
+    }
+  </script>
 </body>
 </html>
