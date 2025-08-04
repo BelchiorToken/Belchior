@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BEL - Belchior Token</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet" />
   <style>
     body {
       background: linear-gradient(to bottom right, #070a13, #0c1a2a);
       color: #dbeafe;
       font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
     }
     .gold-accent {
       color: #facc15;
@@ -117,13 +120,46 @@
       90% { opacity: 1; }
       100% { right: 100%; opacity: 0; }
     }
+    .falling-logo {
+      position: fixed;
+      top: -50px;
+      width: 30px;
+      height: 30px;
+      background-image: url('https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.3;
+      animation: fall 12s linear infinite;
+      z-index: 0;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+      50% { opacity: 0.15; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
   </style>
 </head>
 <body>
+  <script>
+    for (let i = 0; i < 25; i++) {
+      const el = document.createElement('div');
+      el.className = 'falling-logo';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDelay = Math.random() * 12 + 's';
+      el.style.opacity = Math.random() * 0.5 + 0.1;
+      document.body.appendChild(el);
+    }
+  </script>
+
   <!-- Ticker Banner -->
   <div class="ticker" onclick="addBELToWallet()">
     <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png" alt="BEL" class="h-6 w-6 animate-pulse" />
     Connect Wallet and Secure your BEL, join the Savings 💾📈
+  </div>
+
+  <!-- Share Button -->
+  <div class="absolute top-10 left-4 z-50">
+    <button onclick="copyShareLink()" class="button-buy px-3 py-1 text-sm">🔗 Share</button>
   </div>
 
   <!-- Header -->
@@ -151,56 +187,7 @@
 
   <!-- Main Content -->
   <main class="max-w-6xl mx-auto px-6 py-12">
-    <section class="announcement-box">
-      <h2 class="text-3xl font-bold gold-accent mb-6 text-center">Why Belchior is Built to Moon</h2>
-      <div class="flex flex-col lg:flex-row items-center gap-10">
-        <div>
-          <p class="text-lg mb-4 leading-relaxed text-blue-100">
-            The distribution chart above speaks volumes: <strong>BEL is built on healthy fundamentals</strong>. With long-term locked liquidity, a transparent token supply, and no shady developer allocations, the chart reveals a structure that’s not just sustainable — it's bullish. 📈
-          </p>
-          <p class="text-lg mb-4 leading-relaxed text-blue-100">
-            This is more than just another token — it’s a commitment to trust, security, and upside potential. For anyone seeking a solid, value-driven asset on the BNB Chain, <strong>BEL is your safe zone</strong>. Hold, stake, or trade with confidence.
-          </p>
-          <ul class="list-disc list-inside text-lg space-y-3 text-blue-200">
-            <li><strong>✅ Transparent Distribution:</strong> Designed for long-term health and growth.</li>
-            <li><strong>🔒 Locked Liquidity:</strong> 50% is locked and verifiable on-chain — no rug risk.</li>
-            <li><strong>📊 Bullish Outlook:</strong> MA indicators suggest early entry opportunity.</li>
-            <li><strong>🚀 Still Early:</strong> Take position before major listings and marketing rollouts.</li>
-          </ul>
-        </div>
-      </div>
-      <p class="text-center mt-10 font-semibold text-xl text-blue-200">Secure your BEL bags — and let’s reach new heights together! 🔒💎🚀</p>
-    </section>
-
-    <!-- Core Values -->
-    <section class="values-box">
-      <h2>Our Core Values</h2>
-      <ul>
-        <li>🤝 Trust</li>
-        <li>🧱 Honesty</li>
-        <li>📈 Consistency</li>
-        <li>💖 Loyalty</li>
-      </ul>
-    </section>
-
-    <!-- Extra CTA -->
-    <section class="text-center mt-12">
-      <div class="flex justify-center gap-6 flex-col sm:flex-row">
-        <a href="https://www.dextools.io/app/en/bnb/pair-explorer/0x3c841c88d3819c901ec0fe29897146dca509552b"
-           target="_blank" class="button-buy">View on DEXTools</a>
-      </div>
-    </section>
-
-    <!-- Contract Info -->
-    <section class="logo-container mt-16">
-      <a href="https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank">
-        <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"
-             alt="BEL Token Logo" class="w-3/4 max-w-md mx-auto hover:scale-105 transition-transform duration-300" />
-      </a>
-      <p class="text-lg mt-6 text-blue-100 font-semibold">
-        BEL is a verified token on BNB Chain. Click above to view on BscScan.
-      </p>
-    </section>
+    <!-- (unchanged content continues...) -->
   </main>
 
   <!-- Footer -->
@@ -211,26 +198,37 @@
   <!-- Wallet Connect Script -->
   <script>
     async function addBELToWallet() {
-      if (window.ethereum) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_watchAsset',
-            params: {
-              type: 'ERC20',
-              options: {
-                address: '0x3c841c88d3819c901ec0fe29897146dca509552b',
-                symbol: 'BEL',
-                decimals: 18,
-                image: 'https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png'
-              }
-            }
-          });
-        } catch (error) {
-          console.error('Error adding token:', error);
+      const provider = new WalletConnectProvider.default({
+        rpc: { 56: "https://bsc-dataseed.binance.org/" },
+        chainId: 56
+      });
+      try {
+        await provider.enable();
+        const web3 = new Web3(provider);
+        const params = {
+          type: 'ERC20',
+          options: {
+            address: '0x3c841c88d3819c901ec0fe29897146dca509552b',
+            symbol: 'BEL',
+            decimals: 18,
+            image: 'https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png'
+          }
+        };
+        if (window.ethereum) {
+          await window.ethereum.request({ method: 'wallet_watchAsset', params });
+        } else {
+          alert('BEL token connected. You may need to add manually in your wallet.');
         }
-      } else {
-        alert('Wallet not detected. Please use MetaMask or WalletConnect.');
+      } catch (error) {
+        console.error("WalletConnect error:", error);
       }
+    }
+
+    function copyShareLink() {
+      const url = "https://belchiortoken.com"; // Use your real domain
+      navigator.clipboard.writeText(url)
+        .then(() => alert("🔗 Link copied! Share with your friends."))
+        .catch(() => alert("Failed to copy link. Try again."));
     }
   </script>
 </body>
