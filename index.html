@@ -478,31 +478,51 @@
   <!-- Wallet Connect Script -->
   <script>
     async function addBELToWallet() {
-      const provider = new WalletConnectProvider.default({
-        rpc: { 56: "https://bsc-dataseed.binance.org/" },
-        chainId: 56
-      });
-      try {
-        await provider.enable();
-        const web3 = new Web3(provider);
-        const params = {
-          type: 'ERC20',
-          options: {
-            address: '0x3c841c88d3819c901ec0fe29897146dca509552b',
-            symbol: 'BEL',
-            decimals: 18,
-            image: 'https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png'
-          }
-        };
-        if (window.ethereum) {
-          await window.ethereum.request({ method: 'wallet_watchAsset', params });
-        } else {
-          alert('BEL token connected. You may need to add manually in your wallet.');
-        }
-      } catch (error) {
-        console.error("WalletConnect error:", error);
-      }
+  const chainIdHex = '0x38'; // 56 in hex, BNB Smart Chain Mainnet
+  const chainParams = {
+    chainId: chainIdHex,
+    chainName: 'BNB Smart Chain',
+    nativeCurrency: {
+      name: 'BNB',
+      symbol: 'BNB',
+      decimals: 18
+    },
+    rpcUrls: ['https://bsc-dataseed.binance.org/'],
+    blockExplorerUrls: ['https://bscscan.com/']
+  };
+
+  const tokenParams = {
+    type: 'ERC20',
+    options: {
+      address: '0x3c841c88d3819c901ec0fe29897146dca509552b',
+      symbol: 'BEL',
+      decimals: 18,
+      image: 'https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png'
     }
+  };
+
+  try {
+    if (window.ethereum) {
+      // Try switching to BNB Smart Chain
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [chainParams]
+      });
+      // Add BEL as a custom token
+      await window.ethereum.request({
+        method: 'wallet_watchAsset',
+        params: tokenParams
+      });
+      alert('BEL token added to your wallet!');
+    } else {
+      alert('No compatible wallet found. Please install MetaMask or Trust Wallet.');
+    }
+  } catch (error) {
+    console.error("Wallet connection error:", error);
+    alert("Could not add BEL token automatically. Please add it manually in your wallet.\nContract: 0x3c841c88d3819c901ec0fe29897146dca509552b");
+  }
+}
+
 
     function copyShareLink() {
       const url = "https://belchiortoken.com";
@@ -513,3 +533,4 @@
   </script>
 </body>
 </html>
+
