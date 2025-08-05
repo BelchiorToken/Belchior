@@ -11,19 +11,17 @@
   <style>
     body {
       background: linear-gradient(to bottom right, #070a13, #0c1a2a);
-      color: #d1d5db; /* tailwind gray-300 */
+      color: #d1d5db;
       font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
     }
-    /* Universal faded-grey text gradient */
     .faded-grey {
-  background: linear-gradient(90deg, #fff 0%, #f3f4f6 55%, #d1d5db 90%, #e5e7eb 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-}
-    /* For all headings and large/visible text, apply faded-grey */
+      background: linear-gradient(90deg, #fff 0%, #f3f4f6 55%, #d1d5db 90%, #e5e7eb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
     h1, h2, h3, h4, h5, h6, p, a, .ticker, .announcement-box, .values-box, .logo-container, footer, .text-flourish {
       background: linear-gradient(90deg, #23272f 0%, #6b7280 35%, #f8fafc 55%, #d1d5db 85%, #18181b 100%);
       -webkit-background-clip: text;
@@ -31,22 +29,20 @@
       background-clip: text;
       text-fill-color: transparent;
     }
-    /* EXCLUDE BUTTONS from text gradient. Use plain light text for buttons */
-.button-buy {
-  background: #23272f;
-  color: #fff !important;           /* pure white */
-  font-weight: 800;                /* extra bold */
-  font-size: 1.35rem;              /* slightly larger */
-  letter-spacing: 0.03em;
-  text-shadow: 0 2px 8px #23272f, 0 0px 2px #0f172a; /* subtle dark shadow for contrast */
-  padding: 1rem 2rem;
-  border-radius: 9999px;
-  box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
-  transition: all 0.4s ease-in-out;
-  animation: pulseGlow 2s infinite;
-  border: 1px solid #444;
-}
-
+    .button-buy {
+      background: #23272f;
+      color: #fff !important;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: 0.03em;
+      text-shadow: 0 2px 8px #23272f, 0 0px 2px #0f172a;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
+      transition: all 0.4s ease-in-out;
+      animation: pulseGlow 2s infinite;
+      border: 1px solid #444;
+    }
     .button-buy:hover {
       background-color: #f8fafc;
       color: #23272f !important;
@@ -152,211 +148,242 @@
       50% { opacity: 0.15; }
       100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
     }
+    /* Quick Resume Box Style */
+    .resume-box {
+      background: linear-gradient(90deg, #0c1a2a 0%, #23272f 60%, #070a13 100%);
+      border-radius: 1rem;
+      box-shadow: 0 6px 22px 0 rgba(16,16,32,0.28), 0 1.5px 6px 0 rgba(32,32,64,0.19);
+      padding: 2rem 1.2rem;
+      margin: 2rem auto 3rem auto;
+      max-width: 640px;
+      border: 1.5px solid #283347;
+      text-align: center;
+    }
+    .resume-title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(90deg, #60a5fa 10%, #f8fafc 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    .resume-text {
+      font-size: 1.18rem;
+      background: linear-gradient(90deg, #f8fafc 0%, #d1d5db 70%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      font-weight: 500;
+      line-height: 1.6;
+      margin: 0 auto;
+      max-width: 500px;
+    }
   </style>
 </head>
 <body>
   <!-- Fun collision canvas for falling BEL logos -->
-<canvas id="bel-falling-canvas" style="position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:2;pointer-events:auto;"></canvas>
-<script>
-const belImgSrc = "https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png";
-let belImg = new window.Image();
-belImg.src = belImgSrc;
+  <canvas id="bel-falling-canvas" style="position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:2;pointer-events:auto;"></canvas>
+  <script>
+    const belImgSrc = "https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png";
+    let belImg = new window.Image();
+    belImg.src = belImgSrc;
 
-const TREASURE_EMOJIS = ["💰", "💵", "💸", "🪙", "💎", "🏆", "🤑", "🎉", "✨", "🔔", "🍀"];
-const NUM_LOGOS = 20;
-const logos = [];
-const explosions = [];
-const canvas = document.getElementById("bel-falling-canvas");
-const ctx = canvas.getContext("2d");
+    const TREASURE_EMOJIS = ["💰", "💵", "💸", "🪙", "💎", "🏆", "🤑", "🎉", "✨", "🔔", "🍀"];
+    const NUM_LOGOS = 20;
+    const logos = [];
+    const explosions = [];
+    const canvas = document.getElementById("bel-falling-canvas");
+    const ctx = canvas.getContext("2d");
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
 
-function getHitRects() {
-  const buyBtn = document.querySelector('.button-buy');
-  const distBox = document.querySelector('.values-box');
-  let btnRect = buyBtn ? buyBtn.getBoundingClientRect() : {left:-9999, top:-9999, right:-9999, bottom:-9999};
-  let boxRect = distBox ? distBox.getBoundingClientRect() : {left:-9999, top:-9999, right:-9999, bottom:-9999};
-  return [
-    {left: btnRect.left, top: btnRect.top, right: btnRect.right, bottom: btnRect.bottom},
-    {left: boxRect.left, top: boxRect.top, right: boxRect.right, bottom: boxRect.bottom}
-  ];
-}
+    function getHitRects() {
+      const buyBtn = document.querySelector('.button-buy');
+      const distBox = document.querySelector('.values-box');
+      let btnRect = buyBtn ? buyBtn.getBoundingClientRect() : {left:-9999, top:-9999, right:-9999, bottom:-9999};
+      let boxRect = distBox ? distBox.getBoundingClientRect() : {left:-9999, top:-9999, right:-9999, bottom:-9999};
+      return [
+        {left: btnRect.left, top: btnRect.top, right: btnRect.right, bottom: btnRect.bottom},
+        {left: boxRect.left, top: boxRect.top, right: boxRect.right, bottom: boxRect.bottom}
+      ];
+    }
 
-function randomBetween(a, b) {
-  return a + Math.random() * (b - a);
-}
+    function randomBetween(a, b) {
+      return a + Math.random() * (b - a);
+    }
 
-function createLogo() {
-  return {
-    x: randomBetween(0, canvas.width - 40),
-    y: randomBetween(-100, -40),
-    vy: randomBetween(1.5, 3),
-    vx: randomBetween(-0.7, 0.7),
-    r: randomBetween(-0.01, 0.01),
-    angle: randomBetween(0, Math.PI * 2),
-    size: 30 + Math.random() * 15,
-    bounces: 0,
-    showTreasure: false,
-    treasureEmoji: "",
-    treasureAlpha: 1,
-    treasureScale: 1
-  }
-}
+    function createLogo() {
+      return {
+        x: randomBetween(0, canvas.width - 40),
+        y: randomBetween(-100, -40),
+        vy: randomBetween(1.5, 3),
+        vx: randomBetween(-0.7, 0.7),
+        r: randomBetween(-0.01, 0.01),
+        angle: randomBetween(0, Math.PI * 2),
+        size: 30 + Math.random() * 15,
+        bounces: 0,
+        showTreasure: false,
+        treasureEmoji: "",
+        treasureAlpha: 1,
+        treasureScale: 1
+      }
+    }
 
-for (let i = 0; i < NUM_LOGOS; i++) logos.push(createLogo());
+    for (let i = 0; i < NUM_LOGOS; i++) logos.push(createLogo());
 
-// Explosion effect
-function createExplosion(x, y) {
-  let parts = [];
-  for (let i = 0; i < 8 + Math.random()*4; i++) {
-    const angle = (Math.PI * 2 * i) / 10 + Math.random() * 0.5;
-    parts.push({
-      x, y,
-      dx: Math.cos(angle) * randomBetween(1, 3),
-      dy: Math.sin(angle) * randomBetween(1, 3),
-      emoji: TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)],
-      alpha: 1,
-      scale: randomBetween(1.2,2),
-      life: 0
+    // Explosion effect
+    function createExplosion(x, y) {
+      let parts = [];
+      for (let i = 0; i < 8 + Math.random()*4; i++) {
+        const angle = (Math.PI * 2 * i) / 10 + Math.random() * 0.5;
+        parts.push({
+          x, y,
+          dx: Math.cos(angle) * randomBetween(1, 3),
+          dy: Math.sin(angle) * randomBetween(1, 3),
+          emoji: TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)],
+          alpha: 1,
+          scale: randomBetween(1.2,2),
+          life: 0
+        });
+      }
+      explosions.push({parts, tick: 0});
+    }
+
+    // Handle logo click
+    canvas.style.pointerEvents = "auto";
+    canvas.addEventListener('click', function(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      let clickedLogo = false;
+
+      for (const logo of logos) {
+        if (
+          !logo.showTreasure &&
+          clickX >= logo.x && clickX <= logo.x + logo.size &&
+          clickY >= logo.y && clickY <= logo.y + logo.size
+        ) {
+          logo.showTreasure = true;
+          logo.treasureEmoji = TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)];
+          logo.treasureAlpha = 1;
+          logo.treasureScale = 1.6;
+          createExplosion(logo.x + logo.size/2, logo.y + logo.size/2);
+          clickedLogo = true;
+          break;
+        }
+      }
+
+      if (!clickedLogo) {
+        canvas.style.pointerEvents = "none";
+        const nextElem = document.elementFromPoint(e.clientX, e.clientY);
+        if (nextElem) {
+          nextElem.click();
+        }
+        setTimeout(() => {
+          canvas.style.pointerEvents = "auto";
+        }, 0);
+      }
     });
-  }
-  explosions.push({parts, tick: 0});
-}
 
-// Handle logo click
-canvas.style.pointerEvents = "auto";
-canvas.addEventListener('click', function(e) {
-  const rect = canvas.getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
-  const clickY = e.clientY - rect.top;
-  let clickedLogo = false;
+    // Animation loop
+    function drawLogos() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const [buyRect, distRect] = getHitRects();
 
-  for (const logo of logos) {
-    if (
-      !logo.showTreasure &&
-      clickX >= logo.x && clickX <= logo.x + logo.size &&
-      clickY >= logo.y && clickY <= logo.y + logo.size
-    ) {
-      logo.showTreasure = true;
-      logo.treasureEmoji = TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)];
-      logo.treasureAlpha = 1;
-      logo.treasureScale = 1.6;
-      createExplosion(logo.x + logo.size/2, logo.y + logo.size/2);
-      clickedLogo = true;
-      break;
-    }
-  }
-
-  if (!clickedLogo) {
-    canvas.style.pointerEvents = "none";
-    const nextElem = document.elementFromPoint(e.clientX, e.clientY);
-    if (nextElem) {
-      nextElem.click();
-    }
-    setTimeout(() => {
-      canvas.style.pointerEvents = "auto";
-    }, 0);
-  }
-});
-
-// Animation loop
-function drawLogos() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const [buyRect, distRect] = getHitRects();
-
-  // Explosions
-  for (let i = explosions.length - 1; i >= 0; i--) {
-    let exp = explosions[i];
-    exp.tick++;
-    for (const p of exp.parts) {
-      p.x += p.dx;
-      p.y += p.dy;
-      p.dy += 0.03; // gravity
-      p.life++;
-      p.alpha -= 0.025;
-      p.scale += 0.01;
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, p.alpha);
-      ctx.font = `${26 * p.scale}px serif`;
-      ctx.fillText(p.emoji, p.x, p.y);
-      ctx.restore();
-    }
-    if (exp.tick > 32) explosions.splice(i,1);
-  }
-
-  logos.forEach(logo => {
-    // If treasure, show emoji and fade out
-    if (logo.showTreasure) {
-      ctx.save();
-      ctx.globalAlpha = logo.treasureAlpha;
-      ctx.font = `${logo.size * logo.treasureScale}px serif`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.shadowColor = "#fff";
-      ctx.shadowBlur = 10;
-      ctx.fillText(logo.treasureEmoji, logo.x + logo.size/2, logo.y + logo.size/2);
-      ctx.restore();
-      logo.treasureAlpha -= 0.025;
-      logo.treasureScale += 0.01;
-      if (logo.treasureAlpha <= 0) {
-        // Reset logo to fall again
-        Object.assign(logo, createLogo());
+      // Explosions
+      for (let i = explosions.length - 1; i >= 0; i--) {
+        let exp = explosions[i];
+        exp.tick++;
+        for (const p of exp.parts) {
+          p.x += p.dx;
+          p.y += p.dy;
+          p.dy += 0.03; // gravity
+          p.life++;
+          p.alpha -= 0.025;
+          p.scale += 0.01;
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.font = `${26 * p.scale}px serif`;
+          ctx.fillText(p.emoji, p.x, p.y);
+          ctx.restore();
+        }
+        if (exp.tick > 32) explosions.splice(i,1);
       }
-      return; // skip logo fall for now
+
+      logos.forEach(logo => {
+        // If treasure, show emoji and fade out
+        if (logo.showTreasure) {
+          ctx.save();
+          ctx.globalAlpha = logo.treasureAlpha;
+          ctx.font = `${logo.size * logo.treasureScale}px serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.shadowColor = "#fff";
+          ctx.shadowBlur = 10;
+          ctx.fillText(logo.treasureEmoji, logo.x + logo.size/2, logo.y + logo.size/2);
+          ctx.restore();
+          logo.treasureAlpha -= 0.025;
+          logo.treasureScale += 0.01;
+          if (logo.treasureAlpha <= 0) {
+            Object.assign(logo, createLogo());
+          }
+          return;
+        }
+
+        // Move
+        logo.x += logo.vx;
+        logo.y += logo.vy;
+        logo.angle += logo.r;
+        let didBounce = false;
+
+        function checkAndBounce(rect) {
+          if (
+            logo.x + logo.size > rect.left &&
+            logo.x < rect.right &&
+            logo.y + logo.size > rect.top &&
+            logo.y < rect.bottom
+          ) {
+            logo.vy = -Math.abs(logo.vy) * 0.75 + randomBetween(-0.5,0.5);
+            logo.y = rect.top - logo.size;
+            logo.vx += randomBetween(-0.4, 0.4);
+            logo.bounces++;
+            didBounce = true;
+          }
+        }
+
+        checkAndBounce(buyRect);
+        checkAndBounce(distRect);
+
+        if (!didBounce) logo.vy += 0.08;
+        if (logo.x < 0 || logo.x + logo.size > canvas.width) {
+          logo.vx = -logo.vx * 0.7;
+          logo.x = Math.max(0, Math.min(canvas.width - logo.size, logo.x));
+        }
+        if (logo.y > canvas.height + 40 || logo.bounces > 5) {
+          Object.assign(logo, createLogo());
+          logo.y = randomBetween(-80, -40);
+          logo.bounces = 0;
+        }
+        ctx.save();
+        ctx.globalAlpha = 0.33;
+        ctx.translate(logo.x + logo.size / 2, logo.y + logo.size / 2);
+        ctx.rotate(logo.angle);
+        ctx.drawImage(belImg, -logo.size / 2, -logo.size / 2, logo.size, logo.size);
+        ctx.restore();
+      });
+      requestAnimationFrame(drawLogos);
     }
-
-    // Move
-    logo.x += logo.vx;
-    logo.y += logo.vy;
-    logo.angle += logo.r;
-    let didBounce = false;
-
-    function checkAndBounce(rect) {
-      if (
-        logo.x + logo.size > rect.left &&
-        logo.x < rect.right &&
-        logo.y + logo.size > rect.top &&
-        logo.y < rect.bottom
-      ) {
-        logo.vy = -Math.abs(logo.vy) * 0.75 + randomBetween(-0.5,0.5);
-        logo.y = rect.top - logo.size;
-        logo.vx += randomBetween(-0.4, 0.4);
-        logo.bounces++;
-        didBounce = true;
-      }
-    }
-
-    checkAndBounce(buyRect);
-    checkAndBounce(distRect);
-
-    if (!didBounce) logo.vy += 0.08;
-    if (logo.x < 0 || logo.x + logo.size > canvas.width) {
-      logo.vx = -logo.vx * 0.7;
-      logo.x = Math.max(0, Math.min(canvas.width - logo.size, logo.x));
-    }
-    if (logo.y > canvas.height + 40 || logo.bounces > 5) {
-      Object.assign(logo, createLogo());
-      logo.y = randomBetween(-80, -40);
-      logo.bounces = 0;
-    }
-    // Draw BEL logo
-    ctx.save();
-    ctx.globalAlpha = 0.33;
-    ctx.translate(logo.x + logo.size / 2, logo.y + logo.size / 2);
-    ctx.rotate(logo.angle);
-    ctx.drawImage(belImg, -logo.size / 2, -logo.size / 2, logo.size, logo.size);
-    ctx.restore();
-  });
-  requestAnimationFrame(drawLogos);
-}
-belImg.onload = drawLogos;
-</script>
-
+    belImg.onload = drawLogos;
+  </script>
 
   <!-- Ticker Banner -->
   <div class="ticker faded-grey" onclick="addBELToWallet()">
@@ -379,6 +406,17 @@ belImg.onload = drawLogos;
     </p>
   </header>
 
+  <!-- QUICK RESUME BOX: visually centered, styled, short summary -->
+  <section class="resume-box">
+    <div class="resume-title">Quick Resume</div>
+    <div class="resume-text">
+      Belchior Token (BEL) is a transparent, family-backed cryptocurrency on BNB Chain—offering real security, locked liquidity, and open-source contracts. With a legacy of discipline and honest financial stewardship, every BEL is secured and tracked, so holders can invest with trust and peace of mind. <br><br>
+      <span style="font-size:1.01em;opacity:0.83;">
+        Secured by lineage. Built on values. Protected for the future.
+      </span>
+    </div>
+  </section>
+
   <!-- Chart Section -->
   <section class="text-center mt-16">
     <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/BEL_Distribution_With_MA.png"
@@ -393,44 +431,44 @@ belImg.onload = drawLogos;
   </section>
 
   <!-- Main Content -->
-<main class="max-w-6xl mx-auto px-6 py-12 flex justify-center items-center">
-  <section class="values-box mx-auto w-full max-w-xl p-8">
-    <h2 class="font-bold mb-6 faded-grey text-3xl tracking-wider text-center uppercase">Token Distribution</h2>
-    <ul class="space-y-8">
-      <li>
-        <div class="flex items-center justify-between mb-2">
-          <span class="faded-grey text-lg font-semibold flex-1 text-left">🔒 <b>50,000,000 BEL</b> (50%) Locked on PinkLock</span>
-          <span class="ml-4 text-xs font-bold text-gray-400">50%</span>
-        </div>
-        <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
-          <div class="h-3 bg-green-400 rounded-full transition-all duration-700" style="width:50%"></div>
-        </div>
-      </li>
-      <li>
-        <div class="flex items-center justify-between mb-2">
-          <span class="faded-grey text-lg font-semibold flex-1 text-left">💧 <b>2,600,000 BEL</b> (2.6%) Added to PancakeSwap V2 liquidity</span>
-          <span class="ml-4 text-xs font-bold text-gray-400">2.6%</span>
-        </div>
-        <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
-          <div class="h-3 bg-blue-400 rounded-full transition-all duration-700" style="width:2.6%"></div>
-        </div>
-      </li>
-      <li>
-        <div class="flex items-center justify-between mb-2">
-          <span class="faded-grey text-lg font-semibold flex-1 text-left">👑 <b>47,400,000 BEL</b> (47.4%) Funding</span>
-          <span class="ml-4 text-xs font-bold text-gray-400">47.4%</span>
-        </div>
-        <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
-          <div class="h-3 bg-yellow-400 rounded-full transition-all duration-700" style="width:47.4%"></div>
-        </div>
-      </li>
-    </ul>
-    <p class="mt-10 text-center text-sm faded-grey tracking-wide">
-      Contract: 
-      <a href="https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" class="underline">0x3c841c88d3819c901ec0fe29897146dca509552b</a>
-    </p>
-  </section>
-</main>
+  <main class="max-w-6xl mx-auto px-6 py-12 flex justify-center items-center">
+    <section class="values-box mx-auto w-full max-w-xl p-8">
+      <h2 class="font-bold mb-6 faded-grey text-3xl tracking-wider text-center uppercase">Token Distribution</h2>
+      <ul class="space-y-8">
+        <li>
+          <div class="flex items-center justify-between mb-2">
+            <span class="faded-grey text-lg font-semibold flex-1 text-left">🔒 <b>50,000,000 BEL</b> (50%) Locked on PinkLock</span>
+            <span class="ml-4 text-xs font-bold text-gray-400">50%</span>
+          </div>
+          <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+            <div class="h-3 bg-green-400 rounded-full transition-all duration-700" style="width:50%"></div>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center justify-between mb-2">
+            <span class="faded-grey text-lg font-semibold flex-1 text-left">💧 <b>2,600,000 BEL</b> (2.6%) Added to PancakeSwap V2 liquidity</span>
+            <span class="ml-4 text-xs font-bold text-gray-400">2.6%</span>
+          </div>
+          <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+            <div class="h-3 bg-blue-400 rounded-full transition-all duration-700" style="width:2.6%"></div>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center justify-between mb-2">
+            <span class="faded-grey text-lg font-semibold flex-1 text-left">👑 <b>47,400,000 BEL</b> (47.4%) Funding</span>
+            <span class="ml-4 text-xs font-bold text-gray-400">47.4%</span>
+          </div>
+          <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+            <div class="h-3 bg-yellow-400 rounded-full transition-all duration-700" style="width:47.4%"></div>
+          </div>
+        </li>
+      </ul>
+      <p class="mt-10 text-center text-sm faded-grey tracking-wide">
+        Contract: 
+        <a href="https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" class="underline">0x3c841c88d3819c901ec0fe29897146dca509552b</a>
+      </p>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer class="py-6 text-center faded-grey">
@@ -467,7 +505,7 @@ belImg.onload = drawLogos;
     }
 
     function copyShareLink() {
-      const url = "https://belchiortoken.com"; // Use your real domain
+      const url = "https://belchiortoken.com";
       navigator.clipboard.writeText(url)
         .then(() => alert("🔗 Link copied! Share with your friends."))
         .catch(() => alert("Failed to copy link. Try again."));
