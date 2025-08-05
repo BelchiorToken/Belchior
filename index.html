@@ -29,69 +29,36 @@
       background-clip: text;
       text-fill-color: transparent;
     }
-    /* Ultra-Attractive Buy Button */
     .button-buy {
-      background: linear-gradient(90deg, #f6fffc 0%, #f3f4f6 33%, #e7e9ee 100%);
-      color: #22292f !important;
-      font-weight: 900;
-      font-size: 1.5rem;
-      letter-spacing: 0.04em;
+      background: #23272f;
+      color: #fff !important;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: 0.03em;
+      text-shadow: 0 2px 8px #23272f, 0 0px 2px #0f172a;
+      padding: 1rem 2rem;
       border-radius: 9999px;
-      box-shadow: 0 6px 32px 0 rgba(34, 197, 94, 0.08), 0 2px 8px 0 rgba(89, 154, 243, 0.12);
-      border: 1.8px solid #e0e7ef;
-      padding: 1.05rem 2.4rem 1.05rem 2.4rem;
-      transition: 
-        background 0.24s cubic-bezier(.5,1.5,.5,1), 
-        transform 0.14s cubic-bezier(.6,1.3,.6,1), 
-        box-shadow 0.18s, 
-        color 0.16s;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      outline: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.7em;
-      animation: pulseGlow 2.2s infinite;
+      box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
+      transition: all 0.4s ease-in-out;
+      animation: pulseGlow 2s infinite;
+      border: 1px solid #444;
+    }
+    .button-buy:hover {
+      background-color: #f8fafc;
+      color: #23272f !important;
+      border: 1px solid #bcbcbc;
     }
     @keyframes pulseGlow {
-      0% { box-shadow: 0 6px 32px 0 rgba(34, 197, 94, 0.07), 0 2px 8px 0 rgba(89, 154, 243, 0.13);}
-      60% { box-shadow: 0 12px 38px 0 rgba(34, 197, 94, 0.14), 0 4px 12px 0 rgba(89, 154, 243, 0.22);}
-      100% { box-shadow: 0 6px 32px 0 rgba(34, 197, 94, 0.07), 0 2px 8px 0 rgba(89, 154, 243, 0.13);}
+      0% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.8); }
+      100% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
     }
-    .button-buy:after {
-      content: "";
-      display: block;
-      position: absolute;
-      left: -50%;
-      top: 0;
-      width: 200%;
-      height: 100%;
-      background: linear-gradient(100deg, rgba(255,255,255,0.17) 0%,rgba(255,255,255,0.02) 100%);
-      pointer-events: none;
-      z-index: 1;
-      transition: opacity 0.24s;
-      opacity: 0.3;
-    }
-    .button-buy:hover,
-    .button-buy:focus {
-      background: linear-gradient(90deg, #e7e9ee 0%, #f3f4f6 70%, #e0fcff 100%);
-      color: #0f172a !important;
-      transform: scale(1.052) translateY(-2px);
-      box-shadow: 0 10px 38px 0 rgba(34, 197, 94, 0.19), 0 8px 32px 0 rgba(34, 197, 94, 0.09);
-      border: 1.8px solid #cbd5e1;
-    }
-    .button-buy:active {
-      transform: scale(0.98);
-      box-shadow: 0 3px 10px 0 rgba(34, 197, 94, 0.13), 0 1px 3px 0 rgba(89, 154, 243, 0.12);
-    }
-    .button-buy .icon {
-      width: 1.7em;
-      height: 1.7em;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 0.2em;
-      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.05));
+    h1.text-flourish {
+      font-weight: 800;
+      font-size: 4rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-shadow: 0 0 25px rgba(55, 65, 81, 0.45);
     }
     .announcement-box {
       background-color: #171923;
@@ -181,47 +148,368 @@
       50% { opacity: 0.15; }
       100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
     }
-    /* Quick Resume Box Style - Compact Version */
+    /* Quick Resume Box Style */
     .resume-box {
       background: linear-gradient(90deg, #0c1a2a 0%, #23272f 60%, #070a13 100%);
       border-radius: 1rem;
-      box-shadow: 0 4px 12px 0 rgba(16,16,32,0.18), 0 1.5px 6px 0 rgba(32,32,64,0.10);
-      padding: 1rem 0.9rem 1.1rem 0.9rem;
-      margin: 1.2rem auto 2.2rem auto;
-      max-width: 410px;
-      border: 1.2px solid #283347;
+      box-shadow: 0 6px 22px 0 rgba(16,16,32,0.28), 0 1.5px 6px 0 rgba(32,32,64,0.19);
+      padding: 2rem 1.2rem;
+      margin: 2rem auto 3rem auto;
+      max-width: 640px;
+      border: 1.5px solid #283347;
       text-align: center;
     }
     .resume-title {
-      font-size: 1.18rem;
+      font-size: 2rem;
       font-weight: 700;
       letter-spacing: 0.08em;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.6rem;
       background: linear-gradient(90deg, #60a5fa 10%, #f8fafc 80%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-fill-color: transparent;
-      text-transform: uppercase;
     }
     .resume-text {
-      font-size: 0.99rem;
+      font-size: 1.18rem;
       background: linear-gradient(90deg, #f8fafc 0%, #d1d5db 70%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-fill-color: transparent;
       font-weight: 500;
-      line-height: 1.48;
+      line-height: 1.6;
       margin: 0 auto;
-      max-width: 380px;
-      opacity: 0.93;
+      max-width: 500px;
     }
   </style>
 </head>
 <body>
   <!-- Fun collision canvas for falling BEL logos -->
   <canvas id="bel-falling-canvas" style="position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:2;pointer-events:auto;"></canvas>
-  <!-- ... The rest of the HTML remains unchanged, including the upgraded buy button code ... -->
+  <script>
+    const belImgSrc = "https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png";
+    let belImg = new window.Image();
+    belImg.src = belImgSrc;
+
+    const TREASURE_EMOJIS = ["💰", "💵", "💸", "🪙", "💎", "🏆", "🤑", "🎉", "✨", "🔔", "🍀"];
+    const NUM_LOGOS = 20;
+    const logos = [];
+    const explosions = [];
+    const canvas = document.getElementById("bel-falling-canvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function getHitRects() {
+      const buyBtn = document.querySelector('.button-buy');
+      const distBox = document.querySelector('.values-box');
+      let btnRect = buyBtn ? buyBtn.getBoundingClientRect() : {left:-9999, top:-9999, right:-9999, bottom:-9999};
+      let boxRect = distBox ? distBox.getBoundingClientRect() : {left:-9999, top:-9999, right:-9999, bottom:-9999};
+      return [
+        {left: btnRect.left, top: btnRect.top, right: btnRect.right, bottom: btnRect.bottom},
+        {left: boxRect.left, top: boxRect.top, right: boxRect.right, bottom: boxRect.bottom}
+      ];
+    }
+
+    function randomBetween(a, b) {
+      return a + Math.random() * (b - a);
+    }
+
+    function createLogo() {
+      return {
+        x: randomBetween(0, canvas.width - 40),
+        y: randomBetween(-100, -40),
+        vy: randomBetween(1.5, 3),
+        vx: randomBetween(-0.7, 0.7),
+        r: randomBetween(-0.01, 0.01),
+        angle: randomBetween(0, Math.PI * 2),
+        size: 30 + Math.random() * 15,
+        bounces: 0,
+        showTreasure: false,
+        treasureEmoji: "",
+        treasureAlpha: 1,
+        treasureScale: 1
+      }
+    }
+
+    for (let i = 0; i < NUM_LOGOS; i++) logos.push(createLogo());
+
+    // Explosion effect
+    function createExplosion(x, y) {
+      let parts = [];
+      for (let i = 0; i < 8 + Math.random()*4; i++) {
+        const angle = (Math.PI * 2 * i) / 10 + Math.random() * 0.5;
+        parts.push({
+          x, y,
+          dx: Math.cos(angle) * randomBetween(1, 3),
+          dy: Math.sin(angle) * randomBetween(1, 3),
+          emoji: TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)],
+          alpha: 1,
+          scale: randomBetween(1.2,2),
+          life: 0
+        });
+      }
+      explosions.push({parts, tick: 0});
+    }
+
+    // Handle logo click
+    canvas.style.pointerEvents = "auto";
+    canvas.addEventListener('click', function(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      let clickedLogo = false;
+
+      for (const logo of logos) {
+        if (
+          !logo.showTreasure &&
+          clickX >= logo.x && clickX <= logo.x + logo.size &&
+          clickY >= logo.y && clickY <= logo.y + logo.size
+        ) {
+          logo.showTreasure = true;
+          logo.treasureEmoji = TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)];
+          logo.treasureAlpha = 1;
+          logo.treasureScale = 1.6;
+          createExplosion(logo.x + logo.size/2, logo.y + logo.size/2);
+          clickedLogo = true;
+          break;
+        }
+      }
+
+      if (!clickedLogo) {
+        canvas.style.pointerEvents = "none";
+        const nextElem = document.elementFromPoint(e.clientX, e.clientY);
+        if (nextElem) {
+          nextElem.click();
+        }
+        setTimeout(() => {
+          canvas.style.pointerEvents = "auto";
+        }, 0);
+      }
+    });
+
+    // Animation loop
+    function drawLogos() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const [buyRect, distRect] = getHitRects();
+
+      // Explosions
+      for (let i = explosions.length - 1; i >= 0; i--) {
+        let exp = explosions[i];
+        exp.tick++;
+        for (const p of exp.parts) {
+          p.x += p.dx;
+          p.y += p.dy;
+          p.dy += 0.03; // gravity
+          p.life++;
+          p.alpha -= 0.025;
+          p.scale += 0.01;
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.font = `${26 * p.scale}px serif`;
+          ctx.fillText(p.emoji, p.x, p.y);
+          ctx.restore();
+        }
+        if (exp.tick > 32) explosions.splice(i,1);
+      }
+
+      logos.forEach(logo => {
+        // If treasure, show emoji and fade out
+        if (logo.showTreasure) {
+          ctx.save();
+          ctx.globalAlpha = logo.treasureAlpha;
+          ctx.font = `${logo.size * logo.treasureScale}px serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.shadowColor = "#fff";
+          ctx.shadowBlur = 10;
+          ctx.fillText(logo.treasureEmoji, logo.x + logo.size/2, logo.y + logo.size/2);
+          ctx.restore();
+          logo.treasureAlpha -= 0.025;
+          logo.treasureScale += 0.01;
+          if (logo.treasureAlpha <= 0) {
+            Object.assign(logo, createLogo());
+          }
+          return;
+        }
+
+        // Move
+        logo.x += logo.vx;
+        logo.y += logo.vy;
+        logo.angle += logo.r;
+        let didBounce = false;
+
+        function checkAndBounce(rect) {
+          if (
+            logo.x + logo.size > rect.left &&
+            logo.x < rect.right &&
+            logo.y + logo.size > rect.top &&
+            logo.y < rect.bottom
+          ) {
+            logo.vy = -Math.abs(logo.vy) * 0.75 + randomBetween(-0.5,0.5);
+            logo.y = rect.top - logo.size;
+            logo.vx += randomBetween(-0.4, 0.4);
+            logo.bounces++;
+            didBounce = true;
+          }
+        }
+
+        checkAndBounce(buyRect);
+        checkAndBounce(distRect);
+
+        if (!didBounce) logo.vy += 0.08;
+        if (logo.x < 0 || logo.x + logo.size > canvas.width) {
+          logo.vx = -logo.vx * 0.7;
+          logo.x = Math.max(0, Math.min(canvas.width - logo.size, logo.x));
+        }
+        if (logo.y > canvas.height + 40 || logo.bounces > 5) {
+          Object.assign(logo, createLogo());
+          logo.y = randomBetween(-80, -40);
+          logo.bounces = 0;
+        }
+        ctx.save();
+        ctx.globalAlpha = 0.33;
+        ctx.translate(logo.x + logo.size / 2, logo.y + logo.size / 2);
+        ctx.rotate(logo.angle);
+        ctx.drawImage(belImg, -logo.size / 2, -logo.size / 2, logo.size, logo.size);
+        ctx.restore();
+      });
+      requestAnimationFrame(drawLogos);
+    }
+    belImg.onload = drawLogos;
+  </script>
+
+  <!-- Ticker Banner -->
+  <div class="ticker faded-grey" onclick="addBELToWallet()">
+    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png" alt="BEL" class="h-6 w-6 animate-pulse" />
+    Connect Wallet and Secure your BEL, join the Savings 💾📈
+  </div>
+
+  <!-- Share Button -->
+  <div class="absolute top-10 left-4 z-50">
+    <button onclick="copyShareLink()" class="button-buy px-3 py-1 text-sm">🔗 Share</button>
+  </div>
+
+  <!-- Header -->
+  <header class="relative text-center pt-10 pb-6">
+    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"
+         alt="BEL Token Logo" class="h-24 mx-auto mb-4" />
+    <h1 class="text-flourish faded-grey">Belchior Token (BEL)</h1>
+    <p class="text-lg faded-grey mt-2 max-w-xl mx-auto font-semibold">
+      🔒 Belchior, saving your wealth and investment
+    </p>
+  </header>
+
+  <!-- QUICK RESUME BOX: visually centered, styled, short summary -->
+  <section class="resume-box">
+    <div class="resume-title">Quick Resume</div>
+    <div class="resume-text">
+      Belchior Token (BEL) is a transparent, family-backed cryptocurrency on BNB Chain—offering real security, locked liquidity, and open-source contracts. With a legacy of discipline and honest financial stewardship, every BEL is secured and tracked, so holders can invest with trust and peace of mind. <br><br>
+      <span style="font-size:1.01em;opacity:0.83;">
+        Secured by lineage. Built on values. Protected for the future.
+      </span>
+    </div>
+  </section>
+
+  <!-- Chart Section -->
+  <section class="text-center mt-16">
+    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/BEL_Distribution_With_MA.png"
+         alt="BEL Token Distribution Chart"
+         class="w-full max-w-2xl mx-auto rounded-xl shadow-xl" />
+    <div class="mt-6">
+      <a href="https://pancakeswap.finance/swap?outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
+         target="_blank" class="button-buy inline-block">
+        Buy BEL on PancakeSwap
+      </a>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-6 py-12 flex justify-center items-center">
+    <section class="values-box mx-auto w-full max-w-xl p-8">
+      <h2 class="font-bold mb-6 faded-grey text-3xl tracking-wider text-center uppercase">Token Distribution</h2>
+      <ul class="space-y-8">
+        <li>
+          <div class="flex items-center justify-between mb-2">
+            <span class="faded-grey text-lg font-semibold flex-1 text-left">🔒 <b>50,000,000 BEL</b> (50%) Locked on PinkLock</span>
+            <span class="ml-4 text-xs font-bold text-gray-400">50%</span>
+          </div>
+          <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+            <div class="h-3 bg-green-400 rounded-full transition-all duration-700" style="width:50%"></div>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center justify-between mb-2">
+            <span class="faded-grey text-lg font-semibold flex-1 text-left">💧 <b>2,600,000 BEL</b> (2.6%) Added to PancakeSwap V2 liquidity</span>
+            <span class="ml-4 text-xs font-bold text-gray-400">2.6%</span>
+          </div>
+          <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+            <div class="h-3 bg-blue-400 rounded-full transition-all duration-700" style="width:2.6%"></div>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center justify-between mb-2">
+            <span class="faded-grey text-lg font-semibold flex-1 text-left">👑 <b>47,400,000 BEL</b> (47.4%) Funding</span>
+            <span class="ml-4 text-xs font-bold text-gray-400">47.4%</span>
+          </div>
+          <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+            <div class="h-3 bg-yellow-400 rounded-full transition-all duration-700" style="width:47.4%"></div>
+          </div>
+        </li>
+      </ul>
+      <p class="mt-10 text-center text-sm faded-grey tracking-wide">
+        Contract: 
+        <a href="https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" class="underline">0x3c841c88d3819c901ec0fe29897146dca509552b</a>
+      </p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-6 text-center faded-grey">
+    <p>&copy; 2025 BEL Token. All rights reserved.</p>
+  </footer>
+
+  <!-- Wallet Connect Script -->
+  <script>
+    async function addBELToWallet() {
+      const provider = new WalletConnectProvider.default({
+        rpc: { 56: "https://bsc-dataseed.binance.org/" },
+        chainId: 56
+      });
+      try {
+        await provider.enable();
+        const web3 = new Web3(provider);
+        const params = {
+          type: 'ERC20',
+          options: {
+            address: '0x3c841c88d3819c901ec0fe29897146dca509552b',
+            symbol: 'BEL',
+            decimals: 18,
+            image: 'https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png'
+          }
+        };
+        if (window.ethereum) {
+          await window.ethereum.request({ method: 'wallet_watchAsset', params });
+        } else {
+          alert('BEL token connected. You may need to add manually in your wallet.');
+        }
+      } catch (error) {
+        console.error("WalletConnect error:", error);
+      }
+    }
+
+    function copyShareLink() {
+      const url = "https://belchiortoken.com";
+      navigator.clipboard.writeText(url)
+        .then(() => alert("🔗 Link copied! Share with your friends."))
+        .catch(() => alert("Failed to copy link. Try again."));
+    }
+  </script>
 </body>
 </html>
