@@ -30,19 +30,23 @@
       text-fill-color: transparent;
     }
     .button-buy {
-      background: #23272f;
-      color: #fff !important;
-      font-weight: 800;
-      font-size: 1.35rem;
-      letter-spacing: 0.03em;
-      text-shadow: 0 2px 8px #23272f, 0 0px 2px #0f172a;
-      padding: 1rem 2rem;
-      border-radius: 9999px;
-      box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
-      transition: all 0.4s ease-in-out;
-      animation: pulseGlow 2s infinite;
-      border: 1px solid #444;
-    }
+  background: #1a1a1a; /* deep black for contrast */
+  color: #ffd700 !important; /* luxury gold */
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.7), 0 0 2px #fff;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  box-shadow:
+    0 0 10px rgba(255, 215, 0, 0.6),
+    0 0 20px rgba(255, 215, 0, 0.4),
+    0 0 40px rgba(255, 215, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  animation: pulseGold 2.5s infinite;
+  border: 1px solid #ffd700;
+}
+
     .button-buy:hover {
       background-color: #f8fafc;
       color: #23272f !important;
@@ -411,10 +415,11 @@
 
   <!-- Telegram Invite Button -->
 <div class="absolute top-10 left-4 z-50">
-  <a href="https://t.me/+LsSrv9TgJMA5YWZk" target="_blank" rel="noopener noreferrer" class="button-buy px-3 py-1 text-sm">
+  <a href="https://t.me/+LsSrv9TgJMA5YWZk" target="_blank" rel="noopener noreferrer" class="button-telegram px-3 py-1 text-sm">
     📲 Join Telegram
   </a>
 </div>
+
 
 
   <!-- Header -->
@@ -513,4 +518,5 @@ function showBELQR() {
 </script>
 </body>
 </html>
+
 
