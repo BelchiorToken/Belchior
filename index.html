@@ -385,11 +385,29 @@
     belImg.onload = drawLogos;
   </script>
 
-  <!-- Ticker Banner -->
-  <div class="ticker faded-grey" onclick="addBELToWallet()">
-    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png" alt="BEL" class="h-6 w-6 animate-pulse" />
-    Connect Wallet and Secure your BEL, join the Savings 💾📈
+  <!-- QR Modal -->
+<div id="qr-modal" style="display:none; position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(16,20,28,0.94);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
+  <div style="background:#181a24;padding:2.4rem 2.2rem 2rem 2.2rem;border-radius:1.2rem;box-shadow:0 2px 16px #0c1a2a;border:1.2px solid #24263a;text-align:center;max-width:94vw;">
+    <h2 class="faded-grey" style="font-size:1.5rem;font-weight:700;margin-bottom:0.4em;">Scan to Add BEL Token</h2>
+    <div id="qr-code" style="margin:1.3rem auto 0.6rem auto;"></div>
+    <div style="margin:0.6em 0 0.7em 0;color:#e0e5ed;font-size:1.02rem;line-height:1.5;">
+      Open your wallet app and scan<br>
+      to view or import BEL token.<br>
+      <span style="color:#9ea3b1;font-size:0.97em;">(Works in Binance Wallet, Trust, MetaMask, etc)</span>
+    </div>
+    <div style="margin:0.8em 0 0 0;color:#b0bad0;font-size:0.98em;">
+      <b>Contract:</b> 0x3c841c88d3819c901ec0fe29897146dca509552b<br>
+      <b>Symbol:</b> BEL &nbsp; <b>Decimals:</b> 18
+    </div>
+    <button onclick="document.getElementById('qr-modal').style.display='none';" class="button-buy px-5 py-2 text-base mt-2">Close</button>
   </div>
+</div>
+
+<!-- Ticker Banner -->
+<div class="ticker faded-grey" onclick="showBELQR()">
+  <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png" alt="BEL" class="h-6 w-6 animate-pulse" />
+  Connect Wallet and Secure your BEL, join the Savings 💾📈
+</div>
 
   <!-- Share Button -->
   <div class="absolute top-10 left-4 z-50">
@@ -474,63 +492,22 @@
   <footer class="py-6 text-center faded-grey">
     <p>&copy; 2025 BEL Token. All rights reserved.</p>
   </footer>
-
-  <!-- Wallet Connect Script -->
-  <script>
-    async function addBELToWallet() {
-  const chainIdHex = '0x38'; // 56 in hex, BNB Smart Chain Mainnet
-  const chainParams = {
-    chainId: chainIdHex,
-    chainName: 'BNB Smart Chain',
-    nativeCurrency: {
-      name: 'BNB',
-      symbol: 'BNB',
-      decimals: 18
-    },
-    rpcUrls: ['https://bsc-dataseed.binance.org/'],
-    blockExplorerUrls: ['https://bscscan.com/']
-  };
-
-  const tokenParams = {
-    type: 'ERC20',
-    options: {
-      address: '0x3c841c88d3819c901ec0fe29897146dca509552b',
-      symbol: 'BEL',
-      decimals: 18,
-      image: 'https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png'
-    }
-  };
-
-  try {
-    if (window.ethereum) {
-      // Try switching to BNB Smart Chain
-      await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [chainParams]
-      });
-      // Add BEL as a custom token
-      await window.ethereum.request({
-        method: 'wallet_watchAsset',
-        params: tokenParams
-      });
-      alert('BEL token added to your wallet!');
-    } else {
-      alert('No compatible wallet found. Please install MetaMask or Trust Wallet.');
-    }
-  } catch (error) {
-    console.error("Wallet connection error:", error);
-    alert("Could not add BEL token automatically. Please add it manually in your wallet.\nContract: 0x3c841c88d3819c901ec0fe29897146dca509552b");
-  }
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+$2
+// QR code modal logic
+function showBELQR() {
+  const contractURL = "https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b";
+  document.getElementById('qr-modal').style.display = 'flex';
+  const qrDiv = document.getElementById('qr-code');
+  qrDiv.innerHTML = "";
+  QRCode.toCanvas(qrDiv, contractURL, {
+    width: 200,
+    color: { dark: "#070a13", light: "#ffffff00" }
+  }, function (error) {
+    if (error) qrDiv.innerHTML = "<span style='color:red;'>QR Error</span>";
+  });
 }
-
-
-    function copyShareLink() {
-      const url = "https://belchiortoken.com";
-      navigator.clipboard.writeText(url)
-        .then(() => alert("🔗 Link copied! Share with your friends."))
-        .catch(() => alert("Failed to copy link. Try again."));
-    }
-  </script>
+</script>
 </body>
 </html>
-
