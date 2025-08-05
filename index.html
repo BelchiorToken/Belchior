@@ -389,23 +389,32 @@
     belImg.onload = drawLogos;
   </script>
 
-  <!-- QR Modal -->
-<div id="qr-modal" style="display:none; position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(16,20,28,0.94);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
-  <div style="background:#181a24;padding:2.4rem 2.2rem 2rem 2.2rem;border-radius:1.2rem;box-shadow:0 2px 16px #0c1a2a;border:1.2px solid #24263a;text-align:center;max-width:94vw;">
-    <h2 class="faded-grey" style="font-size:1.5rem;font-weight:700;margin-bottom:0.4em;">Scan to Add BEL Token</h2>
-    <div id="qr-code" style="margin:1.3rem auto 0.6rem auto;"></div>
-    <div style="margin:0.6em 0 0.7em 0;color:#e0e5ed;font-size:1.02rem;line-height:1.5;">
-      Open your wallet app and scan<br>
-      to view or import BEL token.<br>
-      <span style="color:#9ea3b1;font-size:0.97em;">(Works in Binance Wallet, Trust, MetaMask, etc)</span>
+ <!-- BEL Token Info Modal -->
+<div id="qr-modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(16,20,28,0.94); backdrop-filter:blur(2px); align-items:center; justify-content:center;">
+  <div style="background:#181a24; padding:2.4rem 2.2rem 2rem 2.2rem; border-radius:1.2rem; box-shadow:0 2px 16px #0c1a2a; border:1.2px solid #24263a; text-align:center; max-width:94vw;">
+    
+    <h2 class="faded-grey" style="font-size:1.5rem; font-weight:700; margin-bottom:0.4em;">Manually Add BEL Token</h2>
+    
+    <div style="margin:1.3rem auto 0.6rem auto; color:#e0e5ed; font-size:1.02rem; line-height:1.5;">
+      To manually import <strong>BEL Token</strong> into your wallet (e.g., <em>Trust Wallet</em>, <em>Binance Wallet</em>, <em>MetaMask</em>), use the following info:
     </div>
-    <div style="margin:0.8em 0 0 0;color:#b0bad0;font-size:0.98em;">
-      <b>Contract:</b> 0x3c841c88d3819c901ec0fe29897146dca509552b<br>
-      <b>Symbol:</b> BEL &nbsp; <b>Decimals:</b> 18
+
+    <div style="margin:1.2em 0 0.8em 0; color:#b0bad0; font-size:0.98em; text-align:left;">
+      <b>Token Name:</b> Belchior Token<br>
+      <b>Symbol:</b> BEL<br>
+      <b>Decimals:</b> 18<br>
+      <b>Contract Address:</b><br>
+      <code style="font-size:0.95rem; word-break:break-all; color:#60a5fa;">0x3c841c88d3819c901ec0fe29897146dca509552b</code>
     </div>
-    <button onclick="document.getElementById('qr-modal').style.display='none';" class="button-buy px-5 py-2 text-base mt-2">Close</button>
+
+    <div style="margin-top:1em; font-size:0.95rem; color:#9ea3b1;">
+      In your wallet, go to “Import Token” and paste the contract address above.
+    </div>
+
+    <button onclick="document.getElementById('qr-modal').style.display='none';" class="button-buy px-5 py-2 text-base mt-4">Close</button>
   </div>
 </div>
+
 
 <!-- Ticker Banner -->
 <div class="ticker faded-grey" onclick="showBELQR()">
@@ -518,5 +527,6 @@ function showBELQR() {
 </script>
 </body>
 </html>
+
 
 
