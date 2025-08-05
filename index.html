@@ -30,28 +30,28 @@
       text-fill-color: transparent;
     }
     .button-buy {
-      background: #23272f;
-      color: #fff !important;
+      background: linear-gradient(90deg, #f4f4f5 0%, #e5e7eb 100%);
+      color: #23272f !important;
       font-weight: 800;
       font-size: 1.35rem;
       letter-spacing: 0.03em;
-      text-shadow: 0 2px 8px #23272f, 0 0px 2px #0f172a;
+      text-shadow: 0 2px 8px #f3f4f6, 0 0px 2px #e5e7eb;
       padding: 1rem 2rem;
       border-radius: 9999px;
-      box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
-      transition: all 0.4s ease-in-out;
-      animation: pulseGlow 2s infinite;
-      border: 1px solid #444;
+      box-shadow: 0 0 20px rgba(96, 165, 250, 0.15);
+      transition: all 0.22s ease-in;
+      border: 1.5px solid #ececec;
     }
     .button-buy:hover {
-      background-color: #f8fafc;
-      color: #23272f !important;
-      border: 1px solid #bcbcbc;
+      background: linear-gradient(90deg, #e5e7eb 0%, #cbd5e1 100%);
+      color: #18181b !important;
+      border: 1.5px solid #d1d5db;
+      text-shadow: none;
     }
     @keyframes pulseGlow {
-      0% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
-      50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.8); }
-      100% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
+      0% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.08); }
+      50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.15); }
+      100% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.08); }
     }
     h1.text-flourish {
       font-weight: 800;
@@ -148,39 +148,41 @@
       50% { opacity: 0.15; }
       100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
     }
-    /* Quick Resume Box Style */
+    /* Quick Resume Box Style - Compact Version */
     .resume-box {
       background: linear-gradient(90deg, #0c1a2a 0%, #23272f 60%, #070a13 100%);
       border-radius: 1rem;
-      box-shadow: 0 6px 22px 0 rgba(16,16,32,0.28), 0 1.5px 6px 0 rgba(32,32,64,0.19);
-      padding: 2rem 1.2rem;
-      margin: 2rem auto 3rem auto;
-      max-width: 640px;
-      border: 1.5px solid #283347;
+      box-shadow: 0 4px 12px 0 rgba(16,16,32,0.18), 0 1.5px 6px 0 rgba(32,32,64,0.10);
+      padding: 1rem 0.9rem 1.1rem 0.9rem;
+      margin: 1.2rem auto 2.2rem auto;
+      max-width: 410px;
+      border: 1.2px solid #283347;
       text-align: center;
     }
     .resume-title {
-      font-size: 2rem;
+      font-size: 1.18rem;
       font-weight: 700;
       letter-spacing: 0.08em;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.25rem;
       background: linear-gradient(90deg, #60a5fa 10%, #f8fafc 80%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-fill-color: transparent;
+      text-transform: uppercase;
     }
     .resume-text {
-      font-size: 1.18rem;
+      font-size: 0.99rem;
       background: linear-gradient(90deg, #f8fafc 0%, #d1d5db 70%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-fill-color: transparent;
       font-weight: 500;
-      line-height: 1.6;
+      line-height: 1.48;
       margin: 0 auto;
-      max-width: 500px;
+      max-width: 380px;
+      opacity: 0.93;
     }
   </style>
 </head>
@@ -320,7 +322,6 @@
       }
 
       logos.forEach(logo => {
-        // If treasure, show emoji and fade out
         if (logo.showTreasure) {
           ctx.save();
           ctx.globalAlpha = logo.treasureAlpha;
@@ -339,7 +340,6 @@
           return;
         }
 
-        // Move
         logo.x += logo.vx;
         logo.y += logo.vy;
         logo.angle += logo.r;
@@ -406,12 +406,13 @@
     </p>
   </header>
 
-  <!-- QUICK RESUME BOX: visually centered, styled, short summary -->
+  <!-- QUICK RESUME BOX: visually compact, styled, short summary -->
   <section class="resume-box">
     <div class="resume-title">Quick Resume</div>
     <div class="resume-text">
-      Belchior Token (BEL) is a transparent, family-backed cryptocurrency on BNB Chain—offering real security, locked liquidity, and open-source contracts. With a legacy of discipline and honest financial stewardship, every BEL is secured and tracked, so holders can invest with trust and peace of mind. <br><br>
-      <span style="font-size:1.01em;opacity:0.83;">
+      Belchior Token (BEL) is a transparent, family-backed cryptocurrency on BNB Chain — offering real security, locked liquidity, and open-source contracts.<br>
+      With a legacy of discipline and honest financial stewardship, every BEL is secured and tracked so holders can invest with trust and peace of mind.<br>
+      <span style="font-size:0.98em;opacity:0.77;">
         Secured by lineage. Built on values. Protected for the future.
       </span>
     </div>
