@@ -229,10 +229,12 @@ function createExplosion(x, y) {
 }
 
 // Handle logo click
+canvas.style.pointerEvents = "auto";
 canvas.addEventListener('click', function(e) {
   const rect = canvas.getBoundingClientRect();
   const clickX = e.clientX - rect.left;
   const clickY = e.clientY - rect.top;
+  let clickedLogo = false;
 
   for (const logo of logos) {
     if (
@@ -240,15 +242,25 @@ canvas.addEventListener('click', function(e) {
       clickX >= logo.x && clickX <= logo.x + logo.size &&
       clickY >= logo.y && clickY <= logo.y + logo.size
     ) {
-      // Show a treasure emoji at this spot
       logo.showTreasure = true;
       logo.treasureEmoji = TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)];
       logo.treasureAlpha = 1;
       logo.treasureScale = 1.6;
-      // Add explosion
       createExplosion(logo.x + logo.size/2, logo.y + logo.size/2);
-      break; // One click per frame
+      clickedLogo = true;
+      break;
     }
+  }
+
+  if (!clickedLogo) {
+    canvas.style.pointerEvents = "none";
+    const nextElem = document.elementFromPoint(e.clientX, e.clientY);
+    if (nextElem) {
+      nextElem.click();
+    }
+    setTimeout(() => {
+      canvas.style.pointerEvents = "auto";
+    }, 0);
   }
 });
 
