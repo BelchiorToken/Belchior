@@ -389,31 +389,74 @@
     belImg.onload = drawLogos;
   </script>
 
- <!-- BEL Token Info Modal -->
-<div id="qr-modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(16,20,28,0.94); backdrop-filter:blur(2px); align-items:center; justify-content:center;">
-  <div style="background:#181a24; padding:2.4rem 2.2rem 2rem 2.2rem; border-radius:1.2rem; box-shadow:0 2px 16px #0c1a2a; border:1.2px solid #24263a; text-align:center; max-width:94vw;">
-    
-    <h2 class="faded-grey" style="font-size:1.5rem; font-weight:700; margin-bottom:0.4em;">Manually Add BEL Token</h2>
-    
-    <div style="margin:1.3rem auto 0.6rem auto; color:#e0e5ed; font-size:1.02rem; line-height:1.5;">
-      To manually import <strong>BEL Token</strong> into your wallet (e.g., <em>Trust Wallet</em>, <em>Binance Wallet</em>, <em>MetaMask</em>), use the following info:
-    </div>
+ <!-- BEL Info Modal -->
+<div id="infoModal" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="bg-gray-900 text-white w-full max-w-xl mx-4 p-6 rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
+    <h2 class="text-2xl font-bold mb-4 text-center">📊 Belchior Token (BEL) — Visão Geral</h2>
+    <table class="w-full text-sm mb-4 table-auto border-separate">
+      <tbody>
+        <tr><td class="pr-4 font-medium">Preço Atual:</td><td>$0.000184 USD</td></tr>
+        <tr><td class="pr-4 font-medium">Capitalização de Mercado:</td><td>$18,680 USD</td></tr>
+        <tr><td class="pr-4 font-medium">Volume 24h:</td><td>$0.8225 USD</td></tr>
+        <tr><td class="pr-4 font-medium">Variação 24h:</td><td>-0.98%</td></tr>
+        <tr><td class="pr-4 font-medium">Oferta Circulante:</td><td>100,000,000 BEL</td></tr>
+        <tr><td class="pr-4 font-medium">Oferta Máxima:</td><td>100,000,000 BEL</td></tr>
+        <tr><td class="pr-4 font-medium">Símbolo:</td><td>BEL</td></tr>
+        <tr><td class="pr-4 font-medium">Blockchain:</td><td>BNB Chain (BEP-20)</td></tr>
+        <tr><td class="pr-4 font-medium">Contrato do Token:</td><td class="break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</td></tr>
+        <tr><td class="pr-4 font-medium">Contrato do Par BEL/WBNB:</td><td class="break-all">0xc47216d19cc3030d13f3fe306c5f07f71c3a8f5b</td></tr>
+      </tbody>
+    </table>
 
-    <div style="margin:1.2em 0 0.8em 0; color:#b0bad0; font-size:0.98em; text-align:left;">
-      <b>Token Name:</b> Belchior Token<br>
-      <b>Symbol:</b> BEL<br>
-      <b>Decimals:</b> 18<br>
-      <b>Contract Address:</b><br>
-      <code style="font-size:0.95rem; word-break:break-all; color:#60a5fa;">0x3c841c88d3819c901ec0fe29897146dca509552b</code>
-    </div>
+    <h3 class="font-semibold mb-2">❓ FAQ — Perguntas Frequentes</h3>
+    <ul class="list-disc ml-5 text-sm mb-4">
+      <li><strong>Quanto custa 1 BEL?</strong> $0.000184 USD</li>
+      <li><strong>Onde posso comprar BEL?</strong> No DEXTswap via par BEL/WBNB (DEXTools).</li>
+      <li><strong>Como comprar BEL?</strong> 1. Conecte sua wallet<br>2. Insira a quantidade de BEL<br>3. Aprove e troque<br>4. Adicione o contrato à wallet</li>
+      <li><strong>Distribuição do token?</strong> Maior detentor possui 50% da oferta.</li>
+    </ul>
 
-    <div style="margin-top:1em; font-size:0.95rem; color:#9ea3b1;">
-      In your wallet, go to “Import Token” and paste the contract address above.
-    </div>
+    <h3 class="font-semibold mb-2">💵 Conversão USD ⇄ BEL</h3>
+    <p class="text-sm font-medium">🔁 USD para BEL</p>
+    <table class="w-full text-xs mb-3">
+      <thead><tr><th class="text-left">USD</th><th class="text-left">BEL</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>5,418.737</td></tr>
+        <tr><td>5</td><td>27,093.684</td></tr>
+        <tr><td>10</td><td>54,187.369</td></tr>
+        <tr><td>25</td><td>135,468.423</td></tr>
+        <tr><td>50</td><td>270,936.847</td></tr>
+        <tr><td>100</td><td>541,873.695</td></tr>
+        <tr><td>500</td><td>2,709,368.475</td></tr>
+        <tr><td>1,000</td><td>5,418,736.950</td></tr>
+        <tr><td>10,000</td><td>54,187,369.504</td></tr>
+        <tr><td>50,000</td><td>270,936,847.519</td></tr>
+      </tbody>
+    </table>
 
-    <button onclick="document.getElementById('qr-modal').style.display='none';" class="button-buy px-5 py-2 text-base mt-4">Close</button>
+    <p class="text-sm font-medium">🔁 BEL para USD</p>
+    <table class="w-full text-xs mb-4">
+      <thead><tr><th class="text-left">BEL</th><th class="text-left">USD</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>0.000184</td></tr>
+        <tr><td>5</td><td>0.000922</td></tr>
+        <tr><td>10</td><td>0.00184</td></tr>
+        <tr><td>25</td><td>0.00461</td></tr>
+        <tr><td>50</td><td>0.00922</td></tr>
+        <tr><td>100</td><td>0.0184</td></tr>
+        <tr><td>500</td><td>0.0922</td></tr>
+        <tr><td>1,000</td><td>0.184</td></tr>
+        <tr><td>10,000</td><td>1.845</td></tr>
+        <tr><td>50,000</td><td>9.227</td></tr>
+      </tbody>
+    </table>
+
+    <button onclick="toggleModal()" class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded">
+      Fechar
+    </button>
   </div>
 </div>
+
 
 
 <!-- Ticker Banner -->
@@ -575,6 +618,7 @@ function showBELQR() {
 
 </body>
 </html>
+
 
 
 
