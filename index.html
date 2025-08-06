@@ -525,8 +525,50 @@ function showBELQR() {
   });
 }
 </script>
+<!-- BEL Info Modal -->
+<div id="infoModal" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="bg-gray-900 text-white w-full max-w-xl mx-4 p-6 rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
+    <h2 class="text-2xl font-bold mb-4 text-center">Belchior Token (BEL)</h2>
+    <table class="w-full text-sm mb-4 table-auto border-separate">
+      <tbody>
+        <tr><td class="pr-4 font-medium">Price:</td><td>$0.000184</td></tr>
+        <tr><td class="pr-4 font-medium">Market Cap:</td><td>$18,680</td></tr>
+        <tr><td class="pr-4 font-medium">24h Volume:</td><td>$0.8225</td></tr>
+        <tr><td class="pr-4 font-medium">24h Change:</td><td>-0.98%</td></tr>
+        <tr><td class="pr-4 font-medium">Supply:</td><td>100,000,000 BEL</td></tr>
+        <tr><td class="pr-4 font-medium">Token Contract:</td><td class="break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</td></tr>
+        <tr><td class="pr-4 font-medium">Pair Contract:</td><td class="break-all">0xc47216d19cc3030d13f3fe306c5f07f71c3a8f5b</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="font-semibold mb-2">FAQ</h3>
+    <ul class="list-disc ml-5 text-sm mb-4">
+      <li>1 BEL = $0.000184</li>
+      <li>Buy on DEXTswap (BEL/WBNB)</li>
+      <li>Top holder owns 50%</li>
+      <li>Connect wallet → Approve → Swap → Add BEL</li>
+    </ul>
+
+    <h3 class="font-semibold mb-1">Conversions</h3>
+    <p class="text-sm mb-1">100 USD = 541,873 BEL</p>
+    <p class="text-sm mb-4">1,000 BEL = $0.184</p>
+
+    <button onclick="toggleModal()" class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded">
+      Close
+    </button>
+  </div>
+</div>
+
+<!-- Modal toggle script -->
+<script>
+  function toggleModal() {
+    document.getElementById('infoModal').classList.toggle('hidden');
+  }
+</script>
+
 </body>
 </html>
+
 
 
 
