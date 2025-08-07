@@ -571,6 +571,8 @@
 <script>
 // QR code modal logic
 function showBELQR() {
+    document.getElementById('addTokenModal').classList.remove('hidden');
+}
   const contractURL = "https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b";
   document.getElementById('qr-modal').style.display = 'flex';
   const qrDiv = document.getElementById('qr-code');
@@ -624,15 +626,29 @@ function showBELQR() {
   }
 </script>
 
+
+<!-- Add Token Instructions Modal -->
+<div id="addTokenModal" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="bg-white text-black p-6 rounded-lg shadow-xl max-w-md w-full relative">
+    <h2 class="text-xl font-bold mb-4 text-center">➕ Add BEL to Your Wallet</h2>
+    <ol class="list-decimal list-inside text-sm mb-4">
+      <li>Open your wallet (e.g., Trust Wallet or MetaMask).</li>
+      <li>Go to the "Tokens" or "Assets" tab.</li>
+      <li>Click <strong>"Add Token"</strong> or <strong>"Import Token"</strong>.</li>
+      <li>Choose <strong>Custom Token</strong> and paste this address:<br>
+        <code class="text-xs break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</code>
+      </li>
+      <li>Token Symbol: <strong>BEL</strong></li>
+      <li>Decimals: <strong>18</strong></li>
+      <li>Save/Confirm. You're done!</li>
+    </ol>
+    <button onclick="document.getElementById('addTokenModal').classList.add('hidden')"
+            class="absolute top-2 right-2 text-black hover:text-red-600 font-bold text-lg">✕</button>
+  </div>
+</div>
+
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 
