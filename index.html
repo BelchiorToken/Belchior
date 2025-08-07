@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+
+<html class="dark" lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BEL - Belchior Token</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>BEL - Belchior Token</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&amp;display=swap" rel="stylesheet"/>
+<style>
     body {
       background: linear-gradient(to bottom right, #070a13, #0c1a2a);
       color: #d1d5db;
@@ -189,9 +190,9 @@
   </style>
 </head>
 <body>
-  <!-- Fun collision canvas for falling BEL logos -->
-  <canvas id="bel-falling-canvas" style="position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:2;pointer-events:auto;"></canvas>
-  <script>
+<!-- Fun collision canvas for falling BEL logos -->
+<canvas id="bel-falling-canvas" style="position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:2;pointer-events:auto;"></canvas>
+<script>
     const belImgSrc = "https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png";
     let belImg = new window.Image();
     belImg.src = belImgSrc;
@@ -388,267 +389,221 @@
     }
     belImg.onload = drawLogos;
   </script>
-
- <!-- BEL Info Modal -->
-<div id="infoModal" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
-  <div class="bg-gray-900 text-white w-full max-w-xl mx-4 p-6 rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
-    <h2 class="text-2xl font-bold mb-4 text-center">📊 Belchior Token (BEL) — Visão Geral</h2>
-    <table class="w-full text-sm mb-4 table-auto border-separate">
-      <tbody>
-        <tr><td class="pr-4 font-medium">Preço Atual:</td><td>$0.000184 USD</td></tr>
-        <tr><td class="pr-4 font-medium">Capitalização de Mercado:</td><td>$18,680 USD</td></tr>
-        <tr><td class="pr-4 font-medium">Volume 24h:</td><td>$0.8225 USD</td></tr>
-        <tr><td class="pr-4 font-medium">Variação 24h:</td><td>-0.98%</td></tr>
-        <tr><td class="pr-4 font-medium">Oferta Circulante:</td><td>100,000,000 BEL</td></tr>
-        <tr><td class="pr-4 font-medium">Oferta Máxima:</td><td>100,000,000 BEL</td></tr>
-        <tr><td class="pr-4 font-medium">Símbolo:</td><td>BEL</td></tr>
-        <tr><td class="pr-4 font-medium">Blockchain:</td><td>BNB Chain (BEP-20)</td></tr>
-        <tr><td class="pr-4 font-medium">Contrato do Token:</td><td class="break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</td></tr>
-        <tr><td class="pr-4 font-medium">Contrato do Par BEL/WBNB:</td><td class="break-all">0xc47216d19cc3030d13f3fe306c5f07f71c3a8f5b</td></tr>
-      </tbody>
-    </table>
-
-    <h3 class="font-semibold mb-2">❓ FAQ — Perguntas Frequentes</h3>
-    <ul class="list-disc ml-5 text-sm mb-4">
-      <li><strong>Quanto custa 1 BEL?</strong> $0.000184 USD</li>
-      <li><strong>Onde posso comprar BEL?</strong> No DEXTswap via par BEL/WBNB (DEXTools).</li>
-      <li><strong>Como comprar BEL?</strong> 1. Conecte sua wallet<br>2. Insira a quantidade de BEL<br>3. Aprove e troque<br>4. Adicione o contrato à wallet</li>
-      <li><strong>Distribuição do token?</strong> Maior detentor possui 50% da oferta.</li>
-    </ul>
-
-    <h3 class="font-semibold mb-2">💵 Conversão USD ⇄ BEL</h3>
-    <p class="text-sm font-medium">🔁 USD para BEL</p>
-    <table class="w-full text-xs mb-3">
-      <thead><tr><th class="text-left">USD</th><th class="text-left">BEL</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td>5,418.737</td></tr>
-        <tr><td>5</td><td>27,093.684</td></tr>
-        <tr><td>10</td><td>54,187.369</td></tr>
-        <tr><td>25</td><td>135,468.423</td></tr>
-        <tr><td>50</td><td>270,936.847</td></tr>
-        <tr><td>100</td><td>541,873.695</td></tr>
-        <tr><td>500</td><td>2,709,368.475</td></tr>
-        <tr><td>1,000</td><td>5,418,736.950</td></tr>
-        <tr><td>10,000</td><td>54,187,369.504</td></tr>
-        <tr><td>50,000</td><td>270,936,847.519</td></tr>
-      </tbody>
-    </table>
-
-    <p class="text-sm font-medium">🔁 BEL para USD</p>
-    <table class="w-full text-xs mb-4">
-      <thead><tr><th class="text-left">BEL</th><th class="text-left">USD</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td>0.000184</td></tr>
-        <tr><td>5</td><td>0.000922</td></tr>
-        <tr><td>10</td><td>0.00184</td></tr>
-        <tr><td>25</td><td>0.00461</td></tr>
-        <tr><td>50</td><td>0.00922</td></tr>
-        <tr><td>100</td><td>0.0184</td></tr>
-        <tr><td>500</td><td>0.0922</td></tr>
-        <tr><td>1,000</td><td>0.184</td></tr>
-        <tr><td>10,000</td><td>1.845</td></tr>
-        <tr><td>50,000</td><td>9.227</td></tr>
-      </tbody>
-    </table>
-
-    <button onclick="toggleModal()" class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded">
+<!-- BEL Info Modal -->
+<div class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50" id="infoModal">
+<div class="bg-gray-900 text-white w-full max-w-xl mx-4 p-6 rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
+<h2 class="text-2xl font-bold mb-4 text-center">📊 Belchior Token (BEL) — Overview</h2>
+<table class="w-full text-sm mb-4 table-auto border-separate">
+<tbody>
+<tr><td class="pr-4 font-medium">Current Price:</td><td>$0.000184 USD</td></tr>
+<tr><td class="pr-4 font-medium">Market Cap:</td><td>$18,680 USD</td></tr>
+<tr><td class="pr-4 font-medium">24h Volume:</td><td>$0.8225 USD</td></tr>
+<tr><td class="pr-4 font-medium">24h Change:</td><td>-0.98%</td></tr>
+<tr><td class="pr-4 font-medium">Circulating Supply:</td><td>100,000,000 BEL</td></tr>
+<tr><td class="pr-4 font-medium">Max Supply:</td><td>100,000,000 BEL</td></tr>
+<tr><td class="pr-4 font-medium">Symbol:</td><td>BEL</td></tr>
+<tr><td class="pr-4 font-medium">Blockchain:</td><td>BNB Chain (BEP-20)</td></tr>
+<tr><td class="pr-4 font-medium">Token Contract:</td><td class="break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</td></tr>
+<tr><td class="pr-4 font-medium">Pair Contract:</td><td class="break-all">0xc47216d19cc3030d13f3fe306c5f07f71c3a8f5b</td></tr>
+</tbody>
+</table>
+<h3 class="font-semibold mb-2">❓ FAQ — Frequently Asked Questions</h3>
+<ul class="list-disc ml-5 text-sm mb-4">
+<li>How much is 1 BEL? $0.000184 USD</li>
+<li>Where can I buy BEL? On DEXTswap via BEL/WBNB pair (DEXTools).</li>
+<li>How to buy BEL? 1. Connect your wallet  2. Input amount  3. Approve &amp; swap  4. Add BEL token to wallet</li>
+<li>Token distribution? Largest holder owns 50% of supply.</li>
+</ul>
+<h3 class="font-semibold mb-2">💵 Conversão USD ⇄ BEL</h3>
+<p class="text-sm font-medium">🔁 USD para BEL</p>
+<table class="w-full text-xs mb-3">
+<thead><tr><th class="text-left">USD</th><th class="text-left">BEL</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>5,418.737</td></tr>
+<tr><td>5</td><td>27,093.684</td></tr>
+<tr><td>10</td><td>54,187.369</td></tr>
+<tr><td>25</td><td>135,468.423</td></tr>
+<tr><td>50</td><td>270,936.847</td></tr>
+<tr><td>100</td><td>541,873.695</td></tr>
+<tr><td>500</td><td>2,709,368.475</td></tr>
+<tr><td>1,000</td><td>5,418,736.950</td></tr>
+<tr><td>10,000</td><td>54,187,369.504</td></tr>
+<tr><td>50,000</td><td>270,936,847.519</td></tr>
+</tbody>
+</table>
+<p class="text-sm font-medium">🔁 BEL para USD</p>
+<table class="w-full text-xs mb-4">
+<thead><tr><th class="text-left">BEL</th><th class="text-left">USD</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>0.000184</td></tr>
+<tr><td>5</td><td>0.000922</td></tr>
+<tr><td>10</td><td>0.00184</td></tr>
+<tr><td>25</td><td>0.00461</td></tr>
+<tr><td>50</td><td>0.00922</td></tr>
+<tr><td>100</td><td>0.0184</td></tr>
+<tr><td>500</td><td>0.0922</td></tr>
+<tr><td>1,000</td><td>0.184</td></tr>
+<tr><td>10,000</td><td>1.845</td></tr>
+<tr><td>50,000</td><td>9.227</td></tr>
+</tbody>
+</table>
+<button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded" onclick="toggleModal()">
       Fechar
     </button>
-  </div>
 </div>
-
-
-
+</div>
 <!-- Ticker Banner -->
 <div class="ticker faded-grey" onclick="showBELQR()">
-  <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png" alt="BEL" class="h-6 w-6 animate-pulse" />
+<img alt="BEL" class="h-6 w-6 animate-pulse" src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"/>
   Connect Wallet and Secure your BEL, join the Savings 💾📈
 </div>
-
-  <!-- Telegram Invite Button -->
+<!-- Telegram Invite Button -->
 <div class="absolute top-10 left-4 z-50">
-  <a href="https://t.me/+LsSrv9TgJMA5YWZk" target="_blank" rel="noopener noreferrer" class="button-telegram px-3 py-1 text-sm">
+<a class="button-telegram px-3 py-1 text-sm" href="https://t.me/+LsSrv9TgJMA5YWZk" rel="noopener noreferrer" target="_blank">
     📲 Join Telegram
   </a>
 </div>
-
-
 <!-- BEL Token Info Button -->
 <div class="absolute top-24 left-4 z-50">
-  <button onclick="toggleModal()" class="button-telegram px-3 py-1 text-sm">
+<button class="button-telegram px-3 py-1 text-sm" onclick="toggleModal()">
     ℹ️ BEL Token Info
   </button>
 </div>
-
 <!-- Twitter Button -->
 <div class="absolute top-36 left-4 z-50">
-  <a href="https://x.com/BelchiorToken" target="_blank" rel="noopener noreferrer" class="button-telegram px-3 py-1 text-sm">
+<a class="button-telegram px-3 py-1 text-sm" href="https://x.com/BelchiorToken" rel="noopener noreferrer" target="_blank">
     🐦 Follow us on X (Twitter)
   </a>
 </div>
-
-
-
-  <!-- Header -->
-  <header class="relative text-center pt-10 pb-6">
-    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"
-         alt="BEL Token Logo" class="h-24 mx-auto mb-4" />
-    <h1 class="text-flourish faded-grey">Belchior Token (BEL)</h1>
-    <p class="text-lg faded-grey mt-2 max-w-xl mx-auto font-semibold">
+<!-- Header -->
+<header class="relative text-center pt-10 pb-6">
+<img alt="BEL Token Logo" class="h-24 mx-auto mb-4" src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"/>
+<h1 class="text-flourish faded-grey">Belchior Token (BEL)</h1>
+<p class="text-lg faded-grey mt-2 max-w-xl mx-auto font-semibold">
       🔒 Belchior, saving your wealth and investment
     </p>
-  </header>
-
-  <!-- QUICK RESUME BOX: visually centered, styled, short summary -->
-  <section class="resume-box">
-    <div class="resume-title">Quick Resume</div>
-    <div class="resume-text">
-      Belchior Token (BEL) is a transparent, family-backed cryptocurrency on BNB Chain—offering real security, locked liquidity, and open-source contracts. With a legacy of discipline and honest financial stewardship, every BEL is secured and tracked, so holders can invest with trust and peace of mind. <br><br>
-      <span style="font-size:1.01em;opacity:0.83;">
+</header>
+<!-- QUICK RESUME BOX: visually centered, styled, short summary -->
+<section class="resume-box">
+<div class="resume-title">Quick Resume</div>
+<div class="resume-text">
+      Belchior Token (BEL) is a transparent, family-backed cryptocurrency on BNB Chain—offering real security, locked liquidity, and open-source contracts. With a legacy of discipline and honest financial stewardship, every BEL is secured and tracked, so holders can invest with trust and peace of mind. <br/><br/>
+<span style="font-size:1.01em;opacity:0.83;">
         Secured by lineage. Built on values. Protected for the future.
       </span>
-    </div>
-  </section>
-
-  <!-- Chart Section -->
-  <section class="text-center mt-16">
-    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/BEL_Distribution_With_MA.png"
-         alt="BEL Token Distribution Chart"
-         class="w-full max-w-2xl mx-auto rounded-xl shadow-xl" />
-    <div class="mt-6">
-      <a href="https://pancakeswap.finance/swap?outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
-         target="_blank" class="button-buy inline-block">
+</div>
+</section>
+<!-- Chart Section -->
+<section class="text-center mt-16">
+<img alt="BEL Token Distribution Chart" class="w-full max-w-2xl mx-auto rounded-xl shadow-xl" src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/BEL_Distribution_With_MA.png"/>
+<div class="mt-6">
+<a class="button-buy inline-block" href="https://pancakeswap.finance/swap?outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank">
         Buy BEL on PancakeSwap
       </a>
-    </div>
-  </section>
-
-  <!-- Main Content -->
-  <main class="max-w-6xl mx-auto px-6 py-12 flex justify-center items-center">
-    <section class="values-box mx-auto w-full max-w-xl p-8">
-      <h2 class="font-bold mb-6 faded-grey text-3xl tracking-wider text-center uppercase">Token Distribution</h2>
-      <ul class="space-y-8">
-        <li>
-          <div class="flex items-center justify-between mb-2">
-            <span class="faded-grey text-lg font-semibold flex-1 text-left">🔒 <b>50,000,000 BEL</b> (50%) Locked on PinkLock</span>
-            <span class="ml-4 text-xs font-bold text-gray-400">50%</span>
-          </div>
-          <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
-            <div class="h-3 bg-green-400 rounded-full transition-all duration-700" style="width:50%"></div>
-          </div>
-        </li>
-        <li>
-          <div class="flex items-center justify-between mb-2">
-            <span class="faded-grey text-lg font-semibold flex-1 text-left">💧 <b>2,600,000 BEL</b> (2.6%) Added to PancakeSwap V2 liquidity</span>
-            <span class="ml-4 text-xs font-bold text-gray-400">2.6%</span>
-          </div>
-          <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
-            <div class="h-3 bg-blue-400 rounded-full transition-all duration-700" style="width:2.6%"></div>
-          </div>
-        </li>
-        <li>
-          <div class="flex items-center justify-between mb-2">
-            <span class="faded-grey text-lg font-semibold flex-1 text-left">👑 <b>47,400,000 BEL</b> (47.4%) Funding</span>
-            <span class="ml-4 text-xs font-bold text-gray-400">47.4%</span>
-          </div>
-          <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
-            <div class="h-3 bg-yellow-400 rounded-full transition-all duration-700" style="width:47.4%"></div>
-          </div>
-        </li>
-      </ul>
-      <p class="mt-10 text-center text-sm faded-grey tracking-wide">
+</div>
+</section>
+<!-- Main Content -->
+<main class="max-w-6xl mx-auto px-6 py-12 flex justify-center items-center">
+<section class="values-box mx-auto w-full max-w-xl p-8">
+<h2 class="font-bold mb-6 faded-grey text-3xl tracking-wider text-center uppercase">Token Distribution</h2>
+<ul class="space-y-8">
+<li>
+<div class="flex items-center justify-between mb-2">
+<span class="faded-grey text-lg font-semibold flex-1 text-left">🔒 <b>50,000,000 BEL</b> (50%) Locked on PinkLock</span>
+<span class="ml-4 text-xs font-bold text-gray-400">50%</span>
+</div>
+<div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+<div class="h-3 bg-green-400 rounded-full transition-all duration-700" style="width:50%"></div>
+</div>
+</li>
+<li>
+<div class="flex items-center justify-between mb-2">
+<span class="faded-grey text-lg font-semibold flex-1 text-left">💧 <b>2,600,000 BEL</b> (2.6%) Added to PancakeSwap V2 liquidity</span>
+<span class="ml-4 text-xs font-bold text-gray-400">2.6%</span>
+</div>
+<div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+<div class="h-3 bg-blue-400 rounded-full transition-all duration-700" style="width:2.6%"></div>
+</div>
+</li>
+<li>
+<div class="flex items-center justify-between mb-2">
+<span class="faded-grey text-lg font-semibold flex-1 text-left">👑 <b>47,400,000 BEL</b> (47.4%) Funding</span>
+<span class="ml-4 text-xs font-bold text-gray-400">47.4%</span>
+</div>
+<div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+<div class="h-3 bg-yellow-400 rounded-full transition-all duration-700" style="width:47.4%"></div>
+</div>
+</li>
+</ul>
+<p class="mt-10 text-center text-sm faded-grey tracking-wide">
         Contract: 
-        <a href="https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" class="underline">0x3c841c88d3819c901ec0fe29897146dca509552b</a>
-      </p>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="py-6 text-center faded-grey">
-    <p>&copy; 2025 BEL Token. All rights reserved.</p>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+        <a class="underline" href="https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank">0x3c841c88d3819c901ec0fe29897146dca509552b</a>
+</p>
+</section>
+</main>
+<!-- Footer -->
+<footer class="py-6 text-center faded-grey">
+<p>© 2025 BEL Token. All rights reserved.</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
-// QR code modal logic
 function showBELQR() {
-    document.getElementById('addTokenModal').classList.remove('hidden');
-}
-  const contractURL = "https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b";
-  document.getElementById('qr-modal').style.display = 'flex';
-  const qrDiv = document.getElementById('qr-code');
-  qrDiv.innerHTML = "";
-  QRCode.toCanvas(qrDiv, contractURL, {
-    width: 200,
-    color: { dark: "#070a13", light: "#ffffff00" }
-  }, function (error) {
-    if (error) qrDiv.innerHTML = "<span style='color:red;'>QR Error</span>";
-  });
+  document.getElementById('addTokenModal').classList.remove('hidden');
 }
 </script>
 <!-- BEL Info Modal -->
-<div id="infoModal" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
-  <div class="bg-gray-900 text-white w-full max-w-xl mx-4 p-6 rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
-    <h2 class="text-2xl font-bold mb-4 text-center">Belchior Token (BEL)</h2>
-    <table class="w-full text-sm mb-4 table-auto border-separate">
-      <tbody>
-        <tr><td class="pr-4 font-medium">Price:</td><td>$0.000184</td></tr>
-        <tr><td class="pr-4 font-medium">Market Cap:</td><td>$18,680</td></tr>
-        <tr><td class="pr-4 font-medium">24h Volume:</td><td>$0.8225</td></tr>
-        <tr><td class="pr-4 font-medium">24h Change:</td><td>-0.98%</td></tr>
-        <tr><td class="pr-4 font-medium">Supply:</td><td>100,000,000 BEL</td></tr>
-        <tr><td class="pr-4 font-medium">Token Contract:</td><td class="break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</td></tr>
-        <tr><td class="pr-4 font-medium">Pair Contract:</td><td class="break-all">0xc47216d19cc3030d13f3fe306c5f07f71c3a8f5b</td></tr>
-      </tbody>
-    </table>
-
-    <h3 class="font-semibold mb-2">FAQ</h3>
-    <ul class="list-disc ml-5 text-sm mb-4">
-      <li>1 BEL = $0.000184</li>
-      <li>Buy on DEXTswap (BEL/WBNB)</li>
-      <li>Top holder owns 50%</li>
-      <li>Connect wallet → Approve → Swap → Add BEL</li>
-    </ul>
-
-    <h3 class="font-semibold mb-1">Conversions</h3>
-    <p class="text-sm mb-1">100 USD = 541,873 BEL</p>
-    <p class="text-sm mb-4">1,000 BEL = $0.184</p>
-
-    <button onclick="toggleModal()" class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded">
+<div class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50" id="infoModal">
+<div class="bg-gray-900 text-white w-full max-w-xl mx-4 p-6 rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
+<h2 class="text-2xl font-bold mb-4 text-center">Belchior Token (BEL)</h2>
+<table class="w-full text-sm mb-4 table-auto border-separate">
+<tbody>
+<tr><td class="pr-4 font-medium">Price:</td><td>$0.000184</td></tr>
+<tr><td class="pr-4 font-medium">Market Cap:</td><td>$18,680</td></tr>
+<tr><td class="pr-4 font-medium">24h Volume:</td><td>$0.8225</td></tr>
+<tr><td class="pr-4 font-medium">24h Change:</td><td>-0.98%</td></tr>
+<tr><td class="pr-4 font-medium">Supply:</td><td>100,000,000 BEL</td></tr>
+<tr><td class="pr-4 font-medium">Token Contract:</td><td class="break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</td></tr>
+<tr><td class="pr-4 font-medium">Pair Contract:</td><td class="break-all">0xc47216d19cc3030d13f3fe306c5f07f71c3a8f5b</td></tr>
+</tbody>
+</table>
+<h3 class="font-semibold mb-2">FAQ</h3>
+<ul class="list-disc ml-5 text-sm mb-4">
+<li>1 BEL = $0.000184</li>
+<li>Buy on DEXTswap (BEL/WBNB)</li>
+<li>Top holder owns 50%</li>
+<li>Connect wallet → Approve → Swap → Add BEL</li>
+</ul>
+<h3 class="font-semibold mb-1">Conversions</h3>
+<p class="text-sm mb-1">100 USD = 541,873 BEL</p>
+<p class="text-sm mb-4">1,000 BEL = $0.184</p>
+<button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded" onclick="toggleModal()">
       Close
     </button>
-  </div>
 </div>
-
+</div>
 <!-- Modal toggle script -->
 <script>
   function toggleModal() {
     document.getElementById('infoModal').classList.toggle('hidden');
   }
 </script>
-
-
 <!-- Add Token Instructions Modal -->
-<div id="addTokenModal" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
-  <div class="bg-white text-black p-6 rounded-lg shadow-xl max-w-md w-full relative">
-    <h2 class="text-xl font-bold mb-4 text-center">➕ Add BEL to Your Wallet</h2>
-    <ol class="list-decimal list-inside text-sm mb-4">
-      <li>Open your wallet (e.g., Trust Wallet or MetaMask).</li>
-      <li>Go to the "Tokens" or "Assets" tab.</li>
-      <li>Click <strong>"Add Token"</strong> or <strong>"Import Token"</strong>.</li>
-      <li>Choose <strong>Custom Token</strong> and paste this address:<br>
-        <code class="text-xs break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</code>
-      </li>
-      <li>Token Symbol: <strong>BEL</strong></li>
-      <li>Decimals: <strong>18</strong></li>
-      <li>Save/Confirm. You're done!</li>
-    </ol>
-    <button onclick="document.getElementById('addTokenModal').classList.add('hidden')"
-            class="absolute top-2 right-2 text-black hover:text-red-600 font-bold text-lg">✕</button>
-  </div>
+<div class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50" id="addTokenModal">
+<div class="bg-white text-black p-6 rounded-lg shadow-xl max-w-md w-full relative">
+<h2 class="text-xl font-bold mb-4 text-center">➕ Add BEL to Your Wallet</h2>
+<ol class="list-decimal list-inside text-sm mb-4">
+<li>Open your wallet (e.g., Trust Wallet or MetaMask).</li>
+<li>Go to the "Tokens" or "Assets" tab.</li>
+<li>Click <strong>"Add Token"</strong> or <strong>"Import Token"</strong>.</li>
+<li>Choose <strong>Custom Token</strong> and paste this address:<br/>
+<code class="text-xs break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</code>
+</li>
+<li>Token Symbol: <strong>BEL</strong></li>
+<li>Decimals: <strong>18</strong></li>
+<li>Save/Confirm. You're done!</li>
+</ol>
+<button class="absolute top-2 right-2 text-black hover:text-red-600 font-bold text-lg" onclick="document.getElementById('addTokenModal').classList.add('hidden')">✕</button>
 </div>
-
+</div>
 </body>
 </html>
-
-
-
