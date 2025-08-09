@@ -1,131 +1,612 @@
 <!DOCTYPE html>
+
 <html class="dark" lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BEL - Belchior Token</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --bel-gold: #ffd700;
-      --bel-ink: #0b0f18;
-      --bel-smoke: #0f172a;
-    }
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>BEL - Belchior Token</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&amp;display=swap" rel="stylesheet"/>
+<style>
     body {
-      background: radial-gradient(1200px 600px at 10% -10%, #111827 0%, #0b0f18 55%, #05070c 100%);
+      background: linear-gradient(to bottom right, #070a13, #0c1a2a);
       color: #d1d5db;
-      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
     }
-    .title-gradient {
-      background: linear-gradient(90deg, #e5e7eb, #bfc6d1 45%, #697386 70%, #e5e7eb 100%);
+    .faded-grey {
+      background: linear-gradient(90deg, #fff 0%, #f3f4f6 55%, #d1d5db 90%, #e5e7eb 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-              background-clip: text;
-              color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
     }
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-    }
-    .pill {
-      background: #0f172a;
-      border: 1px solid rgba(255,255,255,0.08);
+    h1, h2, h3, h4, h5, h6, p, a, .ticker, .announcement-box, .values-box, .logo-container, footer, .text-flourish {
+      background: linear-gradient(90deg, #23272f 0%, #6b7280 35%, #f8fafc 55%, #d1d5db 85%, #18181b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
     }
     .button-buy {
-      background: #0f0f10;
-      color: var(--bel-gold);
-      font-weight: 800;
-      letter-spacing: .02em;
-      padding: 0.9rem 1.5rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255,215,0,.6);
-      box-shadow: 0 0 18px rgba(255,215,0,.25);
-      transition: all .25s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
+  background: #1a1a1a; /* deep black for contrast */
+  color: #ffd700 !important; /* luxury gold */
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.7), 0 0 2px #fff;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  box-shadow:
+    0 0 10px rgba(255, 215, 0, 0.6),
+    0 0 20px rgba(255, 215, 0, 0.4),
+    0 0 40px rgba(255, 215, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  animation: pulseGold 2.5s infinite;
+  border: 1px solid #ffd700;
+}
+
     .button-buy:hover {
-      background: var(--bel-gold);
-      color: #111;
-      box-shadow: 0 0 26px rgba(255,215,0,.45);
-      transform: translateY(-1px);
+      background-color: #f8fafc;
+      color: #23272f !important;
+      border: 1px solid #bcbcbc;
     }
-    img.chart {
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: 0 14px 34px rgba(0,0,0,.35);
-      background: #0a0a0a;
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.8); }
+      100% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
     }
-    .grid-charts {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
+    h1.text-flourish {
+      font-weight: 800;
+      font-size: 4rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-shadow: 0 0 25px rgba(55, 65, 81, 0.45);
     }
-    @media (min-width: 900px) {
-      .grid-charts { grid-template-columns: 1fr 1fr; }
+    .announcement-box {
+      background-color: #171923;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     }
-    footer { color: #8a94a7; }
+    a {
+      text-decoration: underline;
+    }
+    a:hover {
+      background: linear-gradient(90deg, #e5e7eb 0%, #6b7280 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    .logo-container {
+      margin: 4rem auto;
+      max-width: 900px;
+      background-color: #171923;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      text-align: center;
+    }
+    .values-box {
+      background: #23272f;
+      color: #d1d5db;
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-top: 2rem;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    .values-box h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .values-box ul {
+      list-style: none;
+      font-size: 1.25rem;
+    }
+    .values-box li {
+      margin: 0.5rem 0;
+    }
+    footer {
+      background: #171923;
+    }
+    .ticker {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: auto;
+      padding: 0.5rem 2rem;
+      white-space: nowrap;
+      font-weight: bold;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 0 20px rgba(55, 65, 81, 0.45);
+      animation: slideTicker 12s linear infinite;
+      z-index: 50;
+      cursor: pointer;
+    }
+    @keyframes slideTicker {
+      0% { right: -100%; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { right: 100%; opacity: 0; }
+    }
+    .falling-logo {
+      position: fixed;
+      top: -50px;
+      width: 30px;
+      height: 30px;
+      background-image: url('https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.3;
+      animation: fall 12s linear infinite;
+      z-index: 0;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+      50% { opacity: 0.15; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
+    /* Quick Resume Box Style */
+    .resume-box {
+      background: linear-gradient(90deg, #0c1a2a 0%, #23272f 60%, #070a13 100%);
+      border-radius: 1rem;
+      box-shadow: 0 6px 22px 0 rgba(16,16,32,0.28), 0 1.5px 6px 0 rgba(32,32,64,0.19);
+      padding: 2rem 1.2rem;
+      margin: 2rem auto 3rem auto;
+      max-width: 640px;
+      border: 1.5px solid #283347;
+      text-align: center;
+    }
+    .resume-title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(90deg, #60a5fa 10%, #f8fafc 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    .resume-text {
+      font-size: 1.18rem;
+      background: linear-gradient(90deg, #f8fafc 0%, #d1d5db 70%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      font-weight: 500;
+      line-height: 1.6;
+      margin: 0 auto;
+      max-width: 500px;
+    }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="text-center pt-10 pb-6">
-    <img src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png" alt="BEL logo" class="h-20 mx-auto mb-4" />
-    <h1 class="title-gradient text-4xl md:text-5xl font-extrabold tracking-wider uppercase">Belchior Token (BEL)</h1>
-    <p class="mt-3 text-sm md:text-base text-slate-300">Built on Trust • Powered by Potential</p>
-  </header>
+<!-- Fun collision canvas for falling BEL logos -->
+<canvas id="bel-falling-canvas" style="position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:2;pointer-events:auto;"></canvas>
+<script>
+    const belImgSrc = "https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png";
+    let belImg = new window.Image();
+    belImg.src = belImgSrc;
 
-  <!-- Quick Resume (updated to latest post) -->
-  <section class="max-w-3xl mx-auto px-5">
-    <div class="card rounded-2xl p-6 md:p-8">
-      <h2 class="text-2xl md:text-3xl font-bold mb-3 title-gradient">Quick Resume</h2>
-      <p class="leading-relaxed text-slate-200/90">
-        Belchior Token’s primary step was to create <b>independent, individual, non‑reliable security and positioning</b>.
-        The latest chart confirms success — <b>MA lines converge</b>, signaling strong market alignment.
-      </p>
-      <ul class="mt-4 space-y-2 text-slate-300">
-        <li>✅ <b>Logistics</b>: Executed with precision</li>
-        <li>✅ <b>Budget (&gt;50%)</b>: Step 1 success + security ensured</li>
-      </ul>
-      <div class="mt-5">
-        <a class="button-buy" href="https://pancakeswap.finance/swap?outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" rel="noopener">
-          Buy BEL on PancakeSwap
-        </a>
-      </div>
-    </div>
-  </section>
+    const TREASURE_EMOJIS = ["💰", "💵", "💸", "🪙", "💎", "🏆", "🤑", "🎉", "✨", "🔔", "🍀"];
+    const NUM_LOGOS = 20;
+    const logos = [];
+    const explosions = [];
+    const canvas = document.getElementById("bel-falling-canvas");
+    const ctx = canvas.getContext("2d");
 
-  <!-- Charts: two latest graphs side-by-side -->
-  <section class="max-w-6xl mx-auto px-5 mt-10">
-    <h3 class="sr-only">BEL Opportunity & Price</h3>
-    <div class="grid-charts">
-      <figure class="text-center">
-        <img src="BEL_Opportunity_vs_Price.png" alt="BEL Opportunity vs Price" class="chart w-full" />
-        <figcaption class="mt-3 text-sm text-slate-400">Opportunity vs Price (with moving averages)</figcaption>
-      </figure>
-      <figure class="text-center">
-        <img src="BEL_Opportunity_Index.png" alt="BEL Opportunity Index" class="chart w-full" />
-        <figcaption class="mt-3 text-sm text-slate-400">Opportunity Index (inverted bars)</figcaption>
-      </figure>
-    </div>
-  </section>
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
 
-  <!-- Token references -->
-  <section class="max-w-3xl mx-auto px-5 mt-12 mb-16">
-    <div class="pill rounded-xl px-5 py-4 flex flex-col md:flex-row md:items-center gap-3">
-      <div class="text-slate-300 text-sm">
-        <div><b>Contract:</b> <a href="https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b" class="underline" target="_blank" rel="noopener">0x3c841c88d3819c901ec0fe29897146dca509552b</a></div>
-        <div><b>Trade:</b> <a href="https://pancakeswap.finance/swap?outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" class="underline" target="_blank" rel="noopener">PancakeSwap</a></div>
-      </div>
-    </div>
-  </section>
+    function getHitRects() {
+      const buyBtn = document.querySelector('.button-buy');
+      const distBox = document.querySelector('.values-box');
+      let btnRect = buyBtn ? buyBtn.getBoundingClientRect() : {left:-9999, top:-9999, right:-9999, bottom:-9999};
+      let boxRect = distBox ? distBox.getBoundingClientRect() : {left:-9999, top:-9999, right:-9999, bottom:-9999};
+      return [
+        {left: btnRect.left, top: btnRect.top, right: btnRect.right, bottom: btnRect.bottom},
+        {left: boxRect.left, top: boxRect.top, right: boxRect.right, bottom: boxRect.bottom}
+      ];
+    }
 
-  <footer class="text-center py-8 text-sm">
-    © 2025 BEL Token • BNB Chain (BEP‑20)
-  </footer>
+    function randomBetween(a, b) {
+      return a + Math.random() * (b - a);
+    }
+
+    function createLogo() {
+      return {
+        x: randomBetween(0, canvas.width - 40),
+        y: randomBetween(-100, -40),
+        vy: randomBetween(1.5, 3),
+        vx: randomBetween(-0.7, 0.7),
+        r: randomBetween(-0.01, 0.01),
+        angle: randomBetween(0, Math.PI * 2),
+        size: 30 + Math.random() * 15,
+        bounces: 0,
+        showTreasure: false,
+        treasureEmoji: "",
+        treasureAlpha: 1,
+        treasureScale: 1
+      }
+    }
+
+    for (let i = 0; i < NUM_LOGOS; i++) logos.push(createLogo());
+
+    // Explosion effect
+    function createExplosion(x, y) {
+      let parts = [];
+      for (let i = 0; i < 8 + Math.random()*4; i++) {
+        const angle = (Math.PI * 2 * i) / 10 + Math.random() * 0.5;
+        parts.push({
+          x, y,
+          dx: Math.cos(angle) * randomBetween(1, 3),
+          dy: Math.sin(angle) * randomBetween(1, 3),
+          emoji: TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)],
+          alpha: 1,
+          scale: randomBetween(1.2,2),
+          life: 0
+        });
+      }
+      explosions.push({parts, tick: 0});
+    }
+
+    // Handle logo click
+    canvas.style.pointerEvents = "auto";
+    canvas.addEventListener('click', function(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      let clickedLogo = false;
+
+      for (const logo of logos) {
+        if (
+          !logo.showTreasure &&
+          clickX >= logo.x && clickX <= logo.x + logo.size &&
+          clickY >= logo.y && clickY <= logo.y + logo.size
+        ) {
+          logo.showTreasure = true;
+          logo.treasureEmoji = TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)];
+          logo.treasureAlpha = 1;
+          logo.treasureScale = 1.6;
+          createExplosion(logo.x + logo.size/2, logo.y + logo.size/2);
+          clickedLogo = true;
+          break;
+        }
+      }
+
+      if (!clickedLogo) {
+        canvas.style.pointerEvents = "none";
+        const nextElem = document.elementFromPoint(e.clientX, e.clientY);
+        if (nextElem) {
+          nextElem.click();
+        }
+        setTimeout(() => {
+          canvas.style.pointerEvents = "auto";
+        }, 0);
+      }
+    });
+
+    // Animation loop
+    function drawLogos() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const [buyRect, distRect] = getHitRects();
+
+      // Explosions
+      for (let i = explosions.length - 1; i >= 0; i--) {
+        let exp = explosions[i];
+        exp.tick++;
+        for (const p of exp.parts) {
+          p.x += p.dx;
+          p.y += p.dy;
+          p.dy += 0.03; // gravity
+          p.life++;
+          p.alpha -= 0.025;
+          p.scale += 0.01;
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.font = `${26 * p.scale}px serif`;
+          ctx.fillText(p.emoji, p.x, p.y);
+          ctx.restore();
+        }
+        if (exp.tick > 32) explosions.splice(i,1);
+      }
+
+      logos.forEach(logo => {
+        // If treasure, show emoji and fade out
+        if (logo.showTreasure) {
+          ctx.save();
+          ctx.globalAlpha = logo.treasureAlpha;
+          ctx.font = `${logo.size * logo.treasureScale}px serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.shadowColor = "#fff";
+          ctx.shadowBlur = 10;
+          ctx.fillText(logo.treasureEmoji, logo.x + logo.size/2, logo.y + logo.size/2);
+          ctx.restore();
+          logo.treasureAlpha -= 0.025;
+          logo.treasureScale += 0.01;
+          if (logo.treasureAlpha <= 0) {
+            Object.assign(logo, createLogo());
+          }
+          return;
+        }
+
+        // Move
+        logo.x += logo.vx;
+        logo.y += logo.vy;
+        logo.angle += logo.r;
+        let didBounce = false;
+
+        function checkAndBounce(rect) {
+          if (
+            logo.x + logo.size > rect.left &&
+            logo.x < rect.right &&
+            logo.y + logo.size > rect.top &&
+            logo.y < rect.bottom
+          ) {
+            logo.vy = -Math.abs(logo.vy) * 0.75 + randomBetween(-0.5,0.5);
+            logo.y = rect.top - logo.size;
+            logo.vx += randomBetween(-0.4, 0.4);
+            logo.bounces++;
+            didBounce = true;
+          }
+        }
+
+        checkAndBounce(buyRect);
+        checkAndBounce(distRect);
+
+        if (!didBounce) logo.vy += 0.08;
+        if (logo.x < 0 || logo.x + logo.size > canvas.width) {
+          logo.vx = -logo.vx * 0.7;
+          logo.x = Math.max(0, Math.min(canvas.width - logo.size, logo.x));
+        }
+        if (logo.y > canvas.height + 40 || logo.bounces > 5) {
+          Object.assign(logo, createLogo());
+          logo.y = randomBetween(-80, -40);
+          logo.bounces = 0;
+        }
+        ctx.save();
+        ctx.globalAlpha = 0.33;
+        ctx.translate(logo.x + logo.size / 2, logo.y + logo.size / 2);
+        ctx.rotate(logo.angle);
+        ctx.drawImage(belImg, -logo.size / 2, -logo.size / 2, logo.size, logo.size);
+        ctx.restore();
+      });
+      requestAnimationFrame(drawLogos);
+    }
+    belImg.onload = drawLogos;
+  </script>
+<!-- BEL Info Modal -->
+<div class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50" id="infoModal">
+<div class="bg-gray-900 text-white w-full max-w-xl mx-4 p-6 rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
+<h2 class="text-2xl font-bold mb-4 text-center">📊 Belchior Token (BEL) — Overview</h2>
+<table class="w-full text-sm mb-4 table-auto border-separate">
+<tbody>
+<tr><td class="pr-4 font-medium">Current Price:</td><td>$0.000184 USD</td></tr>
+<tr><td class="pr-4 font-medium">Market Cap:</td><td>$18,680 USD</td></tr>
+<tr><td class="pr-4 font-medium">24h Volume:</td><td>$0.8225 USD</td></tr>
+<tr><td class="pr-4 font-medium">24h Change:</td><td>-0.98%</td></tr>
+<tr><td class="pr-4 font-medium">Circulating Supply:</td><td>100,000,000 BEL</td></tr>
+<tr><td class="pr-4 font-medium">Max Supply:</td><td>100,000,000 BEL</td></tr>
+<tr><td class="pr-4 font-medium">Symbol:</td><td>BEL</td></tr>
+<tr><td class="pr-4 font-medium">Blockchain:</td><td>BNB Chain (BEP-20)</td></tr>
+<tr><td class="pr-4 font-medium">Token Contract:</td><td class="break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</td></tr>
+<tr><td class="pr-4 font-medium">Pair Contract:</td><td class="break-all">0xc47216d19cc3030d13f3fe306c5f07f71c3a8f5b</td></tr>
+</tbody>
+</table>
+<h3 class="font-semibold mb-2">❓ FAQ — Frequently Asked Questions</h3>
+<ul class="list-disc ml-5 text-sm mb-4">
+<li>How much is 1 BEL? $0.000184 USD</li>
+<li>Where can I buy BEL? On DEXTswap via BEL/WBNB pair (DEXTools).</li>
+<li>How to buy BEL? 1. Connect your wallet  2. Input amount  3. Approve &amp; swap  4. Add BEL token to wallet</li>
+<li>Token distribution? Largest holder owns 50% of supply.</li>
+</ul>
+<h3 class="font-semibold mb-2">💵 Conversão USD ⇄ BEL</h3>
+<p class="text-sm font-medium">🔁 USD para BEL</p>
+<table class="w-full text-xs mb-3">
+<thead><tr><th class="text-left">USD</th><th class="text-left">BEL</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>5,418.737</td></tr>
+<tr><td>5</td><td>27,093.684</td></tr>
+<tr><td>10</td><td>54,187.369</td></tr>
+<tr><td>25</td><td>135,468.423</td></tr>
+<tr><td>50</td><td>270,936.847</td></tr>
+<tr><td>100</td><td>541,873.695</td></tr>
+<tr><td>500</td><td>2,709,368.475</td></tr>
+<tr><td>1,000</td><td>5,418,736.950</td></tr>
+<tr><td>10,000</td><td>54,187,369.504</td></tr>
+<tr><td>50,000</td><td>270,936,847.519</td></tr>
+</tbody>
+</table>
+<p class="text-sm font-medium">🔁 BEL para USD</p>
+<table class="w-full text-xs mb-4">
+<thead><tr><th class="text-left">BEL</th><th class="text-left">USD</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>0.000184</td></tr>
+<tr><td>5</td><td>0.000922</td></tr>
+<tr><td>10</td><td>0.00184</td></tr>
+<tr><td>25</td><td>0.00461</td></tr>
+<tr><td>50</td><td>0.00922</td></tr>
+<tr><td>100</td><td>0.0184</td></tr>
+<tr><td>500</td><td>0.0922</td></tr>
+<tr><td>1,000</td><td>0.184</td></tr>
+<tr><td>10,000</td><td>1.845</td></tr>
+<tr><td>50,000</td><td>9.227</td></tr>
+</tbody>
+</table>
+<button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded" onclick="toggleModal()">
+      Fechar
+    </button>
+</div>
+</div>
+<!-- Ticker Banner -->
+<div class="ticker faded-grey" onclick="showBELQR()">
+<img alt="BEL" class="h-6 w-6 animate-pulse" src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"/>
+  Connect Wallet and Secure your BEL, join the Savings 💾📈
+</div>
+<!-- Telegram Invite Button -->
+<div class="absolute top-10 left-4 z-50">
+<a class="button-telegram px-3 py-1 text-sm" href="https://t.me/+LsSrv9TgJMA5YWZk" rel="noopener noreferrer" target="_blank">
+    📲 Join Telegram
+  </a>
+</div>
+<!-- BEL Token Info Button -->
+<div class="absolute top-24 left-4 z-50">
+<button class="button-telegram px-3 py-1 text-sm" onclick="toggleModal()">
+    ℹ️ BEL Token Info
+  </button>
+</div>
+<!-- Twitter Button -->
+<div class="absolute top-36 left-4 z-50">
+<a class="button-telegram px-3 py-1 text-sm" href="https://x.com/BelchiorToken" rel="noopener noreferrer" target="_blank">
+    🐦 Follow us on X (Twitter)
+  </a>
+</div>
+<!-- Header -->
+<header class="relative text-center pt-10 pb-6">
+<img alt="BEL Token Logo" class="h-24 mx-auto mb-4" src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"/>
+<h1 class="text-flourish faded-grey">Belchior Token (BEL)</h1>
+<p class="text-lg faded-grey mt-2 max-w-xl mx-auto font-semibold">
+      🔒 Belchior, saving your wealth and investment
+    </p>
+</header>
+<!-- QUICK RESUME BOX: visually centered, styled, short summary -->
+<section class="resume-box">
+<div class="resume-title">Quick Resume</div>
+<div class="resume-text">
+      Belchior Token (BEL) is a transparent, family-backed cryptocurrency on BNB Chain—offering real security, locked liquidity, and open-source contracts. With a legacy of discipline and honest financial stewardship, every BEL is secured and tracked, so holders can invest with trust and peace of mind. <br/><br/>
+<span style="font-size:1.01em;opacity:0.83;">
+        Secured by lineage. Built on values. Protected for the future.
+      </span>
+</div>
+</section>
+<!-- Chart Section -->
+<section class="text-center mt-16">
+<img alt="BEL Token Distribution Chart" class="w-full max-w-2xl mx-auto rounded-xl shadow-xl" src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/BEL_Distribution_With_MA.png"/>
+<div class="mt-6">
+<a class="button-buy inline-block" href="https://pancakeswap.finance/swap?outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank">
+        Buy BEL on PancakeSwap
+      </a>
+</div>
+</section>
+<!-- Main Content -->
+<main class="max-w-6xl mx-auto px-6 py-12 flex justify-center items-center">
+<section class="values-box mx-auto w-full max-w-xl p-8">
+<h2 class="font-bold mb-6 faded-grey text-3xl tracking-wider text-center uppercase">Token Distribution</h2>
+<ul class="space-y-8">
+<li>
+<div class="flex items-center justify-between mb-2">
+<span class="faded-grey text-lg font-semibold flex-1 text-left">🔒 <b>50,000,000 BEL</b> (50%) Locked on PinkLock</span>
+<span class="ml-4 text-xs font-bold text-gray-400">50%</span>
+</div>
+<div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+<div class="h-3 bg-green-400 rounded-full transition-all duration-700" style="width:50%"></div>
+</div>
+</li>
+<li>
+<div class="flex items-center justify-between mb-2">
+<span class="faded-grey text-lg font-semibold flex-1 text-left">💧 <b>2,600,000 BEL</b> (2.6%) Added to PancakeSwap V2 liquidity</span>
+<span class="ml-4 text-xs font-bold text-gray-400">2.6%</span>
+</div>
+<div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+<div class="h-3 bg-blue-400 rounded-full transition-all duration-700" style="width:2.6%"></div>
+</div>
+</li>
+<li>
+<div class="flex items-center justify-between mb-2">
+<span class="faded-grey text-lg font-semibold flex-1 text-left">👑 <b>47,400,000 BEL</b> (47.4%) Funding</span>
+<span class="ml-4 text-xs font-bold text-gray-400">47.4%</span>
+</div>
+<div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
+<div class="h-3 bg-yellow-400 rounded-full transition-all duration-700" style="width:47.4%"></div>
+</div>
+</li>
+</ul>
+<p class="mt-10 text-center text-sm faded-grey tracking-wide">
+        Contract: 
+        <a class="underline" href="https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank">0x3c841c88d3819c901ec0fe29897146dca509552b</a>
+</p>
+</section>
+</main>
+<!-- Footer -->
+<footer class="py-6 text-center faded-grey">
+<p>© 2025 BEL Token. All rights reserved.</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+function showBELQR() {
+  document.getElementById('addTokenModal').classList.remove('hidden');
+}
+</script>
+<!-- BEL Info Modal -->
+<div class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50" id="infoModal">
+<div class="bg-gray-900 text-white w-full max-w-xl mx-4 p-6 rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
+<h2 class="text-2xl font-bold mb-4 text-center">Belchior Token (BEL)</h2>
+<table class="w-full text-sm mb-4 table-auto border-separate">
+<tbody>
+<tr><td class="pr-4 font-medium">Price:</td><td>$0.000184</td></tr>
+<tr><td class="pr-4 font-medium">Market Cap:</td><td>$18,680</td></tr>
+<tr><td class="pr-4 font-medium">24h Volume:</td><td>$0.8225</td></tr>
+<tr><td class="pr-4 font-medium">24h Change:</td><td>-0.98%</td></tr>
+<tr><td class="pr-4 font-medium">Supply:</td><td>100,000,000 BEL</td></tr>
+<tr><td class="pr-4 font-medium">Token Contract:</td><td class="break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</td></tr>
+<tr><td class="pr-4 font-medium">Pair Contract:</td><td class="break-all">0xc47216d19cc3030d13f3fe306c5f07f71c3a8f5b</td></tr>
+</tbody>
+</table>
+<h3 class="font-semibold mb-2">FAQ</h3>
+<ul class="list-disc ml-5 text-sm mb-4">
+<li>1 BEL = $0.000184</li>
+<li>Buy on DEXTswap (BEL/WBNB)</li>
+<li>Top holder owns 50%</li>
+<li>Connect wallet → Approve → Swap → Add BEL</li>
+</ul>
+<h3 class="font-semibold mb-1">Conversions</h3>
+<p class="text-sm mb-1">100 USD = 541,873 BEL</p>
+<p class="text-sm mb-4">1,000 BEL = $0.184</p>
+<button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded" onclick="toggleModal()">
+      Close
+    </button>
+</div>
+</div>
+<!-- Modal toggle script -->
+<script>
+  function toggleModal() {
+    document.getElementById('infoModal').classList.toggle('hidden');
+  }
+</script>
+<!-- Add Token Instructions Modal -->
+<div class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50" id="addTokenModal">
+<div class="bg-white text-black p-6 rounded-lg shadow-xl max-w-md w-full relative">
+<h2 class="text-xl font-bold mb-4 text-center">➕ Add BEL to Your Wallet</h2>
+<ol class="list-decimal list-inside text-sm mb-4">
+<li>Open your wallet (e.g., Trust Wallet or MetaMask).</li>
+<li>Go to the "Tokens" or "Assets" tab.</li>
+<li>Click <strong>"Add Token"</strong> or <strong>"Import Token"</strong>.</li>
+<li>Choose <strong>Custom Token</strong> and paste this address:<br/>
+<code class="text-xs break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</code>
+</li>
+<li>Token Symbol: <strong>BEL</strong></li>
+<li>Decimals: <strong>18</strong></li>
+<li>Save/Confirm. You're done!</li>
+</ol>
+<button class="absolute top-2 right-2 text-black hover:text-red-600 font-bold text-lg" onclick="document.getElementById('addTokenModal').classList.add('hidden')">✕</button>
+</div>
+</div>
 </body>
 </html>
+</body>
+</html>
+
