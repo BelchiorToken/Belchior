@@ -263,41 +263,34 @@
       explosions.push({parts, tick: 0});
     }
 
-    // Handle logo click
-    canvas.style.pointerEvents = "auto";
-    canvas.addEventListener('click', function(e) {
-      const rect = canvas.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top;
-      let clickedLogo = false;
+    // Make sure (once) the canvas doesn't block interactions
+canvas.style.pointerEvents = "none";
 
-      for (const logo of logos) {
-        if (
-          !logo.showTreasure &&
-          clickX >= logo.x && clickX <= logo.x + logo.size &&
-          clickY >= logo.y && clickY <= logo.y + logo.size
-        ) {
-          logo.showTreasure = true;
-          logo.treasureEmoji = TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)];
-          logo.treasureAlpha = 1;
-          logo.treasureScale = 1.6;
-          createExplosion(logo.x + logo.size/2, logo.y + logo.size/2);
-          clickedLogo = true;
-          break;
-        }
-      }
+// REPLACE your entire click handler with this:
+document.addEventListener('click', function (e) {
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
-      if (!clickedLogo) {
-        canvas.style.pointerEvents = "none";
-        const nextElem = document.elementFromPoint(e.clientX, e.clientY);
-        if (nextElem) {
-          nextElem.click();
-        }
-        setTimeout(() => {
-          canvas.style.pointerEvents = "auto";
-        }, 0);
-      }
-    });
+  for (const logo of logos) {
+    if (
+      !logo.showTreasure &&
+      x >= logo.x && x <= logo.x + logo.size &&
+      y >= logo.y && y <= logo.y + logo.size
+    ) {
+      logo.showTreasure = true;
+      logo.treasureEmoji = TREASURE_EMOJIS[Math.floor(Math.random() * TREASURE_EMOJIS.length)];
+      logo.treasureAlpha = 1;
+      logo.treasureScale = 1.6;
+      createExplosion(logo.x + logo.size / 2, logo.y + logo.size / 2);
+
+      // Only block the underlying click if we actually hit a logo
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+  }
+}, true); // capture so we can intercept before other handlers
 
     // Animation loop
     function drawLogos() {
@@ -629,4 +622,5 @@ function showBELQR() {
 </html>
 </body>
 </html>
+
 
