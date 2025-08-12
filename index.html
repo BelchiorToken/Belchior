@@ -629,7 +629,7 @@ function showBELQR() {
   </div>
 </div>
 
-<!-- Inject the right-side Login panel next to Quick Resume -->
+<!-- Inject the right-side "Join Telegram" client-only panel -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const resume = document.querySelector('.resume-box');
@@ -641,58 +641,86 @@ document.addEventListener('DOMContentLoaded', () => {
   resume.parentNode.insertBefore(wrapper, resume);
   wrapper.appendChild(resume);
 
-  // Build the login card
-  const login = document.createElement('aside');
-  login.className = 'rounded-xl border border-slate-700/60 bg-gradient-to-b from-slate-900 via-slate-900/80 to-slate-950 shadow-xl p-4 md:p-5 h-full';
+  // Build the Telegram "connected" card (client-only)
+  const card = document.createElement('aside');
+  card.className = 'rounded-xl border border-slate-700/60 bg-gradient-to-b from-slate-900 via-slate-900/80 to-slate-950 shadow-xl p-4 md:p-5 h-full flex flex-col';
+  card.innerHTML = `
+    <h3 class="text-xl font-semibold mb-3 tracking-wide">Join Telegram</h3>
 
-  login.innerHTML = `
-    <h3 class="text-xl font-semibold mb-4 tracking-wide">Sign in</h3>
-    <form class="space-y-3" onsubmit="event.preventDefault();">
-      <label class="block">
-        <span class="text-sm text-slate-300">Email</span>
-        <input type="email" required
-          class="mt-1 w-full rounded-lg bg-slate-800/70 border border-slate-700 px-3 py-2 text-slate-100 placeholder-slate-400 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="you@example.com">
-      </label>
-      <label class="block">
-        <span class="text-sm text-slate-300">Password</span>
-        <input type="password" required
-          class="mt-1 w-full rounded-lg bg-slate-800/70 border border-slate-700 px-3 py-2 text-slate-100 placeholder-slate-400 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="••••••••">
-      </label>
-      <div class="flex items-center justify-between text-sm">
-        <label class="inline-flex items-center gap-2 select-none">
-          <input type="checkbox" class="accent-blue-500">
-          <span class="text-slate-300">Remember me</span>
-        </label>
-        <a href="#" class="text-blue-400 hover:underline">Forgot?</a>
+    <div id="tg-status" class="mb-3 text-sm text-slate-300 rounded-lg border border-slate-700 p-3 bg-slate-900/60">
+      <div class="flex items-center gap-2">
+        <span id="tg-dot" class="inline-block w-2.5 h-2.5 rounded-full bg-slate-500"></span>
+        <span id="tg-text">Not connected</span>
       </div>
-      <button type="submit"
-        class="w-full rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors px-4 py-2 font-semibold text-white">
-        Sign in
-      </button>
-    </form>
-
-    <div class="my-4 flex items-center gap-3">
-      <div class="h-px bg-slate-700 flex-1"></div>
-      <span class="text-xs text-slate-400">or</span>
-      <div class="h-px bg-slate-700 flex-1"></div>
     </div>
 
-    <button id="wallet-login"
-      class="w-full rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-slate-100">
-      Connect Wallet
-    </button>
+    <label class="text-xs text-slate-400 mb-2">Your Telegram @username (optional)</label>
+    <input id="tg-handle" type="text" placeholder="@yourhandle" class="mb-3 w-full rounded-lg bg-slate-800/70 border border-slate-700 px-3 py-2 text-slate-100 placeholder-slate-400 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+
+    <div class="mt-auto space-y-2">
+      <a id="tg-join" href="https://t.me/+LsSrv9TgJMA5YWZk" target="_blank"
+         class="block w-full text-center rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors px-4 py-2 font-semibold text-white">
+        Open Telegram Channel
+      </a>
+      <button id="tg-confirm" class="w-full rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-slate-100">
+        I joined — mark me connected
+      </button>
+      <button id="tg-disconnect" class="hidden w-full rounded-lg bg-red-700/80 hover:bg-red-700 border border-red-800 px-4 py-2 text-white">
+        Disconnect
+      </button>
+    </div>
+
     <p class="mt-3 text-xs text-slate-400 leading-relaxed">
-      By continuing you agree to the Terms & Privacy.
+      This is a simple local setting for convenience (no bot verification). Clearing your browser data will reset it.
     </p>
   `;
+  wrapper.appendChild(card);
 
-  wrapper.appendChild(login);
+  // Local status helpers
+  const KEY = "tg_connected_v1";
+  const dot = () => document.getElementById('tg-dot');
+  const txt = () => document.getElementById('tg-text');
+  const joinBtn = () => document.getElementById('tg-join');
+  const confirmBtn = () => document.getElementById('tg-confirm');
+  const disconnectBtn = () => document.getElementById('tg-disconnect');
+  const handleInput = () => document.getElementById('tg-handle');
 
-  // (Optional) Hook your existing wallet connect later
-  document.getElementById('wallet-login')?.addEventListener('click', () => {
-    // TODO: wire to your WalletConnect / Web3 flow
-    console.log('Connect Wallet clicked');
+  function getSession() {
+    try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch { return null; }
+  }
+  function renderStatus() {
+    const sess = getSession();
+    if (sess?.connected) {
+      dot().className = "inline-block w-2.5 h-2.5 rounded-full bg-green-500";
+      txt().textContent = sess.name ? \`Connected as \${sess.name}\` : "Connected";
+      joinBtn().classList.add('hidden');
+      confirmBtn().classList.add('hidden');
+      disconnectBtn().classList.remove('hidden');
+      if (sess.name) handleInput().value = sess.name;
+    } else {
+      dot().className = "inline-block w-2.5 h-2.5 rounded-full bg-slate-500";
+      txt().textContent = "Not connected";
+      joinBtn().classList.remove('hidden');
+      confirmBtn().classList.remove('hidden');
+      disconnectBtn().classList.add('hidden');
+    }
+  }
+  function setConnected(name) {
+    localStorage.setItem(KEY, JSON.stringify({ connected: true, name: name || null, ts: Date.now() }));
+    renderStatus();
+  }
+  function clearConnected() {
+    localStorage.removeItem(KEY);
+    renderStatus();
+  }
+
+  confirmBtn().addEventListener('click', () => {
+    const name = handleInput().value.trim() || null;
+    setConnected(name);
   });
+  disconnectBtn().addEventListener('click', clearConnected);
+
+  renderStatus();
 });
 </script>
 
