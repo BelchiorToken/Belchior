@@ -487,39 +487,52 @@
 
 
 
-<!-- SWAP FOR BEL (DIRECT PANCAKESWAP LINKS) -->
+<!-- SWAP FOR BEL (BNB / USDT / XRP) -->
 <section class="max-w-2xl mx-auto mt-6 px-4">
-  <h2 class="text-center text-2xl font-bold faded-grey mb-4">Swap for BEL on PancakeSwap</h2>
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-    <a
-      href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
-      target="_blank" rel="noopener noreferrer"
-      class="rounded-xl bg-slate-900/70 hover:bg-slate-800 border border-slate-700 px-4 py-3 font-semibold text-center">
-      🟡 WBNB → BEL
+  <h2 class="text-center text-2xl font-bold faded-grey mb-4">Buy BEL on PancakeSwap</h2>
+
+  <style>
+    .swap-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    @media (max-width: 640px) { .swap-grid { grid-template-columns: repeat(1, minmax(0,1fr)); } }
+    .swap-card {
+      display:flex; align-items:center; justify-content:center; gap:.6rem;
+      border-radius: 14px; padding: 14px 16px; text-decoration:none; font-weight:700;
+      border:1px solid rgba(100,116,139,.6); background: rgba(2,6,23,.7);
+      box-shadow: 0 0 0 rgba(255,255,255,0); transform: translateZ(0); transition: transform .18s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease;
+    }
+    .swap-card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 10px 26px rgba(56,189,248,.25), 0 0 22px rgba(250,204,21,.25);
+      border-color: rgba(203,213,225,.9);
+      background: linear-gradient(180deg, rgba(30,41,59,.9), rgba(2,6,23,.88));
+    }
+    .swap-card img { width: 24px; height: 24px; border-radius: 9999px; box-shadow: 0 0 0 rgba(255,255,255,0); transition: transform .18s ease, box-shadow .25s ease; }
+    .swap-card:hover img { transform: scale(1.1); box-shadow: 0 0 12px rgba(255,255,255,.25); }
+    .swap-sub { display:block; font-size:.7rem; opacity:.7; font-weight:600; line-height:1.1; }
+  </style>
+
+  <div class="swap-grid">
+    <a class="swap-card" target="_blank" rel="noopener noreferrer"
+       href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
+      <img alt="BNB" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png"/>
+      <span>BNB <span class="swap-sub">Swap → BEL</span></span>
     </a>
-    <a
-      href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x55d398326f99059fF775485246999027B3197955&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
-      target="_blank" rel="noopener noreferrer"
-      class="rounded-xl bg-slate-900/70 hover:bg-slate-800 border border-slate-700 px-4 py-3 font-semibold text-center">
-      🟢 USDT → BEL
+
+    <a class="swap-card" target="_blank" rel="noopener noreferrer"
+       href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x55d398326f99059fF775485246999027B3197955&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
+      <img alt="USDT" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png"/>
+      <span>USDT <span class="swap-sub">Swap → BEL</span></span>
     </a>
-    <a
-      href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
-      target="_blank" rel="noopener noreferrer"
-      class="rounded-xl bg-slate-900/70 hover:bg-slate-800 border border-slate-700 px-4 py-3 font-semibold text-center">
-      🔵 USDC → BEL
-    </a>
-    <a
-      href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
-      target="_blank" rel="noopener noreferrer"
-      class="rounded-xl bg-slate-900/70 hover:bg-slate-800 border border-slate-700 px-4 py-3 font-semibold text-center">
-      🍰 CAKE → BEL
+
+    <a class="swap-card" target="_blank" rel="noopener noreferrer"
+       href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x1D2F0da169ceb9Fc7B3144628dB156f3F6c60dBE&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
+      <img alt="XRP" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x1D2F0da169ceb9Fc7B3144628dB156f3F6c60dBE/logo.png"/>
+      <span>XRP <span class="swap-sub">Swap → BEL</span></span>
     </a>
   </div>
-  <p class="text-center text-xs mt-3 text-slate-400">Make sure your wallet is set to <b>BNB Chain</b> before swapping.</p>
+
+  <p class="text-center text-xs mt-3 text-slate-400">Tip: Switch your wallet to <b>BNB Chain</b> (BSC) before swapping.</p>
 </section>
-
-
 <!-- Whitepaper Section -->
 <section class="whitepaper-section max-w-4xl mx-auto mt-16 p-6 bg-gray-900 text-white rounded-xl shadow-xl">
   <h2 class="text-3xl font-bold mb-4 text-center">📜 BEL Token Whitepaper</h2>
@@ -746,4 +759,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
+
 
