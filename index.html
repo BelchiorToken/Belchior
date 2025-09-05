@@ -79,7 +79,9 @@
       border-radius: 1rem;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     }
-    a { text-decoration: underline; }
+    a {
+      text-decoration: underline;
+    }
     a:hover {
       background: linear-gradient(90deg, #e5e7eb 0%, #6b7280 100%);
       -webkit-background-clip: text;
@@ -105,25 +107,94 @@
       text-align: center;
       box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
-    .values-box h2 { font-size: 2rem; margin-bottom: 1rem; }
-    .values-box ul { list-style: none; font-size: 1.25rem; }
-    .values-box li { margin: 0.5rem 0; }
-    footer { background: #171923; }
+    .values-box h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .values-box ul {
+      list-style: none;
+      font-size: 1.25rem;
+    }
+    .values-box li {
+      margin: 0.5rem 0;
+    }
+    footer {
+      background: #171923;
+    }
     .ticker {
-      position: fixed; top: 0; right: -100%; width: auto; padding: 0.5rem 2rem; white-space: nowrap; font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 0 20px rgba(55, 65, 81, 0.45); animation: slideTicker 12s linear infinite; z-index: 50; cursor: pointer;
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: auto;
+      padding: 0.5rem 2rem;
+      white-space: nowrap;
+      font-weight: bold;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 0 20px rgba(55, 65, 81, 0.45);
+      animation: slideTicker 12s linear infinite;
+      z-index: 50;
+      cursor: pointer;
     }
-    @keyframes slideTicker { 0% { right: -100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { right: 100%; opacity: 0; } }
+    @keyframes slideTicker {
+      0% { right: -100%; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { right: 100%; opacity: 0; }
+    }
     .falling-logo {
-      position: fixed; top: -50px; width: 30px; height: 30px; background-image: url('https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png'); background-size: contain; background-repeat: no-repeat; opacity: 0.3; animation: fall 12s linear infinite; z-index: 0;
+      position: fixed;
+      top: -50px;
+      width: 30px;
+      height: 30px;
+      background-image: url('https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.3;
+      animation: fall 12s linear infinite;
+      z-index: 0;
     }
-    @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 0.3; } 50% { opacity: 0.15; } 100% { transform: translateY(120vh) rotate(360deg); opacity: 0; } }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+      50% { opacity: 0.15; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
+    /* Quick Resume Box Style */
     .resume-box {
       background: linear-gradient(90deg, #0c1a2a 0%, #23272f 60%, #070a13 100%);
-      border-radius: 1rem; box-shadow: 0 6px 22px 0 rgba(16,16,32,0.28), 0 1.5px 6px 0 rgba(32,32,64,0.19);
-      padding: 2rem 1.2rem; margin: 2rem auto 3rem auto; max-width: 640px; border: 1.5px solid #283347; text-align: center;
+      border-radius: 1rem;
+      box-shadow: 0 6px 22px 0 rgba(16,16,32,0.28), 0 1.5px 6px 0 rgba(32,32,64,0.19);
+      padding: 2rem 1.2rem;
+      margin: 2rem auto 3rem auto;
+      max-width: 640px;
+      border: 1.5px solid #283347;
+      text-align: center;
     }
-    .resume-title { font-size: 2rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.6rem; background: linear-gradient(90deg, #60a5fa 10%, #f8fafc 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
-    .resume-text { font-size: 1.18rem; background: linear-gradient(90deg, #f8fafc 0%, #d1d5db 70%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; font-weight: 500; line-height: 1.6; margin: 0 auto; max-width: 500px; }
+    .resume-title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(90deg, #60a5fa 10%, #f8fafc 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    .resume-text {
+      font-size: 1.18rem;
+      background: linear-gradient(90deg, #f8fafc 0%, #d1d5db 70%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      font-weight: 500;
+      line-height: 1.6;
+      margin: 0 auto;
+      max-width: 500px;
+    }
   </style>
 </head>
 <body>
@@ -141,7 +212,10 @@
     const canvas = document.getElementById("bel-falling-canvas");
     const ctx = canvas.getContext("2d");
 
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
@@ -156,7 +230,9 @@
       ];
     }
 
-    function randomBetween(a, b) { return a + Math.random() * (b - a); }
+    function randomBetween(a, b) {
+      return a + Math.random() * (b - a);
+    }
 
     function createLogo() {
       return {
@@ -177,6 +253,7 @@
 
     for (let i = 0; i < NUM_LOGOS; i++) logos.push(createLogo());
 
+    // Explosion effect
     function createExplosion(x, y) {
       let parts = [];
       for (let i = 0; i < 8 + Math.random()*4; i++) {
@@ -194,8 +271,10 @@
       explosions.push({parts, tick: 0});
     }
 
+    // Canvas should not block interactions
     canvas.style.pointerEvents = "none";
 
+    // Click handler on document; only intercept when a logo is hit
     document.addEventListener('click', function (e) {
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -217,31 +296,67 @@
       }
     }, true);
 
+    // Animation loop
     function drawLogos() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const [buyRect, distRect] = getHitRects();
 
+      // Explosions
       for (let i = explosions.length - 1; i >= 0; i--) {
         let exp = explosions[i];
         exp.tick++;
         for (const p of exp.parts) {
-          p.x += p.dx; p.y += p.dy; p.dy += 0.03; p.life++; p.alpha -= 0.025; p.scale += 0.01;
-          ctx.save(); ctx.globalAlpha = Math.max(0, p.alpha); ctx.font = `${26 * p.scale}px serif`; ctx.fillText(p.emoji, p.x, p.y); ctx.restore();
+          p.x += p.dx;
+          p.y += p.dy;
+          p.dy += 0.03; // gravity
+          p.life++;
+          p.alpha -= 0.025;
+          p.scale += 0.01;
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.font = `${26 * p.scale}px serif`;
+          ctx.fillText(p.emoji, p.x, p.y);
+          ctx.restore();
         }
         if (exp.tick > 32) explosions.splice(i,1);
       }
 
       logos.forEach(logo => {
+        // If treasure, show emoji and fade out
         if (logo.showTreasure) {
-          ctx.save(); ctx.globalAlpha = logo.treasureAlpha; ctx.font = `${logo.size * logo.treasureScale}px serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.shadowColor = "#fff"; ctx.shadowBlur = 10; ctx.fillText(logo.treasureEmoji, logo.x + logo.size/2, logo.y + logo.size/2); ctx.restore();
-          logo.treasureAlpha -= 0.025; logo.treasureScale += 0.01; if (logo.treasureAlpha <= 0) { Object.assign(logo, createLogo()); } return;
+          ctx.save();
+          ctx.globalAlpha = logo.treasureAlpha;
+          ctx.font = `${logo.size * logo.treasureScale}px serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.shadowColor = "#fff";
+          ctx.shadowBlur = 10;
+          ctx.fillText(logo.treasureEmoji, logo.x + logo.size/2, logo.y + logo.size/2);
+          ctx.restore();
+          logo.treasureAlpha -= 0.025;
+          logo.treasureScale += 0.01;
+          if (logo.treasureAlpha <= 0) {
+            Object.assign(logo, createLogo());
+          }
+          return;
         }
 
-        logo.x += logo.vx; logo.y += logo.vy; logo.angle += logo.r; let didBounce = false;
+        // Move
+        logo.x += logo.vx;
+        logo.y += logo.vy;
+        logo.angle += logo.r;
+        let didBounce = false;
 
         function checkAndBounce(rect) {
-          if (logo.x + logo.size > rect.left && logo.x < rect.right && logo.y + logo.size > rect.top && logo.y < rect.bottom) {
-            logo.vy = -Math.abs(logo.vy) * 0.75 + randomBetween(-0.5,0.5); logo.y = rect.top - logo.size; logo.vx += randomBetween(-0.4, 0.4); logo.bounces++; didBounce = true;
+          if (logo.x + logo.size > rect.left &&
+              logo.x < rect.right &&
+              logo.y + logo.size > rect.top &&
+              logo.y < rect.bottom) {
+            logo.vy = -Math.abs(logo.vy) * 0.75 + randomBetween(-0.5,0.5);
+            logo.y = rect.top - logo.size;
+            logo.vx += randomBetween(-0.4, 0.4);
+            logo.bounces++;
+            didBounce = true;
           }
         }
 
@@ -249,9 +364,21 @@
         checkAndBounce(distRect);
 
         if (!didBounce) logo.vy += 0.08;
-        if (logo.x < 0 || logo.x + logo.size > canvas.width) { logo.vx = -logo.vx * 0.7; logo.x = Math.max(0, Math.min(canvas.width - logo.size, logo.x)); }
-        if (logo.y > canvas.height + 40 || logo.bounces > 5) { Object.assign(logo, createLogo()); logo.y = randomBetween(-80, -40); logo.bounces = 0; }
-        ctx.save(); ctx.globalAlpha = 0.33; ctx.translate(logo.x + logo.size / 2, logo.y + logo.size / 2); ctx.rotate(logo.angle); ctx.drawImage(belImg, -logo.size / 2, -logo.size / 2, logo.size, logo.size); ctx.restore();
+        if (logo.x < 0 || logo.x + logo.size > canvas.width) {
+          logo.vx = -logo.vx * 0.7;
+          logo.x = Math.max(0, Math.min(canvas.width - logo.size, logo.x));
+        }
+        if (logo.y > canvas.height + 40 || logo.bounces > 5) {
+          Object.assign(logo, createLogo());
+          logo.y = randomBetween(-80, -40);
+          logo.bounces = 0;
+        }
+        ctx.save();
+        ctx.globalAlpha = 0.33;
+        ctx.translate(logo.x + logo.size / 2, logo.y + logo.size / 2);
+        ctx.rotate(logo.angle);
+        ctx.drawImage(belImg, -logo.size / 2, -logo.size / 2, logo.size, logo.size);
+        ctx.restore();
       });
       requestAnimationFrame(drawLogos);
     }
@@ -316,7 +443,9 @@
         <tr><td>50,000</td><td>9.227</td></tr>
       </tbody>
     </table>
-    <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded" onclick="toggleModal()">Fechar</button>
+    <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded" onclick="toggleModal()">
+      Fechar
+    </button>
   </div>
 </div>
 
@@ -347,52 +476,65 @@
 <!-- QUICK RESUME BOX -->
 <section class="resume-box">
   <div class="text-center">
-    <img src="./belxrpbnb.png" alt="Belchior Token Security Lock" class="mx-auto max-h-60 rounded-lg shadow-lg" loading="lazy" />
+    <img
+      src="./belxrpbnb.png"
+      alt="Belchior Token Security Lock"
+      class="mx-auto max-h-60 rounded-lg shadow-lg"
+      loading="lazy"
+    />
   </div>
 </section>
+
+
 
 <!-- SWAP FOR BEL (BNB / USDT / XRP) -->
 <section class="max-w-2xl mx-auto mt-6 px-4">
-  <h2 class="text-center text-2xl font-bold faded-grey mb-4">Buy BEL on PancakeSwap</h2>
+<h2 class="text-center text-2xl font-bold faded-grey mb-4">Buy BEL on PancakeSwap</h2>
 
-  <style>
-    .swap-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
-    @media (max-width: 640px) { .swap-grid { grid-template-columns: repeat(1, minmax(0,1fr)); } }
-    .swap-card {
-      display:flex; align-items:center; justify-content:center; gap:.6rem;
-      border-radius: 14px; padding: 14px 16px; text-decoration:none; font-weight:700;
-      border:1px solid rgba(100,116,139,.6); background: rgba(2,6,23,.7);
-      box-shadow: 0 0 0 rgba(255,255,255,0); transform: translateZ(0); transition: transform .18s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease;
-    }
-    .swap-card:hover { transform: scale(1.04); box-shadow: 0 10px 26px rgba(56,189,248,.25), 0 0 22px rgba(250,204,21,.25); border-color: rgba(203,213,225,.9); background: linear-gradient(180deg, rgba(30,41,59,.9), rgba(2,6,23,.88)); }
-    .swap-card img { width: 24px; height: 24px; border-radius: 9999px; box-shadow: 0 0 0 rgba(255,255,255,0); transition: transform .18s ease, box-shadow .25s ease; }
-    .swap-card:hover img { transform: scale(1.1); box-shadow: 0 0 12px rgba(255,255,255,.25); }
-    .swap-sub { display:block; font-size:.7rem; opacity:.7; font-weight:600; line-height:1.1; }
-  </style>
 
-  <div class="swap-grid">
-    <a class="swap-card" target="_blank" rel="noopener noreferrer" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
-      <img alt="BNB" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png" loading="lazy"/>
-      <span>BNB <span class="swap-sub">Swap → BEL</span></span>
-    </a>
+<style>
+.swap-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+@media (max-width: 640px) { .swap-grid { grid-template-columns: repeat(1, minmax(0,1fr)); } }
+.swap-card {
+display:flex; align-items:center; justify-content:center; gap:.6rem;
+border-radius: 14px; padding: 14px 16px; text-decoration:none; font-weight:700;
+border:1px solid rgba(100,116,139,.6); background: rgba(2,6,23,.7);
+box-shadow: 0 0 0 rgba(255,255,255,0); transform: translateZ(0); transition: transform .18s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease;
+}
+.swap-card:hover { transform: scale(1.04); box-shadow: 0 10px 26px rgba(56,189,248,.25), 0 0 22px rgba(250,204,21,.25); border-color: rgba(203,213,225,.9); background: linear-gradient(180deg, rgba(30,41,59,.9), rgba(2,6,23,.88)); }
+.swap-card img { width: 24px; height: 24px; border-radius: 9999px; box-shadow: 0 0 0 rgba(255,255,255,0); transition: transform .18s ease, box-shadow .25s ease; }
+.swap-card:hover img { transform: scale(1.1); box-shadow: 0 0 12px rgba(255,255,255,.25); }
+.swap-sub { display:block; font-size:.7rem; opacity:.7; font-weight:600; line-height:1.1; }
+</style>
 
-    <a class="swap-card" target="_blank" rel="noopener noreferrer" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x55d398326f99059fF775485246999027B3197955&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
-      <img alt="USDT" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png" loading="lazy"/>
-      <span>USDT <span class="swap-sub">Swap → BEL</span></span>
-    </a>
 
-    <!-- XRP card — fixed image source + proper fallback -->
-    <a class="swap-card" target="_blank" rel="noopener noreferrer" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x1D2F0da169ceb9Fc7B3144628dB156f3F6c60dBE&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
-      <img alt="XRP" loading="lazy"
-           src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x1D2F0da169ceb9Fc7B3144628dB156f3F6c60dBE/logo.png"
-           onerror="this.onerror=null;this.src='https://cryptologos.cc/logos/xrp-xrp-logo.png';" />
-      <span>XRP <span class="swap-sub">Swap → BEL</span></span>
-    </a>
-  </div>
+<div class="swap-grid">
+<a class="swap-card" target="_blank" rel="noopener noreferrer" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
+<img alt="BNB" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png"/>
+<span>BNB <span class="swap-sub">Swap → BEL</span></span>
+</a>
+
+
+<a class="swap-card" target="_blank" rel="noopener noreferrer" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x55d398326f99059fF775485246999027B3197955&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
+<img alt="USDT" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png"/>
+<span>USDT <span class="swap-sub">Swap → BEL</span></span>
+</a>
+
+
+<a class="swap-card" target="_blank" rel="noopener noreferrer" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x1D2F0da169ceb9Fc7B3144628dB156f3F6c60dBE&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
+<img alt="XRP" src="assets/xrp.png" style="width:24px;height:24px;border-radius:50%;" onerror="this.onerror=null;this.src='https://cryptologos.cc/logos/xrp-xrp-logo.png';"/>
+<span>XRP <span class="swap-sub">Swap → BEL</span></span>
+</a>
+</div>
+
+
+<p class="text-center text-xs mt-3 text-slate-400">Tip: Switch your wallet to <b>BNB Chain</b> (BSC) before swapping.</p>
+</section>
+
+
 
   <p class="text-center text-xs mt-3 text-slate-400">Tip: Switch your wallet to <b>BNB Chain</b> (BSC) before swapping.</p>
 </section>
-
 <!-- Whitepaper Section -->
 <section class="whitepaper-section max-w-4xl mx-auto mt-16 p-6 bg-gray-900 text-white rounded-xl shadow-xl">
   <h2 class="text-3xl font-bold mb-4 text-center">📜 BEL Token Whitepaper</h2>
@@ -491,11 +633,16 @@
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
-function showBELQR() { document.getElementById('addTokenModal').classList.remove('hidden'); }
+function showBELQR() {
+  document.getElementById('addTokenModal').classList.remove('hidden');
+}
 </script>
 
+<!-- Modal toggle script -->
 <script>
-  function toggleModal() { document.getElementById('infoModal').classList.toggle('hidden'); }
+  function toggleModal() {
+    document.getElementById('infoModal').classList.toggle('hidden');
+  }
 </script>
 
 <!-- Add Token Instructions Modal -->
@@ -511,6 +658,7 @@ function showBELQR() { document.getElementById('addTokenModal').classList.remove
       </li>
       <li>Token Symbol: <strong>BEL</strong></li>
       <li>Decimals: <strong>18</strong></li>
+      <li>Save/Confirm. You're done!</li>
     </ol>
     <button class="absolute top-2 right-2 text-black hover:text-red-600 font-bold text-lg" onclick="document.getElementById('addTokenModal').classList.add('hidden')">✕</button>
   </div>
@@ -522,11 +670,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const resume = document.querySelector('.resume-box');
   if (!resume) return;
 
+  // Create a wrapper grid and insert it before the resume box
   const wrapper = document.createElement('div');
   wrapper.className = 'max-w-5xl mx-auto px-4 mt-10 grid grid-cols-1 md:[grid-template-columns:minmax(0,1fr)_260px] gap-6 items-stretch';
   resume.parentNode.insertBefore(wrapper, resume);
   wrapper.appendChild(resume);
 
+  // Build the Telegram "connected" card (client-only)
   const card = document.createElement('aside');
   card.className = 'rounded-xl border border-slate-700/60 bg-gradient-to-b from-slate-900 via-slate-900/80 to-slate-950 shadow-xl p-4 md:p-5 h-full flex flex-col';
   card.innerHTML = `
@@ -543,15 +693,25 @@ document.addEventListener('DOMContentLoaded', () => {
     <input id="tg-handle" type="text" placeholder="@yourhandle" class="mb-3 w-full rounded-lg bg-slate-800/70 border border-slate-700 px-3 py-2 text-slate-100 placeholder-slate-400 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
 
     <div class="mt-auto space-y-2">
-      <a id="tg-join" href="https://t.me/+LsSrv9TgJMA5YWZk" target="_blank" class="block w-full text-center rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors px-4 py-2 font-semibold text-white">Open Telegram Channel</a>
-      <button id="tg-confirm" class="w-full rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-slate-100">I joined — mark me connected</button>
-      <button id="tg-disconnect" class="hidden w-full rounded-lg bg-red-700/80 hover:bg-red-700 border border-red-800 px-4 py-2 text-white">Disconnect</button>
+      <a id="tg-join" href="https://t.me/+LsSrv9TgJMA5YWZk" target="_blank"
+         class="block w-full text-center rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors px-4 py-2 font-semibold text-white">
+        Open Telegram Channel
+      </a>
+      <button id="tg-confirm" class="w-full rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-slate-100">
+        I joined — mark me connected
+      </button>
+      <button id="tg-disconnect" class="hidden w-full rounded-lg bg-red-700/80 hover:bg-red-700 border border-red-800 px-4 py-2 text-white">
+        Disconnect
+      </button>
     </div>
 
-    <p class="mt-3 text-xs text-slate-400 leading-relaxed">This is a simple local setting for convenience (no bot verification). Clearing your browser data will reset it.</p>
+    <p class="mt-3 text-xs text-slate-400 leading-relaxed">
+      This is a simple local setting for convenience (no bot verification). Clearing your browser data will reset it.
+    </p>
   `;
   wrapper.appendChild(card);
 
+  // Local status helpers
   const KEY = "tg_connected_v1";
   const dot = () => document.getElementById('tg-dot');
   const txt = () => document.getElementById('tg-text');
@@ -560,12 +720,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const disconnectBtn = () => document.getElementById('tg-disconnect');
   const handleInput = () => document.getElementById('tg-handle');
 
-  function getSession() { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch { return null; } }
+  function getSession() {
+    try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch { return null; }
+  }
   function renderStatus() {
     const sess = getSession();
     if (sess?.connected) {
       dot().className = "inline-block w-2.5 h-2.5 rounded-full bg-green-500";
-      txt().textContent = sess.name ? `Connected as ${sess.name}` : "Connected";
+      txt().textContent = sess.name ? \`Connected as \${sess.name}\` : "Connected";
       joinBtn().classList.add('hidden');
       confirmBtn().classList.add('hidden');
       disconnectBtn().classList.remove('hidden');
@@ -578,10 +740,19 @@ document.addEventListener('DOMContentLoaded', () => {
       disconnectBtn().classList.add('hidden');
     }
   }
-  function setConnected(name) { localStorage.setItem(KEY, JSON.stringify({ connected: true, name: name || null, ts: Date.now() })); renderStatus(); }
-  function clearConnected() { localStorage.removeItem(KEY); renderStatus(); }
+  function setConnected(name) {
+    localStorage.setItem(KEY, JSON.stringify({ connected: true, name: name || null, ts: Date.now() }));
+    renderStatus();
+  }
+  function clearConnected() {
+    localStorage.removeItem(KEY);
+    renderStatus();
+  }
 
-  confirmBtn().addEventListener('click', () => { const name = handleInput().value.trim() || null; setConnected(name); });
+  confirmBtn().addEventListener('click', () => {
+    const name = handleInput().value.trim() || null;
+    setConnected(name);
+  });
   disconnectBtn().addEventListener('click', clearConnected);
 
   renderStatus();
@@ -590,7 +761,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
-
 
 
