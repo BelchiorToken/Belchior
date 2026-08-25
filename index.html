@@ -1,773 +1,3161 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>BEL - Belchior Token</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
-<style>
-    body {
-      background: linear-gradient(to bottom right, #070a13, #0c1a2a);
-      color: #d1d5db;
-      font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
-    }
-    .faded-grey {
-      background: linear-gradient(90deg, #fff 0%, #f3f4f6 55%, #d1d5db 90%, #e5e7eb 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-    }
-    h1, h2, h3, h4, h5, h6, p, a, .ticker, .announcement-box, .values-box, .logo-container, footer, .text-flourish {
-      background: linear-gradient(90deg, #23272f 0%, #6b7280 35%, #f8fafc 55%, #d1d5db 85%, #18181b 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-    }
-    /* --- Force the whitepaper text to be solid white and crisp --- */
-    .whitepaper-content, .whitepaper-content * {
-      color: #ffffff !important;
-      opacity: 1 !important;
-      background: none !important;
-      -webkit-background-clip: initial !important;
-      background-clip: initial !important;
-      -webkit-text-fill-color: #ffffff !important;
-      text-shadow: none !important;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>BEL — Belchior Token</title>
+  <meta
+    name="description"
+    content="Belchior Token (BEL) — a BEP-20 token on BNB Chain focused on transparency and verifiable blockchain information."
+  >
+  <meta name="theme-color" content="#070a13">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    /* =========================================================
+       BELCHIOR TOKEN — MAIN STYLES
+       ========================================================= */
+
+    :root {
+      --bg-dark: #070a13;
+      --bg-blue: #0c1a2a;
+      --panel: #111827;
+      --panel-2: #171923;
+      --border: #283347;
+
+      --text: #d1d5db;
+      --white: #f8fafc;
+
+      --gold: #ffd700;
+      --blue: #60a5fa;
+      --green: #4ade80;
+      --red: #ef4444;
     }
 
-    .button-buy {
-      background: #1a1a1a;
-      color: #ffd700 !important;
-      font-weight: 800;
-      font-size: 1.35rem;
-      letter-spacing: 0.03em;
-      text-shadow: 0 0 6px rgba(255, 215, 0, 0.7), 0 0 2px #fff;
-      padding: 1rem 2rem;
-      border-radius: 9999px;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6),
-                  0 0 20px rgba(255, 215, 0, 0.4),
-                  0 0 40px rgba(255, 215, 0, 0.2);
-      transition: all 0.3s ease-in-out;
-      animation: pulseGold 2.5s infinite;
-      border: 1px solid #ffd700;
+    * {
+      box-sizing: border-box;
     }
-    .button-buy:hover {
-      background-color: #f8fafc;
-      color: #23272f !important;
-      border: 1px solid #bcbcbc;
+
+    html {
+      scroll-behavior: smooth;
     }
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
-      50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.8); }
-      100% { box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(37, 99, 235, 0.12), transparent 35%),
+        linear-gradient(135deg, var(--bg-dark), var(--bg-blue));
+      color: var(--text);
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
     }
-    h1.text-flourish {
-      font-weight: 800;
-      font-size: 4rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-shadow: 0 0 25px rgba(55, 65, 81, 0.45);
+
+    body.modal-open {
+      overflow: hidden;
     }
-    .announcement-box {
-      background-color: #171923;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-    }
+
     a {
-      text-decoration: underline;
+      color: inherit;
     }
-    a:hover {
-      background: linear-gradient(90deg, #e5e7eb 0%, #6b7280 100%);
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* =========================================================
+       TEXT EFFECTS
+       ========================================================= */
+
+    .gradient-text {
+      background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #d1d5db 45%,
+        #f8fafc 65%,
+        #9ca3af 100%
+      );
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-fill-color: transparent;
+      -webkit-text-fill-color: transparent;
     }
-    .logo-container {
-      margin: 4rem auto;
-      max-width: 900px;
-      background-color: #171923;
-      border-radius: 1rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      padding: 2rem;
-      text-align: center;
+
+    .gold-text {
+      color: var(--gold);
+      text-shadow:
+        0 0 6px rgba(255, 215, 0, 0.6),
+        0 0 14px rgba(255, 215, 0, 0.25);
     }
-    .values-box {
-      background: #23272f;
-      color: #d1d5db;
-      border-radius: 1rem;
-      padding: 2rem;
-      margin-top: 2rem;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+
+    .section-title {
+      font-weight: 800;
+      letter-spacing: 0.04em;
     }
-    .values-box h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+
+    /* =========================================================
+       BACKGROUND CANVAS
+       ========================================================= */
+
+    #bel-falling-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
     }
-    .values-box ul {
-      list-style: none;
-      font-size: 1.25rem;
+
+    .page-content {
+      position: relative;
+      z-index: 1;
     }
-    .values-box li {
-      margin: 0.5rem 0;
-    }
-    footer {
-      background: #171923;
-    }
+
+    /* =========================================================
+       TOP TICKER
+       ========================================================= */
+
     .ticker {
       position: fixed;
-      top: 0;
+      top: 8px;
       right: -100%;
-      width: auto;
-      padding: 0.5rem 2rem;
-      white-space: nowrap;
-      font-weight: bold;
-      font-size: 1.2rem;
+      z-index: 80;
+
       display: flex;
       align-items: center;
-      gap: 1rem;
-      box-shadow: 0 0 20px rgba(55, 65, 81, 0.45);
-      animation: slideTicker 12s linear infinite;
-      z-index: 50;
+      gap: 0.7rem;
+
+      padding: 0.5rem 1.2rem;
+
+      white-space: nowrap;
+
+      font-size: 0.95rem;
+      font-weight: 700;
+
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      border-radius: 999px;
+
+      box-shadow:
+        0 0 20px rgba(55, 65, 81, 0.35),
+        0 8px 30px rgba(0, 0, 0, 0.3);
+
       cursor: pointer;
+
+      animation: slideTicker 14s linear infinite;
     }
+
+    .ticker img {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+    }
+
     @keyframes slideTicker {
-      0% { right: -100%; opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { right: 100%; opacity: 0; }
+      0% {
+        right: -100%;
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        right: 100%;
+        opacity: 0;
+      }
     }
-    .falling-logo {
-      position: fixed;
-      top: -50px;
-      width: 30px;
-      height: 30px;
-      background-image: url('https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      opacity: 0.3;
-      animation: fall 12s linear infinite;
-      z-index: 0;
+
+    /* =========================================================
+       SIDE NAVIGATION
+       ========================================================= */
+
+    .side-links {
+      position: absolute;
+      top: 2.5rem;
+      left: 1rem;
+      z-index: 60;
+
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
     }
-    @keyframes fall {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-      50% { opacity: 0.15; }
-      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+
+    .side-link {
+      display: inline-flex;
+      align-items: center;
+
+      width: fit-content;
+
+      padding: 0.45rem 0.75rem;
+
+      border-radius: 8px;
+
+      color: #e5e7eb;
+      text-decoration: none;
+
+      font-size: 0.8rem;
+      font-weight: 600;
+
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(100, 116, 139, 0.45);
+
+      backdrop-filter: blur(8px);
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
     }
-    /* Quick Resume Box Style */
-    .resume-box {
-      background: linear-gradient(90deg, #0c1a2a 0%, #23272f 60%, #070a13 100%);
-      border-radius: 1rem;
-      box-shadow: 0 6px 22px 0 rgba(16,16,32,0.28), 0 1.5px 6px 0 rgba(32,32,64,0.19);
-      padding: 2rem 1.2rem;
-      margin: 2rem auto 3rem auto;
-      max-width: 640px;
-      border: 1.5px solid #283347;
+
+    .side-link:hover {
+      transform: translateX(3px);
+      background: rgba(30, 41, 59, 0.95);
+      border-color: rgba(203, 213, 225, 0.7);
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
+    .hero {
+      padding: 6.5rem 1rem 2rem;
       text-align: center;
     }
-    .resume-title {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.6rem;
-      background: linear-gradient(90deg, #60a5fa 10%, #f8fafc 80%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
+
+    .hero-logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin: 0 auto 1rem;
+
+      filter:
+        drop-shadow(0 0 12px rgba(255, 255, 255, 0.08))
+        drop-shadow(0 0 25px rgba(37, 99, 235, 0.12));
     }
-    .resume-text {
-      font-size: 1.18rem;
-      background: linear-gradient(90deg, #f8fafc 0%, #d1d5db 70%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-      font-weight: 500;
-      line-height: 1.6;
+
+    .hero-title {
+      margin: 0;
+
+      font-size: clamp(2.3rem, 7vw, 4rem);
+      line-height: 1.05;
+
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .hero-subtitle {
+      max-width: 680px;
+      margin: 1rem auto 0;
+
+      color: #cbd5e1;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    /* =========================================================
+       PANELS
+       ========================================================= */
+
+    .panel {
+      background:
+        linear-gradient(
+          145deg,
+          rgba(15, 23, 42, 0.96),
+          rgba(23, 25, 35, 0.96)
+        );
+
+      border: 1px solid rgba(71, 85, 105, 0.55);
+      border-radius: 1rem;
+
+      box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+    }
+
+    .resume-box {
+      max-width: 900px;
       margin: 0 auto;
-      max-width: 500px;
+
+      padding: 1.5rem;
+
+      text-align: center;
+    }
+
+    .security-image {
+      width: 100%;
+      max-width: 620px;
+      max-height: 360px;
+      object-fit: contain;
+
+      margin: 0 auto;
+
+      border-radius: 0.9rem;
+
+      box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    /* =========================================================
+       WALLET CARD
+       ========================================================= */
+
+    .wallet-card {
+      max-width: 900px;
+      margin: 1.5rem auto 0;
+      padding: 1.25rem;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(12, 26, 42, 0.95),
+          rgba(23, 25, 35, 0.95)
+        );
+
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      border-radius: 1rem;
+
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+    }
+
+    .wallet-status {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+
+      min-width: 0;
+
+      color: #cbd5e1;
+      font-size: 0.85rem;
+    }
+
+    .wallet-dot {
+      width: 10px;
+      height: 10px;
+      flex: 0 0 auto;
+
+      border-radius: 50%;
+      background: #64748b;
+
+      box-shadow: 0 0 8px rgba(100, 116, 139, 0.4);
+    }
+
+    .wallet-dot.connected {
+      background: var(--green);
+      box-shadow: 0 0 10px rgba(74, 222, 128, 0.65);
+    }
+
+    .wallet-address {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .wallet-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    /* =========================================================
+       BUTTONS
+       ========================================================= */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+
+      min-height: 42px;
+
+      padding: 0.7rem 1rem;
+
+      border-radius: 10px;
+
+      font-weight: 700;
+      text-decoration: none;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      color: #06111f;
+      background: linear-gradient(135deg, #60a5fa, #38bdf8);
+      border: 1px solid rgba(147, 197, 253, 0.8);
+
+      box-shadow:
+        0 8px 20px rgba(56, 189, 248, 0.18);
+    }
+
+    .btn-primary:hover {
+      box-shadow:
+        0 10px 28px rgba(56, 189, 248, 0.3);
+    }
+
+    .btn-dark {
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(100, 116, 139, 0.55);
+    }
+
+    .btn-dark:hover {
+      background: rgba(30, 41, 59, 0.95);
+      border-color: rgba(203, 213, 225, 0.7);
+    }
+
+    .btn-gold {
+      color: var(--gold);
+      background: #171717;
+      border: 1px solid var(--gold);
+
+      font-size: 1.2rem;
+
+      text-shadow:
+        0 0 6px rgba(255, 215, 0, 0.7),
+        0 0 2px #fff;
+
+      box-shadow:
+        0 0 10px rgba(255, 215, 0, 0.45),
+        0 0 20px rgba(255, 215, 0, 0.25);
+
+      animation: pulseGold 2.8s infinite;
+    }
+
+    .btn-gold:hover {
+      color: #111827;
+      background: #f8fafc;
+      text-shadow: none;
+    }
+
+    @keyframes pulseGold {
+      0%,
+      100% {
+        box-shadow:
+          0 0 10px rgba(255, 215, 0, 0.45),
+          0 0 20px rgba(255, 215, 0, 0.25);
+      }
+
+      50% {
+        box-shadow:
+          0 0 16px rgba(255, 215, 0, 0.7),
+          0 0 32px rgba(255, 215, 0, 0.4),
+          0 0 50px rgba(255, 215, 0, 0.15);
+      }
+    }
+
+    /* =========================================================
+       SWAP SECTION
+       ========================================================= */
+
+    .swap-section {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      padding: 0 1rem;
+    }
+
+    .swap-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .swap-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+
+      padding: 0.9rem 1rem;
+
+      color: #f8fafc;
+      text-decoration: none;
+
+      font-weight: 700;
+
+      border-radius: 14px;
+      border: 1px solid rgba(100, 116, 139, 0.6);
+
+      background: rgba(2, 6, 23, 0.78);
+
+      box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .swap-card:hover {
+      transform: scale(1.025);
+
+      border-color: rgba(203, 213, 225, 0.9);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(30, 41, 59, 0.95),
+          rgba(2, 6, 23, 0.95)
+        );
+
+      box-shadow:
+        0 10px 26px rgba(56, 189, 248, 0.2),
+        0 0 22px rgba(250, 204, 21, 0.15);
+    }
+
+    .swap-card img {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 auto;
+
+      border-radius: 50%;
+    }
+
+    .swap-sub {
+      display: block;
+
+      margin-top: 0.1rem;
+
+      color: #94a3b8;
+
+      font-size: 0.68rem;
+      line-height: 1.2;
+      font-weight: 600;
+    }
+
+    .swap-warning {
+      margin-top: 1rem;
+
+      color: #94a3b8;
+      font-size: 0.72rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    /* =========================================================
+       WHITEPAPER
+       ========================================================= */
+
+    .whitepaper {
+      max-width: 900px;
+      margin: 4rem auto 0;
+      padding: 1.5rem;
+    }
+
+    .whitepaper-content {
+      max-height: 560px;
+      overflow-y: auto;
+
+      padding: 1.25rem;
+
+      color: #ffffff;
+
+      background: rgba(17, 24, 39, 0.9);
+      border-radius: 0.8rem;
+
+      line-height: 1.7;
+
+      scrollbar-width: thin;
+      scrollbar-color: #475569 transparent;
+    }
+
+    .whitepaper-content h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.4rem;
+
+      color: #ffffff;
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .whitepaper-content p {
+      margin: 0.5rem 0;
+      color: #ffffff;
+    }
+
+    .whitepaper-content ul {
+      padding-left: 1.25rem;
+    }
+
+    .whitepaper-content li {
+      margin: 0.4rem 0;
+    }
+
+    /* =========================================================
+       DISTRIBUTION
+       ========================================================= */
+
+    .distribution {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      padding: 2rem 1.5rem;
+    }
+
+    .distribution-item {
+      margin-top: 1.8rem;
+    }
+
+    .distribution-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+
+      margin-bottom: 0.55rem;
+
+      color: #e5e7eb;
+
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .distribution-bar {
+      width: 100%;
+      height: 10px;
+
+      overflow: hidden;
+
+      background: #1e293b;
+      border-radius: 999px;
+
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.35);
+    }
+
+    .distribution-fill {
+      height: 100%;
+      border-radius: inherit;
+    }
+
+    .fill-green {
+      width: 50%;
+      background: linear-gradient(90deg, #22c55e, #86efac);
+    }
+
+    .fill-blue {
+      width: 2.6%;
+      background: linear-gradient(90deg, #3b82f6, #93c5fd);
+    }
+
+    .fill-gold {
+      width: 47.4%;
+      background: linear-gradient(90deg, #eab308, #fde047);
+    }
+
+    .contract-box {
+      margin-top: 2rem;
+      padding: 1rem;
+
+      color: #94a3b8;
+
+      font-size: 0.8rem;
+      line-height: 1.6;
+
+      text-align: center;
+
+      background: rgba(2, 6, 23, 0.55);
+      border-radius: 0.7rem;
+    }
+
+    .contract-box a {
+      color: #93c5fd;
+      word-break: break-all;
+    }
+
+    /* =========================================================
+       TELEGRAM CARD
+       ========================================================= */
+
+    .community-grid {
+      max-width: 1100px;
+      margin: 2.5rem auto 0;
+      padding: 0 1rem;
+
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 1.5rem;
+
+      align-items: stretch;
+    }
+
+    .telegram-card {
+      padding: 1.25rem;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(15, 23, 42, 0.96),
+          rgba(2, 6, 23, 0.96)
+        );
+
+      border: 1px solid rgba(71, 85, 105, 0.65);
+      border-radius: 1rem;
+
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.28);
+    }
+
+    .tg-status {
+      margin: 0.8rem 0;
+
+      padding: 0.75rem;
+
+      color: #cbd5e1;
+
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(71, 85, 105, 0.65);
+      border-radius: 0.6rem;
+    }
+
+    .tg-status-row {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .tg-dot {
+      width: 10px;
+      height: 10px;
+
+      border-radius: 50%;
+      background: #64748b;
+    }
+
+    .tg-dot.connected {
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(74, 222, 128, 0.55);
+    }
+
+    .tg-input {
+      width: 100%;
+
+      margin-bottom: 0.75rem;
+
+      padding: 0.65rem 0.75rem;
+
+      color: #f8fafc;
+
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid rgba(71, 85, 105, 0.8);
+      border-radius: 0.55rem;
+
+      outline: none;
+    }
+
+    .tg-input:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.15);
+    }
+
+    .tg-actions {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 1rem;
+    }
+
+    .tg-note {
+      margin-top: 0.8rem;
+
+      color: #64748b;
+
+      font-size: 0.68rem;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       MODALS
+       ========================================================= */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 1rem;
+
+      background: rgba(0, 0, 0, 0.68);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal.hidden {
+      display: none;
+    }
+
+    .modal-card {
+      position: relative;
+
+      width: 100%;
+      max-width: 650px;
+      max-height: 88vh;
+
+      overflow-y: auto;
+
+      padding: 1.5rem;
+
+      color: #ffffff;
+
+      background: #111827;
+
+      border: 1px solid rgba(100, 116, 139, 0.5);
+      border-radius: 1rem;
+
+      box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 0.7rem;
+      right: 0.7rem;
+
+      width: 36px;
+      height: 36px;
+
+      border: 0;
+      border-radius: 50%;
+
+      color: #cbd5e1;
+      background: rgba(30, 41, 59, 0.8);
+
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .modal-close:hover {
+      color: #ffffff;
+      background: rgba(239, 68, 68, 0.75);
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+
+      margin: 1rem 0;
+    }
+
+    .info-table td {
+      padding: 0.45rem 0;
+
+      border-bottom: 1px solid rgba(71, 85, 105, 0.25);
+
+      vertical-align: top;
+    }
+
+    .info-table td:first-child {
+      width: 42%;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .break-address {
+      word-break: break-all;
+    }
+
+    .notice {
+      padding: 0.8rem;
+
+      margin: 1rem 0;
+
+      color: #cbd5e1;
+
+      background: rgba(30, 41, 59, 0.65);
+      border-left: 3px solid #60a5fa;
+
+      border-radius: 0.4rem;
+
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    footer {
+      margin-top: 4rem;
+      padding: 2rem 1rem;
+
+      color: #64748b;
+
+      text-align: center;
+
+      background: rgba(2, 6, 23, 0.55);
+      border-top: 1px solid rgba(71, 85, 105, 0.2);
+    }
+
+    footer a {
+      color: #93c5fd;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 768px) {
+      .side-links {
+        position: relative;
+        top: auto;
+        left: auto;
+
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        padding: 0 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .hero {
+        padding-top: 2rem;
+      }
+
+      .community-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .swap-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ticker {
+        font-size: 0.78rem;
+      }
+
+      .hero-title {
+        letter-spacing: 0.025em;
+      }
+
+      .wallet-buttons {
+        flex-direction: column;
+      }
+
+      .wallet-buttons .btn {
+        width: 100%;
+      }
+
+      .distribution-label {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+    }
+
+    /* =========================================================
+       REDUCED MOTION
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
     }
   </style>
 </head>
+
 <body>
-<!-- Fun collision canvas for falling BEL logos -->
-<canvas id="bel-falling-canvas" style="position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:2;pointer-events:none;"></canvas>
-<script>
-    const belImgSrc = "https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png";
-    let belImg = new window.Image();
-    belImg.src = belImgSrc;
 
-    const TREASURE_EMOJIS = ["💰", "💵", "💸", "🪙", "💎", "🏆", "🤑", "🎉", "✨", "🔔", "🍀"];
-    const NUM_LOGOS = 20;
-    const logos = [];
-    const explosions = [];
-    const canvas = document.getElementById("bel-falling-canvas");
-    const ctx = canvas.getContext("2d");
+  <!-- =======================================================
+       FALLING BEL CANVAS
+       ======================================================= -->
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+  <canvas id="bel-falling-canvas" aria-hidden="true"></canvas>
+
+  <div class="page-content">
+
+    <!-- =====================================================
+         TICKER
+         ===================================================== -->
+
+    <div
+      id="ticker"
+      class="ticker gradient-text"
+      role="button"
+      tabindex="0"
+      title="Open BEL wallet information"
+    >
+      <img
+        src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"
+        alt=""
+      >
+      <span>Secure your BEL • BNB Chain • Verify everything on-chain</span>
+    </div>
+
+    <!-- =====================================================
+         SIDE LINKS
+         ===================================================== -->
+
+    <nav class="side-links" aria-label="Community navigation">
+
+      <a
+        class="side-link"
+        href="https://t.me/+LsSrv9TgJMA5YWZk"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        📲 Join Telegram
+      </a>
+
+      <button
+        class="side-link"
+        type="button"
+        data-open-modal="infoModal"
+      >
+        ℹ️ BEL Token Info
+      </button>
+
+      <a
+        class="side-link"
+        href="https://x.com/BelchiorToken"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        𝕏 Follow BEL
+      </a>
+
+    </nav>
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <header class="hero">
+
+      <img
+        class="hero-logo"
+        src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"
+        alt="Belchior Token BEL logo"
+      >
+
+      <h1 class="hero-title gradient-text">
+        Belchior Token (BEL)
+      </h1>
+
+      <p class="hero-subtitle">
+        🔒 A BEP-20 token on BNB Chain focused on transparency,
+        verifiable information and long-term community development.
+      </p>
+
+    </header>
+
+    <!-- =====================================================
+         WALLET SECTION
+         ===================================================== -->
+
+    <section class="px-4" aria-labelledby="wallet-heading">
+
+      <div class="wallet-card">
+
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+          <div>
+            <h2
+              id="wallet-heading"
+              class="text-xl font-bold gradient-text"
+            >
+              🔐 Wallet
+            </h2>
+
+            <p class="text-xs text-slate-400 mt-1">
+              Connect your browser wallet to check the active network.
+              No transaction is initiated by this button.
+            </p>
+          </div>
+
+          <div class="wallet-status">
+            <span id="wallet-dot" class="wallet-dot"></span>
+            <span id="wallet-status-text">Wallet not connected</span>
+          </div>
+
+        </div>
+
+        <div class="wallet-buttons">
+
+          <button
+            id="connect-wallet"
+            class="btn btn-primary"
+            type="button"
+          >
+            🔗 Connect Wallet
+          </button>
+
+          <button
+            id="switch-bsc"
+            class="btn btn-dark hidden"
+            type="button"
+          >
+            🔶 Switch to BNB Chain
+          </button>
+
+          <button
+            id="disconnect-wallet"
+            class="btn btn-dark hidden"
+            type="button"
+          >
+            Disconnect
+          </button>
+
+        </div>
+
+        <div
+          id="wallet-message"
+          class="hidden mt-3 text-xs text-slate-400"
+          role="status"
+        ></div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         QUICK RESUME / SECURITY
+         ===================================================== -->
+
+    <section class="px-4 mt-6" aria-labelledby="security-heading">
+
+      <div class="panel resume-box">
+
+        <h2
+          id="security-heading"
+          class="text-2xl font-bold gradient-text mb-4"
+        >
+          🛡️ BEL Security & Transparency
+        </h2>
+
+        <img
+          src="./belxrpbnb.png"
+          alt="Belchior Token security graphic"
+          class="security-image"
+          loading="lazy"
+        >
+
+        <p class="text-sm text-slate-400 mt-5 max-w-2xl mx-auto">
+          Always verify token addresses, liquidity information and
+          blockchain transactions independently before interacting
+          with any cryptocurrency.
+        </p>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         SWAP SECTION
+         ===================================================== -->
+
+    <section class="swap-section" aria-labelledby="swap-heading">
+
+      <h2
+        id="swap-heading"
+        class="text-center text-2xl font-bold gradient-text mb-5"
+      >
+        🛒 Buy BEL on PancakeSwap
+      </h2>
+
+      <div class="swap-grid">
+
+        <!-- BNB -->
+
+        <a
+          class="swap-card"
+          href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+
+          <img
+            src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png"
+            alt="BNB"
+          >
+
+          <span>
+            BNB
+            <span class="swap-sub">Swap → BEL</span>
+          </span>
+
+        </a>
+
+        <!-- USDT -->
+
+        <a
+          class="swap-card"
+          href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x55d398326f99059fF775485246999027B3197955&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+
+          <img
+            src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png"
+            alt="USDT"
+          >
+
+          <span>
+            USDT
+            <span class="swap-sub">Swap → BEL</span>
+          </span>
+
+        </a>
+
+      </div>
+
+      <!-- XRP -->
+
+      <div class="mt-8 flex justify-center">
+
+        <a
+          href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x1D2F0da169ceb9Fc7B3144628dB156f3F6c60dBE&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-gold px-8 py-4"
+        >
+          Buy BEL with XRP
+        </a>
+
+      </div>
+
+      <p class="swap-warning">
+        ⚠️ The XRP route above uses an XRP token representation on BNB Chain.
+        Always confirm the token contract displayed by PancakeSwap before swapping.
+        Your wallet should be connected to BNB Chain (BSC).
+      </p>
+
+    </section>
+
+    <!-- =====================================================
+         WHITEPAPER
+         ===================================================== -->
+
+    <section
+      class="panel whitepaper"
+      aria-labelledby="whitepaper-heading"
+    >
+
+      <h2
+        id="whitepaper-heading"
+        class="text-3xl font-bold gradient-text text-center mb-5"
+      >
+        📜 BEL Token Whitepaper
+      </h2>
+
+      <div class="whitepaper-content">
+
+        <p><strong>Belchior Token (BEL)</strong></p>
+
+        <p>
+          A Transparent Store of Value on Binance Smart Chain
+        </p>
+
+        <h3>1. Introduction</h3>
+
+        <p>
+          Belchior Token (BEL) is a BEP-20 cryptocurrency deployed
+          on BNB Chain with a focus on transparency, security and
+          value preservation.
+        </p>
+
+        <p>
+          BEL is presented as a public, auditable digital asset.
+          Visitors should independently verify all blockchain claims
+          before making financial decisions.
+        </p>
+
+        <h3>2. Vision</h3>
+
+        <p>
+          BEL aims to emphasize transparent token distribution,
+          publicly verifiable blockchain information and open
+          documentation of relevant token activity.
+        </p>
+
+        <h3>3. Tokenomics</h3>
+
+        <p><strong>Total Supply:</strong> 100,000,000 BEL</p>
+
+        <p><strong>Locked allocation:</strong> 50,000,000 BEL (50%)</p>
+
+        <p>
+          <strong>Liquidity allocation:</strong>
+          2,600,000 BEL (2.6%)
+        </p>
+
+        <p>
+          <strong>Funding allocation:</strong>
+          47,400,000 BEL (47.4%)
+        </p>
+
+        <p><strong>Taxes:</strong> 0% buy / 0% sell</p>
+
+        <p>
+          <strong>Minting:</strong>
+          Disabled according to the current token configuration.
+          Verify the deployed contract independently.
+        </p>
+
+        <h3>4. Security Information</h3>
+
+        <ul>
+          <li>
+            Contract ownership and permissions should be independently
+            verified on BscScan.
+          </li>
+
+          <li>
+            Liquidity-lock information should be verified directly
+            through the applicable lock provider.
+          </li>
+
+          <li>
+            Contract source-code verification should be checked on
+            BscScan.
+          </li>
+
+          <li>
+            Trading and honeypot claims should be independently checked
+            before interacting with the token.
+          </li>
+        </ul>
+
+        <h3>5. Roadmap</h3>
+
+        <p>
+          <strong>Phase 1 — Foundation:</strong>
+          Token deployment, liquidity establishment, public documentation
+          and transparency information.
+        </p>
+
+        <p>
+          <strong>Phase 2 — Strengthening Trust:</strong>
+          Increase liquidity depth, publish supporting documentation,
+          distribute tokens to additional wallets and improve public
+          information.
+        </p>
+
+        <p>
+          <strong>Phase 3 — Expansion & Exposure:</strong>
+          Pursue broader market visibility, community growth,
+          additional listings and potential utility.
+        </p>
+
+        <p>
+          <strong>Phase 4 — Long-Term Development:</strong>
+          Continue improving liquidity, transparency and potential
+          real-world use cases.
+        </p>
+
+        <h3>6. Market Strategy</h3>
+
+        <p>
+          The project intends to prioritize transparent information,
+          liquidity development, community growth and potential future
+          utility.
+        </p>
+
+        <h3>7. Transparency Commitments</h3>
+
+        <ul>
+          <li>
+            Public contract address and blockchain records.
+          </li>
+
+          <li>
+            Public community channels.
+          </li>
+
+          <li>
+            Public documentation where applicable.
+          </li>
+
+          <li>
+            Encouragement for users to independently verify all
+            blockchain information.
+          </li>
+        </ul>
+
+        <h3>8. Disclaimer</h3>
+
+        <p>
+          BEL is a high-risk digital asset. Cryptocurrency prices,
+          liquidity and adoption can change rapidly. Nothing on this
+          website constitutes financial, investment or trading advice.
+          Never commit funds you cannot afford to lose.
+        </p>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         TOKEN DISTRIBUTION
+         ===================================================== -->
+
+    <section
+      class="panel distribution"
+      aria-labelledby="distribution-heading"
+    >
+
+      <h2
+        id="distribution-heading"
+        class="text-3xl font-bold gradient-text text-center uppercase tracking-wider"
+      >
+        Token Distribution
+      </h2>
+
+      <!-- 50% -->
+
+      <div class="distribution-item">
+
+        <div class="distribution-label">
+          <span>
+            🔒 50,000,000 BEL — Locked allocation
+          </span>
+
+          <span>50%</span>
+        </div>
+
+        <div class="distribution-bar">
+          <div class="distribution-fill fill-green"></div>
+        </div>
+
+      </div>
+
+      <!-- 2.6% -->
+
+      <div class="distribution-item">
+
+        <div class="distribution-label">
+          <span>
+            💧 2,600,000 BEL — PancakeSwap liquidity allocation
+          </span>
+
+          <span>2.6%</span>
+        </div>
+
+        <div class="distribution-bar">
+          <div class="distribution-fill fill-blue"></div>
+        </div>
+
+      </div>
+
+      <!-- 47.4% -->
+
+      <div class="distribution-item">
+
+        <div class="distribution-label">
+          <span>
+            👑 47,400,000 BEL — Funding allocation
+          </span>
+
+          <span>47.4%</span>
+        </div>
+
+        <div class="distribution-bar">
+          <div class="distribution-fill fill-gold"></div>
+        </div>
+
+      </div>
+
+      <!-- Contract -->
+
+      <div class="contract-box">
+
+        <div class="mb-2">
+          <strong>Official BEL Contract</strong>
+        </div>
+
+        <a
+          href="https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          0x3c841c88d3819c901ec0fe29897146dca509552b
+        </a>
+
+        <div class="mt-2">
+          BNB Chain • BEP-20 • BEL
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         COMMUNITY
+         ===================================================== -->
+
+    <section
+      class="community-grid"
+      aria-labelledby="community-heading"
+    >
+
+      <!-- Community information -->
+
+      <div class="panel p-6">
+
+        <h2
+          id="community-heading"
+          class="text-2xl font-bold gradient-text mb-3"
+        >
+          🌐 BEL Community
+        </h2>
+
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Follow the official BEL community channels for project
+          announcements and updates.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mt-5">
+
+          <a
+            href="https://t.me/+LsSrv9TgJMA5YWZk"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary"
+          >
+            📲 Telegram
+          </a>
+
+          <a
+            href="https://x.com/BelchiorToken"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-dark"
+          >
+            𝕏 X / Twitter
+          </a>
+
+          <button
+            type="button"
+            data-open-modal="addTokenModal"
+            class="btn btn-dark"
+          >
+            ➕ Add BEL to Wallet
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Telegram local status -->
+
+      <aside class="telegram-card">
+
+        <h3 class="text-xl font-bold gradient-text">
+          Telegram Status
+        </h3>
+
+        <div class="tg-status">
+
+          <div class="tg-status-row">
+
+            <span id="tg-dot" class="tg-dot"></span>
+
+            <span id="tg-text">
+              Not marked as joined
+            </span>
+
+          </div>
+
+        </div>
+
+        <label
+          for="tg-handle"
+          class="block text-xs text-slate-400 mb-2"
+        >
+          Telegram @username (optional)
+        </label>
+
+        <input
+          id="tg-handle"
+          class="tg-input"
+          type="text"
+          maxlength="64"
+          placeholder="@yourhandle"
+          autocomplete="off"
+        >
+
+        <div class="tg-actions">
+
+          <a
+            id="tg-join"
+            href="https://t.me/+LsSrv9TgJMA5YWZk"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary w-full"
+          >
+            Open Telegram
+          </a>
+
+          <button
+            id="tg-confirm"
+            type="button"
+            class="btn btn-dark w-full"
+          >
+            I joined — mark locally
+          </button>
+
+          <button
+            id="tg-disconnect"
+            type="button"
+            class="btn hidden w-full"
+            style="background:rgba(127,29,29,.8);border:1px solid #991b1b;color:white;"
+          >
+            Clear Local Status
+          </button>
+
+        </div>
+
+        <p class="tg-note">
+          This does not verify Telegram membership. It only stores a
+          local browser preference using localStorage. Clearing browser
+          data will reset it.
+        </p>
+
+      </aside>
+
+    </section>
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer>
+
+      <p>
+        © <span id="current-year"></span> BEL Token.
+        All rights reserved.
+      </p>
+
+      <p class="mt-2">
+        Built for transparency • BNB Chain • BEL
+      </p>
+
+    </footer>
+
+  </div>
+
+  <!-- =======================================================
+       BEL TOKEN INFO MODAL
+       ======================================================= -->
+
+  <div
+    id="infoModal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="infoModalTitle"
+  >
+
+    <div class="modal-card">
+
+      <button
+        class="modal-close"
+        type="button"
+        data-close-modal="infoModal"
+        aria-label="Close token information"
+      >
+        ✕
+      </button>
+
+      <h2
+        id="infoModalTitle"
+        class="text-2xl font-bold text-center gradient-text"
+      >
+        📊 Belchior Token (BEL)
+      </h2>
+
+      <div class="notice">
+        The market figures below are manually displayed reference values,
+        not live market data. Always verify current prices and liquidity
+        independently before trading.
+      </div>
+
+      <table class="info-table">
+
+        <tbody>
+
+          <tr>
+            <td>Reference Price</td>
+            <td>$0.000184 USD</td>
+          </tr>
+
+          <tr>
+            <td>Reference Market Cap</td>
+            <td>$18,680 USD</td>
+          </tr>
+
+          <tr>
+            <td>Reference 24h Volume</td>
+            <td>$0.8225 USD</td>
+          </tr>
+
+          <tr>
+            <td>Reference 24h Change</td>
+            <td>-0.98%</td>
+          </tr>
+
+          <tr>
+            <td>Circulating Supply</td>
+            <td>100,000,000 BEL</td>
+          </tr>
+
+          <tr>
+            <td>Max Supply</td>
+            <td>100,000,000 BEL</td>
+          </tr>
+
+          <tr>
+            <td>Symbol</td>
+            <td>BEL</td>
+          </tr>
+
+          <tr>
+            <td>Blockchain</td>
+            <td>BNB Chain (BEP-20)</td>
+          </tr>
+
+          <tr>
+            <td>Token Contract</td>
+            <td class="break-address">
+              0x3c841c88d3819c901ec0fe29897146dca509552b
+            </td>
+          </tr>
+
+          <tr>
+            <td>Pair Contract</td>
+            <td class="break-address">
+              0xc47216d19cc3030d13f3fe306c5f07f71c3a8f5b
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+      <h3 class="font-bold mt-6 mb-3">
+        ❓ Frequently Asked Questions
+      </h3>
+
+      <div class="text-sm text-slate-300 space-y-3">
+
+        <p>
+          <strong>How much is 1 BEL?</strong><br>
+          The reference value shown above is $0.000184 USD.
+          Market prices can change at any time.
+        </p>
+
+        <p>
+          <strong>Where can I buy BEL?</strong><br>
+          The page provides PancakeSwap routes for supported assets.
+          Always verify the BEL contract address before swapping.
+        </p>
+
+        <p>
+          <strong>How do I buy BEL?</strong><br>
+          Connect a compatible wallet, switch to BNB Chain, open the
+          appropriate PancakeSwap route and verify the token contract
+          before approving any transaction.
+        </p>
+
+        <p>
+          <strong>How is BEL distributed?</strong><br>
+          The displayed distribution is 50% locked allocation,
+          2.6% liquidity allocation and 47.4% funding allocation.
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        data-close-modal="infoModal"
+        class="btn btn-dark w-full mt-6"
+      >
+        Close
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- =======================================================
+       ADD TOKEN MODAL
+       ======================================================= -->
+
+  <div
+    id="addTokenModal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="addTokenTitle"
+  >
+
+    <div class="modal-card">
+
+      <button
+        class="modal-close"
+        type="button"
+        data-close-modal="addTokenModal"
+        aria-label="Close add token instructions"
+      >
+        ✕
+      </button>
+
+      <h2
+        id="addTokenTitle"
+        class="text-2xl font-bold text-center gradient-text"
+      >
+        ➕ Add BEL to Your Wallet
+      </h2>
+
+      <div class="notice">
+        Make sure your wallet is on BNB Chain before adding the token.
+      </div>
+
+      <ol class="list-decimal list-inside text-sm text-slate-300 space-y-3">
+
+        <li>
+          Open MetaMask, Trust Wallet or another compatible wallet.
+        </li>
+
+        <li>
+          Switch to <strong>BNB Chain</strong>.
+        </li>
+
+        <li>
+          Select the option to import or add a custom token.
+        </li>
+
+        <li>
+          Enter the following BEL contract:
+          <code class="block mt-2 p-2 bg-slate-900 rounded break-all text-blue-300">
+            0x3c841c88d3819c901ec0fe29897146dca509552b
+          </code>
+        </li>
+
+        <li>
+          Token symbol:
+          <strong>BEL</strong>
+        </li>
+
+        <li>
+          Decimals:
+          <strong>18</strong>
+        </li>
+
+        <li>
+          Confirm the token information before saving.
+        </li>
+
+      </ol>
+
+      <button
+        type="button"
+        data-close-modal="addTokenModal"
+        class="btn btn-dark w-full mt-6"
+      >
+        Close
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
+
+  <script>
+    /* =========================================================
+       CONFIGURATION
+       ========================================================= */
+
+    const BEL_CONFIG = {
+      tokenAddress: "0x3c841c88d3819c901ec0fe29897146dca509552b",
+      chainIdHex: "0x38",
+      chainName: "BNB Smart Chain",
+      nativeCurrency: {
+        name: "BNB",
+        symbol: "BNB",
+        decimals: 18
+      },
+      rpcUrls: [
+        "https://bsc-dataseed.binance.org/"
+      ],
+      blockExplorerUrls: [
+        "https://bscscan.com/"
+      ]
+    };
+
+    const BEL_LOGO =
+      "https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png";
+
+
+    /* =========================================================
+       YEAR
+       ========================================================= */
+
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+
+
+    /* =========================================================
+       MODALS
+       ========================================================= */
+
+    function openModal(id) {
+      const modal = document.getElementById(id);
+
+      if (!modal) return;
+
+      modal.classList.remove("hidden");
+
+      document.body.classList.add("modal-open");
     }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
 
-    function getHitRects() {
-      const buyBtn = document.querySelector('.button-buy');
-      const distBox = document.querySelector('.values-box');
-      let btnRect = buyBtn ? buyBtn.getBoundingClientRect() : {left:-9999, top:-9999, right:-9999, bottom:-9999};
-      let boxRect = distBox ? distBox.getBoundingClientRect() : {left:-9999, top:-9999, right:-9999, bottom:-9999};
-      return [
-        {left: btnRect.left, top: btnRect.top, right: btnRect.right, bottom: btnRect.bottom},
-        {left: boxRect.left, top: boxRect.top, right: boxRect.right, bottom: boxRect.bottom}
-      ];
-    }
+    function closeModal(id) {
+      const modal = document.getElementById(id);
 
-    function randomBetween(a, b) {
-      return a + Math.random() * (b - a);
-    }
+      if (!modal) return;
 
-    function createLogo() {
-      return {
-        x: randomBetween(0, canvas.width - 40),
-        y: randomBetween(-100, -40),
-        vy: randomBetween(1.5, 3),
-        vx: randomBetween(-0.7, 0.7),
-        r: randomBetween(-0.01, 0.01),
-        angle: randomBetween(0, Math.PI * 2),
-        size: 30 + Math.random() * 15,
-        bounces: 0,
-        showTreasure: false,
-        treasureEmoji: "",
-        treasureAlpha: 1,
-        treasureScale: 1
+      modal.classList.add("hidden");
+
+      if (!document.querySelector(".modal:not(.hidden)")) {
+        document.body.classList.remove("modal-open");
       }
     }
 
-    for (let i = 0; i < NUM_LOGOS; i++) logos.push(createLogo());
+    document.querySelectorAll("[data-open-modal]").forEach(button => {
+      button.addEventListener("click", () => {
+        openModal(button.dataset.openModal);
+      });
+    });
 
-    // Explosion effect
+    document.querySelectorAll("[data-close-modal]").forEach(button => {
+      button.addEventListener("click", () => {
+        closeModal(button.dataset.closeModal);
+      });
+    });
+
+    document.querySelectorAll(".modal").forEach(modal => {
+      modal.addEventListener("click", event => {
+        if (event.target === modal) {
+          closeModal(modal.id);
+        }
+      });
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key !== "Escape") return;
+
+      document.querySelectorAll(".modal:not(.hidden)").forEach(modal => {
+        closeModal(modal.id);
+      });
+    });
+
+    document.getElementById("ticker").addEventListener("click", () => {
+      openModal("infoModal");
+    });
+
+    document.getElementById("ticker").addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openModal("infoModal");
+      }
+    });
+
+
+    /* =========================================================
+       WALLET
+       ========================================================= */
+
+    const connectWalletButton =
+      document.getElementById("connect-wallet");
+
+    const switchBscButton =
+      document.getElementById("switch-bsc");
+
+    const disconnectWalletButton =
+      document.getElementById("disconnect-wallet");
+
+    const walletDot =
+      document.getElementById("wallet-dot");
+
+    const walletStatusText =
+      document.getElementById("wallet-status-text");
+
+    const walletMessage =
+      document.getElementById("wallet-message");
+
+
+    function shortAddress(address) {
+      if (!address) return "";
+
+      return (
+        address.slice(0, 6) +
+        "..." +
+        address.slice(-4)
+      );
+    }
+
+
+    function setWalletMessage(message, type = "normal") {
+      if (!message) {
+        walletMessage.textContent = "";
+        walletMessage.classList.add("hidden");
+        return;
+      }
+
+      walletMessage.textContent = message;
+      walletMessage.classList.remove("hidden");
+
+      walletMessage.classList.remove(
+        "text-red-400",
+        "text-green-400",
+        "text-slate-400"
+      );
+
+      if (type === "error") {
+        walletMessage.classList.add("text-red-400");
+      } else if (type === "success") {
+        walletMessage.classList.add("text-green-400");
+      } else {
+        walletMessage.classList.add("text-slate-400");
+      }
+    }
+
+
+    function getEthereum() {
+      if (!window.ethereum) {
+        setWalletMessage(
+          "No browser wallet detected. Install MetaMask, Trust Wallet or another compatible wallet.",
+          "error"
+        );
+
+        return null;
+      }
+
+      return window.ethereum;
+    }
+
+
+    function updateWalletUI(address, chainId) {
+
+      if (!address) {
+
+        walletDot.classList.remove("connected");
+
+        walletStatusText.textContent =
+          "Wallet not connected";
+
+        connectWalletButton.classList.remove("hidden");
+
+        switchBscButton.classList.add("hidden");
+
+        disconnectWalletButton.classList.add("hidden");
+
+        return;
+      }
+
+      walletDot.classList.add("connected");
+
+      walletStatusText.innerHTML = `
+        <span class="wallet-address">
+          ${shortAddress(address)}
+        </span>
+      `;
+
+      connectWalletButton.classList.add("hidden");
+
+      disconnectWalletButton.classList.remove("hidden");
+
+      if (chainId && chainId.toLowerCase() === BEL_CONFIG.chainIdHex) {
+
+        switchBscButton.classList.add("hidden");
+
+        setWalletMessage(
+          "Wallet connected to BNB Chain.",
+          "success"
+        );
+
+      } else {
+
+        switchBscButton.classList.remove("hidden");
+
+        setWalletMessage(
+          "Wallet connected, but it is not currently on BNB Chain.",
+          "normal"
+        );
+      }
+    }
+
+
+    async function getCurrentAccount(ethereum) {
+
+      try {
+
+        const accounts = await ethereum.request({
+          method: "eth_accounts"
+        });
+
+        return accounts && accounts.length
+          ? accounts[0]
+          : null;
+
+      } catch (error) {
+
+        console.error(error);
+
+        return null;
+      }
+    }
+
+
+    async function getChainId(ethereum) {
+
+      try {
+
+        return await ethereum.request({
+          method: "eth_chainId"
+        });
+
+      } catch (error) {
+
+        console.error(error);
+
+        return null;
+      }
+    }
+
+
+    async function connectWallet() {
+
+      const ethereum = getEthereum();
+
+      if (!ethereum) return;
+
+      try {
+
+        setWalletMessage(
+          "Waiting for wallet confirmation..."
+        );
+
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts"
+        });
+
+        if (!accounts || !accounts.length) {
+          setWalletMessage(
+            "No wallet account was returned.",
+            "error"
+          );
+
+          return;
+        }
+
+        const chainId = await getChainId(ethereum);
+
+        updateWalletUI(accounts[0], chainId);
+
+      } catch (error) {
+
+        console.error(error);
+
+        if (error.code === 4001) {
+
+          setWalletMessage(
+            "Wallet connection was rejected.",
+            "error"
+          );
+
+        } else {
+
+          setWalletMessage(
+            error.message || "Unable to connect wallet.",
+            "error"
+          );
+        }
+      }
+    }
+
+
+    async function switchToBsc() {
+
+      const ethereum = getEthereum();
+
+      if (!ethereum) return;
+
+      try {
+
+        await ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [
+            {
+              chainId: BEL_CONFIG.chainIdHex
+            }
+          ]
+        });
+
+        const address =
+          await getCurrentAccount(ethereum);
+
+        const chainId =
+          await getChainId(ethereum);
+
+        updateWalletUI(address, chainId);
+
+      } catch (error) {
+
+        /*
+         * Error 4902 means the wallet does not have
+         * BNB Chain configured.
+         */
+
+        if (error.code === 4902) {
+
+          try {
+
+            await ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [
+                {
+                  chainId: BEL_CONFIG.chainIdHex,
+                  chainName: BEL_CONFIG.chainName,
+                  nativeCurrency: BEL_CONFIG.nativeCurrency,
+                  rpcUrls: BEL_CONFIG.rpcUrls,
+                  blockExplorerUrls:
+                    BEL_CONFIG.blockExplorerUrls
+                }
+              ]
+            });
+
+            const address =
+              await getCurrentAccount(ethereum);
+
+            const chainId =
+              await getChainId(ethereum);
+
+            updateWalletUI(address, chainId);
+
+          } catch (addError) {
+
+            console.error(addError);
+
+            setWalletMessage(
+              addError.message ||
+              "Unable to add BNB Chain.",
+              "error"
+            );
+          }
+
+        } else {
+
+          console.error(error);
+
+          setWalletMessage(
+            error.message ||
+            "Unable to switch network.",
+            "error"
+          );
+        }
+      }
+    }
+
+
+    function disconnectWallet() {
+
+      /*
+       * Browser wallets do not provide a universal
+       * programmatic disconnect method.
+       *
+       * We therefore reset the site's UI state.
+       */
+
+      updateWalletUI(null, null);
+
+      setWalletMessage(
+        "Wallet disconnected from this page."
+      );
+    }
+
+
+    connectWalletButton.addEventListener(
+      "click",
+      connectWallet
+    );
+
+    switchBscButton.addEventListener(
+      "click",
+      switchToBsc
+    );
+
+    disconnectWalletButton.addEventListener(
+      "click",
+      disconnectWallet
+    );
+
+
+    /* =========================================================
+       WALLET EVENT LISTENERS
+       ========================================================= */
+
+    async function initializeWallet() {
+
+      const ethereum = getEthereum();
+
+      if (!ethereum) {
+        return;
+      }
+
+      const address =
+        await getCurrentAccount(ethereum);
+
+      const chainId =
+        await getChainId(ethereum);
+
+      if (address) {
+        updateWalletUI(address, chainId);
+      }
+    }
+
+
+    if (window.ethereum) {
+
+      window.ethereum.on(
+        "accountsChanged",
+        accounts => {
+
+          if (!accounts || !accounts.length) {
+
+            updateWalletUI(null, null);
+
+            setWalletMessage(
+              "Wallet disconnected from this page."
+            );
+
+            return;
+          }
+
+          getChainId(window.ethereum)
+            .then(chainId => {
+              updateWalletUI(
+                accounts[0],
+                chainId
+              );
+            });
+        }
+      );
+
+      window.ethereum.on(
+        "chainChanged",
+        chainId => {
+
+          getCurrentAccount(window.ethereum)
+            .then(address => {
+
+              if (address) {
+                updateWalletUI(
+                  address,
+                  chainId
+                );
+              }
+            });
+        }
+      );
+    }
+
+    initializeWallet();
+
+
+    /* =========================================================
+       TELEGRAM LOCAL STATUS
+       ========================================================= */
+
+    const TELEGRAM_STORAGE_KEY =
+      "bel_telegram_local_status_v2";
+
+    const tgDot =
+      document.getElementById("tg-dot");
+
+    const tgText =
+      document.getElementById("tg-text");
+
+    const tgHandle =
+      document.getElementById("tg-handle");
+
+    const tgJoin =
+      document.getElementById("tg-join");
+
+    const tgConfirm =
+      document.getElementById("tg-confirm");
+
+    const tgDisconnect =
+      document.getElementById("tg-disconnect");
+
+
+    function getTelegramSession() {
+
+      try {
+
+        return JSON.parse(
+          localStorage.getItem(
+            TELEGRAM_STORAGE_KEY
+          ) || "null"
+        );
+
+      } catch {
+
+        return null;
+      }
+    }
+
+
+    function renderTelegramStatus() {
+
+      const session =
+        getTelegramSession();
+
+      if (session && session.markedJoined) {
+
+        tgDot.classList.add("connected");
+
+        tgText.textContent =
+          session.username
+            ? `Locally marked as joined: ${session.username}`
+            : "Locally marked as joined";
+
+        tgJoin.classList.add("hidden");
+
+        tgConfirm.classList.add("hidden");
+
+        tgDisconnect.classList.remove("hidden");
+
+        if (session.username) {
+          tgHandle.value =
+            session.username;
+        }
+
+      } else {
+
+        tgDot.classList.remove("connected");
+
+        tgText.textContent =
+          "Not marked as joined";
+
+        tgJoin.classList.remove("hidden");
+
+        tgConfirm.classList.remove("hidden");
+
+        tgDisconnect.classList.add("hidden");
+      }
+    }
+
+
+    tgConfirm.addEventListener(
+      "click",
+      () => {
+
+        const username =
+          tgHandle.value.trim() || null;
+
+        localStorage.setItem(
+          TELEGRAM_STORAGE_KEY,
+          JSON.stringify({
+            markedJoined: true,
+            username,
+            timestamp: Date.now()
+          })
+        );
+
+        renderTelegramStatus();
+      }
+    );
+
+
+    tgDisconnect.addEventListener(
+      "click",
+      () => {
+
+        localStorage.removeItem(
+          TELEGRAM_STORAGE_KEY
+        );
+
+        tgHandle.value = "";
+
+        renderTelegramStatus();
+      }
+    );
+
+
+    renderTelegramStatus();
+
+
+    /* =========================================================
+       FALLING BEL LOGOS
+       ========================================================= */
+
+    const canvas =
+      document.getElementById(
+        "bel-falling-canvas"
+      );
+
+    const ctx =
+      canvas.getContext("2d");
+
+    const belImage =
+      new Image();
+
+    belImage.crossOrigin = "anonymous";
+    belImage.src = BEL_LOGO;
+
+    const TREASURE_EMOJIS = [
+      "💰",
+      "💵",
+      "💸",
+      "🪙",
+      "💎",
+      "🏆",
+      "🤑",
+      "🎉",
+      "✨",
+      "🔔",
+      "🍀"
+    ];
+
+    const NUM_LOGOS = 16;
+
+    const logos = [];
+    const explosions = [];
+
+    let animationFrame = null;
+    let animationRunning = true;
+
+
+    function resizeCanvas() {
+
+      const ratio =
+        window.devicePixelRatio || 1;
+
+      canvas.width =
+        window.innerWidth * ratio;
+
+      canvas.height =
+        window.innerHeight * ratio;
+
+      canvas.style.width =
+        window.innerWidth + "px";
+
+      canvas.style.height =
+        window.innerHeight + "px";
+
+      ctx.setTransform(
+        ratio,
+        0,
+        0,
+        ratio,
+        0,
+        0
+      );
+    }
+
+
+    window.addEventListener(
+      "resize",
+      resizeCanvas
+    );
+
+    resizeCanvas();
+
+
+    function randomBetween(a, b) {
+      return (
+        a +
+        Math.random() *
+        (b - a)
+      );
+    }
+
+
+    function createLogo() {
+
+      return {
+
+        x: randomBetween(
+          0,
+          Math.max(1, window.innerWidth - 40)
+        ),
+
+        y: randomBetween(
+          -120,
+          -40
+        ),
+
+        vx: randomBetween(
+          -0.6,
+          0.6
+        ),
+
+        vy: randomBetween(
+          1.2,
+          2.5
+        ),
+
+        rotation:
+          Math.random() *
+          Math.PI *
+          2,
+
+        rotationSpeed:
+          randomBetween(
+            -0.01,
+            0.01
+          ),
+
+        size:
+          randomBetween(
+            28,
+            43
+          ),
+
+        bounces: 0,
+
+        showTreasure: false,
+
+        treasureEmoji: "",
+
+        treasureAlpha: 1,
+
+        treasureScale: 1.4
+      };
+    }
+
+
+    for (
+      let i = 0;
+      i < NUM_LOGOS;
+      i++
+    ) {
+
+      logos.push(
+        createLogo()
+      );
+    }
+
+
+    function getCollisionRects() {
+
+      const rects = [];
+
+      const buyButton =
+        document.querySelector(".btn-gold");
+
+      const distribution =
+        document.querySelector(".distribution");
+
+      if (buyButton) {
+        rects.push(
+          buyButton.getBoundingClientRect()
+        );
+      }
+
+      if (distribution) {
+        rects.push(
+          distribution.getBoundingClientRect()
+        );
+      }
+
+      return rects;
+    }
+
+
     function createExplosion(x, y) {
-      let parts = [];
-      for (let i = 0; i < 8 + Math.random()*4; i++) {
-        const angle = (Math.PI * 2 * i) / 10 + Math.random() * 0.5;
+
+      const parts = [];
+
+      const count =
+        Math.floor(
+          randomBetween(8, 12)
+        );
+
+      for (
+        let i = 0;
+        i < count;
+        i++
+      ) {
+
+        const angle =
+          Math.random() *
+          Math.PI *
+          2;
+
         parts.push({
-          x, y,
-          dx: Math.cos(angle) * randomBetween(1, 3),
-          dy: Math.sin(angle) * randomBetween(1, 3),
-          emoji: TREASURE_EMOJIS[Math.floor(Math.random()*TREASURE_EMOJIS.length)],
+
+          x,
+          y,
+
+          dx:
+            Math.cos(angle) *
+            randomBetween(1, 3),
+
+          dy:
+            Math.sin(angle) *
+            randomBetween(1, 3),
+
+          emoji:
+            TREASURE_EMOJIS[
+              Math.floor(
+                Math.random() *
+                TREASURE_EMOJIS.length
+              )
+            ],
+
           alpha: 1,
-          scale: randomBetween(1.2,2),
+
+          scale:
+            randomBetween(
+              0.8,
+              1.4
+            ),
+
           life: 0
         });
       }
-      explosions.push({parts, tick: 0});
+
+      explosions.push({
+        parts,
+        tick: 0
+      });
     }
 
-    // Canvas should not block interactions
-    canvas.style.pointerEvents = "none";
 
-    // Click handler on document; only intercept when a logo is hit
-    document.addEventListener('click', function (e) {
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    function pointInsideLogo(
+      x,
+      y,
+      logo
+    ) {
+
+      return (
+        x >= logo.x &&
+        x <= logo.x + logo.size &&
+        y >= logo.y &&
+        y <= logo.y + logo.size
+      );
+    }
+
+
+    document.addEventListener(
+      "click",
+      event => {
+
+        const x =
+          event.clientX;
+
+        const y =
+          event.clientY;
+
+        for (const logo of logos) {
+
+          if (
+            !logo.showTreasure &&
+            pointInsideLogo(
+              x,
+              y,
+              logo
+            )
+          ) {
+
+            logo.showTreasure = true;
+
+            logo.treasureEmoji =
+              TREASURE_EMOJIS[
+                Math.floor(
+                  Math.random() *
+                  TREASURE_EMOJIS.length
+                )
+              ];
+
+            logo.treasureAlpha = 1;
+            logo.treasureScale = 1.4;
+
+            createExplosion(
+              logo.x +
+                logo.size / 2,
+              logo.y +
+                logo.size / 2
+            );
+
+            break;
+          }
+        }
+      },
+      true
+    );
+
+
+    function drawScene() {
+
+      if (!animationRunning) {
+        return;
+      }
+
+      ctx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+      );
+
+      const collisionRects =
+        getCollisionRects();
+
+
+      /* ---------------------------------------------
+         EXPLOSIONS
+         --------------------------------------------- */
+
+      for (
+        let i =
+          explosions.length - 1;
+        i >= 0;
+        i--
+      ) {
+
+        const explosion =
+          explosions[i];
+
+        explosion.tick++;
+
+        for (const part of explosion.parts) {
+
+          part.x += part.dx;
+          part.y += part.dy;
+
+          part.dy += 0.03;
+
+          part.life++;
+
+          part.alpha -= 0.025;
+
+          part.scale += 0.01;
+
+          ctx.save();
+
+          ctx.globalAlpha =
+            Math.max(
+              0,
+              part.alpha
+            );
+
+          ctx.font =
+            `${26 * part.scale}px serif`;
+
+          ctx.textAlign =
+            "center";
+
+          ctx.textBaseline =
+            "middle";
+
+          ctx.fillText(
+            part.emoji,
+            part.x,
+            part.y
+          );
+
+          ctx.restore();
+        }
+
+        if (
+          explosion.tick > 34
+        ) {
+
+          explosions.splice(
+            i,
+            1
+          );
+        }
+      }
+
+
+      /* ---------------------------------------------
+         LOGOS
+         --------------------------------------------- */
 
       for (const logo of logos) {
-        if (!logo.showTreasure &&
-            x >= logo.x && x <= logo.x + logo.size &&
-            y >= logo.y && y <= logo.y + logo.size) {
-          logo.showTreasure = true;
-          logo.treasureEmoji = TREASURE_EMOJIS[Math.floor(Math.random() * TREASURE_EMOJIS.length)];
-          logo.treasureAlpha = 1;
-          logo.treasureScale = 1.6;
-          createExplosion(logo.x + logo.size / 2, logo.y + logo.size / 2);
-          e.preventDefault();
-          e.stopPropagation();
-          return;
-        }
-      }
-    }, true);
 
-    // Animation loop
-    function drawLogos() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const [buyRect, distRect] = getHitRects();
-
-      // Explosions
-      for (let i = explosions.length - 1; i >= 0; i--) {
-        let exp = explosions[i];
-        exp.tick++;
-        for (const p of exp.parts) {
-          p.x += p.dx;
-          p.y += p.dy;
-          p.dy += 0.03; // gravity
-          p.life++;
-          p.alpha -= 0.025;
-          p.scale += 0.01;
-          ctx.save();
-          ctx.globalAlpha = Math.max(0, p.alpha);
-          ctx.font = `${26 * p.scale}px serif`;
-          ctx.fillText(p.emoji, p.x, p.y);
-          ctx.restore();
-        }
-        if (exp.tick > 32) explosions.splice(i,1);
-      }
-
-      logos.forEach(logo => {
-        // If treasure, show emoji and fade out
         if (logo.showTreasure) {
+
           ctx.save();
-          ctx.globalAlpha = logo.treasureAlpha;
-          ctx.font = `${logo.size * logo.treasureScale}px serif`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.shadowColor = "#fff";
+
+          ctx.globalAlpha =
+            Math.max(
+              0,
+              logo.treasureAlpha
+            );
+
+          ctx.font =
+            `${logo.size * logo.treasureScale}px serif`;
+
+          ctx.textAlign =
+            "center";
+
+          ctx.textBaseline =
+            "middle";
+
+          ctx.shadowColor =
+            "#ffffff";
+
           ctx.shadowBlur = 10;
-          ctx.fillText(logo.treasureEmoji, logo.x + logo.size/2, logo.y + logo.size/2);
+
+          ctx.fillText(
+            logo.treasureEmoji,
+            logo.x +
+              logo.size / 2,
+            logo.y +
+              logo.size / 2
+          );
+
           ctx.restore();
-          logo.treasureAlpha -= 0.025;
-          logo.treasureScale += 0.01;
-          if (logo.treasureAlpha <= 0) {
-            Object.assign(logo, createLogo());
+
+          logo.treasureAlpha -=
+            0.025;
+
+          logo.treasureScale +=
+            0.01;
+
+          if (
+            logo.treasureAlpha <= 0
+          ) {
+
+            Object.assign(
+              logo,
+              createLogo()
+            );
           }
-          return;
+
+          continue;
         }
 
-        // Move
+
         logo.x += logo.vx;
         logo.y += logo.vy;
-        logo.angle += logo.r;
-        let didBounce = false;
 
-        function checkAndBounce(rect) {
-          if (logo.x + logo.size > rect.left &&
-              logo.x < rect.right &&
-              logo.y + logo.size > rect.top &&
-              logo.y < rect.bottom) {
-            logo.vy = -Math.abs(logo.vy) * 0.75 + randomBetween(-0.5,0.5);
-            logo.y = rect.top - logo.size;
-            logo.vx += randomBetween(-0.4, 0.4);
+        logo.vy += 0.055;
+
+        logo.rotation +=
+          logo.rotationSpeed;
+
+
+        /* -------------------------------------------
+           WALL COLLISION
+           ------------------------------------------- */
+
+        if (
+          logo.x < 0 ||
+          logo.x + logo.size >
+            window.innerWidth
+        ) {
+
+          logo.vx *= -0.7;
+
+          logo.x =
+            Math.max(
+              0,
+              Math.min(
+                window.innerWidth -
+                  logo.size,
+                logo.x
+              )
+            );
+        }
+
+
+        /* -------------------------------------------
+           PAGE ELEMENT COLLISION
+           ------------------------------------------- */
+
+        for (
+          const rect of collisionRects
+        ) {
+
+          const collision =
+            logo.x + logo.size >
+              rect.left &&
+            logo.x <
+              rect.right &&
+            logo.y + logo.size >
+              rect.top &&
+            logo.y <
+              rect.bottom;
+
+          if (collision) {
+
+            logo.vy =
+              -Math.abs(
+                logo.vy
+              ) * 0.72;
+
+            logo.y =
+              rect.top -
+              logo.size;
+
+            logo.vx +=
+              randomBetween(
+                -0.35,
+                0.35
+              );
+
             logo.bounces++;
-            didBounce = true;
+
+            break;
           }
         }
 
-        checkAndBounce(buyRect);
-        checkAndBounce(distRect);
 
-        if (!didBounce) logo.vy += 0.08;
-        if (logo.x < 0 || logo.x + logo.size > canvas.width) {
-          logo.vx = -logo.vx * 0.7;
-          logo.x = Math.max(0, Math.min(canvas.width - logo.size, logo.x));
+        /* -------------------------------------------
+           RESET
+           ------------------------------------------- */
+
+        if (
+          logo.y >
+            window.innerHeight + 50 ||
+          logo.bounces > 5
+        ) {
+
+          Object.assign(
+            logo,
+            createLogo()
+          );
         }
-        if (logo.y > canvas.height + 40 || logo.bounces > 5) {
-          Object.assign(logo, createLogo());
-          logo.y = randomBetween(-80, -40);
-          logo.bounces = 0;
+
+
+        /* -------------------------------------------
+           DRAW
+           ------------------------------------------- */
+
+        if (
+          belImage.complete &&
+          belImage.naturalWidth
+        ) {
+
+          ctx.save();
+
+          ctx.globalAlpha = 0.28;
+
+          ctx.translate(
+            logo.x +
+              logo.size / 2,
+            logo.y +
+              logo.size / 2
+          );
+
+          ctx.rotate(
+            logo.rotation
+          );
+
+          ctx.drawImage(
+            belImage,
+            -logo.size / 2,
+            -logo.size / 2,
+            logo.size,
+            logo.size
+          );
+
+          ctx.restore();
         }
-        ctx.save();
-        ctx.globalAlpha = 0.33;
-        ctx.translate(logo.x + logo.size / 2, logo.y + logo.size / 2);
-        ctx.rotate(logo.angle);
-        ctx.drawImage(belImg, -logo.size / 2, -logo.size / 2, logo.size, logo.size);
-        ctx.restore();
-      });
-      requestAnimationFrame(drawLogos);
+      }
+
+      animationFrame =
+        requestAnimationFrame(
+          drawScene
+        );
     }
-    belImg.onload = drawLogos;
+
+
+    belImage.onload = () => {
+
+      if (
+        !window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches
+      ) {
+
+        drawScene();
+      }
+    };
+
+
+    /* =========================================================
+       PAGE VISIBILITY
+       ========================================================= */
+
+    document.addEventListener(
+      "visibilitychange",
+      () => {
+
+        if (
+          document.hidden
+        ) {
+
+          animationRunning = false;
+
+          if (animationFrame) {
+
+            cancelAnimationFrame(
+              animationFrame
+            );
+
+            animationFrame = null;
+          }
+
+        } else {
+
+          animationRunning = true;
+
+          if (
+            !window.matchMedia(
+              "(prefers-reduced-motion: reduce)"
+            ).matches
+          ) {
+
+            drawScene();
+          }
+        }
+      }
+    );
+
   </script>
-
-<!-- BEL Info Modal -->
-<div class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50" id="infoModal">
-  <div class="bg-gray-900 text-white w-full max-w-xl mx-4 p-6 rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
-    <h2 class="text-2xl font-bold mb-4 text-center">📊 Belchior Token (BEL) — Overview</h2>
-    <table class="w-full text-sm mb-4 table-auto border-separate">
-      <tbody>
-        <tr><td class="pr-4 font-medium">Current Price:</td><td>$0.000184 USD</td></tr>
-        <tr><td class="pr-4 font-medium">Market Cap:</td><td>$18,680 USD</td></tr>
-        <tr><td class="pr-4 font-medium">24h Volume:</td><td>$0.8225 USD</td></tr>
-        <tr><td class="pr-4 font-medium">24h Change:</td><td>-0.98%</td></tr>
-        <tr><td class="pr-4 font-medium">Circulating Supply:</td><td>100,000,000 BEL</td></tr>
-        <tr><td class="pr-4 font-medium">Max Supply:</td><td>100,000,000 BEL</td></tr>
-        <tr><td class="pr-4 font-medium">Symbol:</td><td>BEL</td></tr>
-        <tr><td class="pr-4 font-medium">Blockchain:</td><td>BNB Chain (BEP-20)</td></tr>
-        <tr><td class="pr-4 font-medium">Token Contract:</td><td class="break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</td></tr>
-        <tr><td class="pr-4 font-medium">Pair Contract:</td><td class="break-all">0xc47216d19cc3030d13f3fe306c5f07f71c3a8f5b</td></tr>
-      </tbody>
-    </table>
-    <h3 class="font-semibold mb-2">❓ FAQ — Frequently Asked Questions</h3>
-    <ul class="list-disc ml-5 text-sm mb-4">
-      <li>How much is 1 BEL? $0.000184 USD</li>
-      <li>Where can I buy BEL? On DEXTswap via BEL/WBNB pair (DEXTools).</li>
-      <li>How to buy BEL? 1. Connect your wallet  2. Input amount  3. Approve & swap  4. Add BEL token to wallet</li>
-      <li>Token distribution? Largest holder owns 50% of supply.</li>
-    </ul>
-    <h3 class="font-semibold mb-2">💵 Conversão USD ⇄ BEL</h3>
-    <p class="text-sm font-medium">🔁 USD para BEL</p>
-    <table class="w-full text-xs mb-3">
-      <thead><tr><th class="text-left">USD</th><th class="text-left">BEL</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td>5,418.737</td></tr>
-        <tr><td>5</td><td>27,093.684</td></tr>
-        <tr><td>10</td><td>54,187.369</td></tr>
-        <tr><td>25</td><td>135,468.423</td></tr>
-        <tr><td>50</td><td>270,936.847</td></tr>
-        <tr><td>100</td><td>541,873.695</td></tr>
-        <tr><td>500</td><td>2,709,368.475</td></tr>
-        <tr><td>1,000</td><td>5,418,736.950</td></tr>
-        <tr><td>10,000</td><td>54,187,369.504</td></tr>
-        <tr><td>50,000</td><td>270,936,847.519</td></tr>
-      </tbody>
-    </table>
-    <p class="text-sm font-medium">🔁 BEL para USD</p>
-    <table class="w-full text-xs mb-4">
-      <thead><tr><th class="text-left">BEL</th><th class="text-left">USD</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td>0.000184</td></tr>
-        <tr><td>5</td><td>0.000922</td></tr>
-        <tr><td>10</td><td>0.00184</td></tr>
-        <tr><td>25</td><td>0.00461</td></tr>
-        <tr><td>50</td><td>0.00922</td></tr>
-        <tr><td>100</td><td>0.0184</td></tr>
-        <tr><td>500</td><td>0.0922</td></tr>
-        <tr><td>1,000</td><td>0.184</td></tr>
-        <tr><td>10,000</td><td>1.845</td></tr>
-        <tr><td>50,000</td><td>9.227</td></tr>
-      </tbody>
-    </table>
-    <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded" onclick="toggleModal()">
-      Fechar
-    </button>
-  </div>
-</div>
-
-<!-- Ticker Banner -->
-<div class="ticker faded-grey" onclick="showBELQR()">
-  <img alt="BEL" class="h-6 w-6 animate-pulse" src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"/>
-  Connect Wallet and Secure your BEL, join the Savings 💾📈
-</div>
-
-<!-- Telegram & links -->
-<div class="absolute top-10 left-4 z-50">
-  <a class="button-telegram px-3 py-1 text-sm" href="https://t.me/+LsSrv9TgJMA5YWZk" rel="noopener noreferrer" target="_blank">📲 Join Telegram</a>
-</div>
-<div class="absolute top-24 left-4 z-50">
-  <button class="button-telegram px-3 py-1 text-sm" onclick="toggleModal()">ℹ️ BEL Token Info</button>
-</div>
-<div class="absolute top-36 left-4 z-50">
-  <a class="button-telegram px-3 py-1 text-sm" href="https://x.com/BelchiorToken" rel="noopener noreferrer" target="_blank">🐦 Follow us on X (Twitter)</a>
-</div>
-
-<!-- Header -->
-<header class="relative text-center pt-10 pb-6">
-  <img alt="BEL Token Logo" class="h-24 mx-auto mb-4" src="https://raw.githubusercontent.com/BelchiorToken/Belchior/main/assets/BEL-Token.png"/>
-  <h1 class="text-flourish faded-grey">Belchior Token (BEL)</h1>
-  <p class="text-lg faded-grey mt-2 max-w-xl mx-auto font-semibold">🔒 Belchior Token </p>
-</header>
-
-<!-- QUICK RESUME BOX -->
-<section class="resume-box">
-  <div class="text-center">
-    <img
-      src="./belxrpbnb.png"
-      alt="Belchior Token Security Lock"
-      class="mx-auto max-h-60 rounded-lg shadow-lg"
-      loading="lazy"
-    />
-  </div>
-</section>
-
-
-
-<!-- SWAP FOR BEL (BNB / USDT / XRP) -->
-<section class="max-w-3xl mx-auto mt-6 px-4">
-<h2 class="text-center text-2xl font-bold faded-grey mb-4">Buy BEL on PancakeSwap</h2>
-
-
-<style>
-.swap-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
-@media (max-width: 640px) { .swap-grid { grid-template-columns: repeat(1, minmax(0,1fr)); } }
-.swap-card {
-display:flex; align-items:center; justify-content:center; gap:.6rem;
-border-radius: 14px; padding: 14px 16px; text-decoration:none; font-weight:700;
-border:1px solid rgba(100,116,139,.6); background: rgba(2,6,23,.7);
-box-shadow: 0 0 0 rgba(255,255,255,0); transform: translateZ(0); transition: transform .18s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease;
-}
-.swap-card:hover { transform: scale(1.04); box-shadow: 0 10px 26px rgba(56,189,248,.25), 0 0 22px rgba(250,204,21,.25); border-color: rgba(203,213,225,.9); background: linear-gradient(180deg, rgba(30,41,59,.9), rgba(2,6,23,.88)); }
-.swap-card img { width: 24px; height: 24px; border-radius: 9999px; transition: transform .18s ease, box-shadow .25s ease; }
-.swap-card:hover img { transform: scale(1.1); box-shadow: 0 0 12px rgba(255,255,255,.25); }
-.swap-sub { display:block; font-size:.7rem; opacity:.7; font-weight:600; line-height:1.1; }
-</style>
-
-
-<!-- Small BNB + USDT cards -->
-<div class="swap-grid">
-<a class="swap-card" target="_blank" rel="noopener noreferrer" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
-<img alt="BNB" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png"/>
-<span>BNB <span class="swap-sub">Swap → BEL</span></span>
-</a>
-
-
-<a class="swap-card" target="_blank" rel="noopener noreferrer" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x55d398326f99059fF775485246999027B3197955&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">
-<img alt="USDT" src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png"/>
-<span>USDT <span class="swap-sub">Swap → BEL</span></span>
-</a>
-</div>
-
-
-<!-- Big XRP Buy button (text only) -->
-<div class="mt-8 flex justify-center">
-<a href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0x1D2F0da169ceb9Fc7B3144628dB156f3F6c60dBE&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b"
-target="_blank" rel="noopener noreferrer"
-class="button-buy flex items-center gap-3 px-8 py-4 text-xl">
-Buy BEL with <b>XRP</b>
-</a>
-</div>
-
-
-<p class="swap-tip text-center text-xs mt-3 text-slate-400">Tip: Switch your wallet to <b>BNB Chain</b> (BSC) before swapping.</p>
-</section>
-
-
-
-<!-- Whitepaper Section -->
-<section class="whitepaper-section max-w-4xl mx-auto mt-16 p-6 bg-gray-900 text-white rounded-xl shadow-xl">
-  <h2 class="text-3xl font-bold mb-4 text-center">📜 BEL Token Whitepaper</h2>
-  <div class="whitepaper-content overflow-y-auto max-h-[500px] p-4 bg-gray-800 rounded-lg space-y-6 text-white leading-relaxed">
-    <p>Belchior Token (BEL)</p>
-    <p>A Transparent Store of Value on Binance Smart Chain</p>
-    <p>1. Introduction</p>
-    <p>Belchior Token (BEL) is a BEP-20 cryptocurrency deployed on the Binance Smart Chain with the</p>
-    <p>primary goal of transparency, security, and value preservation. BEL is not a speculative meme coin nor</p>
-    <p>a high-risk experiment — it is designed as a personal, fully-auditable digital asset that can serve as a</p>
-    <p>long-term store of value for the creator and a secure, open token for the public.</p>
-    <p>2. Vision</p>
-    <p>BEL aims to set a precedent for honesty in cryptocurrency by combining complete transparency in</p>
-    <p>token distribution and ownership, locked liquidity to protect against rug pulls, renounced contract</p>
-    <p>ownership to ensure decentralization, and public documentation of all movements, decisions, and</p>
-    <p>balances.</p>
-    <p>3. Tokenomics</p>
-    <p>Total Supply</p>
-    <p>100,000,000 BEL</p>
-    <p>Locked in PinkLock</p>
-    <p>50,000,000 BEL (50% of supply)</p>
-    <p>Liquidity Pools</p>
-    <p>BEL/BNB and BEL/USDT on PancakeSwap</p>
-    <p>Circulating Supply</p>
-    <p>100,000,000 BEL</p>
-    <p>Taxes</p>
-    <p>0% buy / 0% sell</p>
-    <p>Minting</p>
-    <p>Disabled (fixed supply)</p>
-    <p>4. Security Features</p>
-    <p>• Ownership Renounced — contract cannot be modified by the creator.</p>
-    <p>• Liquidity Lock — 50% of supply locked for a defined period (public unlock date visible).</p>
-    <p>• Verified Contract Code — available on BscScan for public audit.</p>
-    <p>• Honeypot Check: Passed (free trade allowed).</p>
-    <p>5. Roadmap</p>
-    <p>• Phase 1 – Foundation: Token deployment, 50M BEL locked, liquidity established, contract verified and renounced, public proof shared via GitHub.</p>
-    <p>• Phase 2 – Strengthening Trust: Increase liquidity depth, publish comprehensive whitepaper, add liquidity proof and honeypot scan results, distribute to new wallets, list on major chart trackers.</p>
-    <p>• Phase 3 – Expansion & Exposure: Target $10K+ in locked liquidity, list on CoinGecko & CMC, launch community channels, run promotional campaigns, explore utilities.</p>
-    <p>• Phase 4 – Long-Term Stability: Extend liquidity locks, continuously reinforce liquidity, expand use cases (merchant acceptance, micro-payments), establish BEL as a trusted store-of-value token.</p>
-    <p>6. Market Strategy</p>
-    <p>• Initial Phase: Build trust through verifiable transparency and stability.</p>
-    <p>• Growth Phase: Increase liquidity, list on price trackers, distribute supply more evenly.</p>
-    <p>• Utility Phase: Explore real-world use cases such as micro-payments, staking, and digital asset gateways.</p>
-    <p>7. Transparency Commitments</p>
-    <p>• GitHub repository (BelchiorToken) – contract address, LP proof, lock records, honeypot results.</p>
-    <p>• Public Telegram and Twitter accounts for real-time updates.</p>
-    <p>8. Disclaimer</p>
-    <p>BEL is a high-risk digital asset, especially in its early stages. Its value is dependent on market forces, liquidity depth, and adoption. Users should never invest more than they can afford to lose.</p>
-  </div>
-</section>
-
-<!-- Main Content -->
-<main class="max-w-6xl mx-auto px-6 py-12 flex justify-center items-center">
-  <section class="values-box mx-auto w-full max-w-xl p-8">
-    <h2 class="font-bold mb-6 faded-grey text-3xl tracking-wider text-center uppercase">Token Distribution</h2>
-    <ul class="space-y-8">
-      <li>
-        <div class="flex items-center justify-between mb-2">
-          <span class="faded-grey text-lg font-semibold flex-1 text-left">🔒 <b>50,000,000 BEL</b> (50%) Locked on PinkLock</span>
-          <span class="ml-4 text-xs font-bold text-gray-400">50%</span>
-        </div>
-        <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
-          <div class="h-3 bg-green-400 rounded-full transition-all duration-700" style="width:50%"></div>
-        </div>
-      </li>
-      <li>
-        <div class="flex items-center justify-between mb-2">
-          <span class="faded-grey text-lg font-semibold flex-1 text-left">💧 <b>2,600,000 BEL</b> (2.6%) Added to PancakeSwap V2 liquidity</span>
-          <span class="ml-4 text-xs font-bold text-gray-400">2.6%</span>
-        </div>
-        <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
-          <div class="h-3 bg-blue-400 rounded-full transition-all duration-700" style="width:2.6%"></div>
-        </div>
-      </li>
-      <li>
-        <div class="flex items-center justify-between mb-2">
-          <span class="faded-grey text-lg font-semibold flex-1 text-left">👑 <b>47,400,000 BEL</b> (47.4%) Funding</span>
-          <span class="ml-4 text-xs font-bold text-gray-400">47.4%</span>
-        </div>
-        <div class="w-full h-3 bg-gray-800 rounded-full shadow-inner">
-          <div class="h-3 bg-yellow-400 rounded-full transition-all duration-700" style="width:47.4%"></div>
-        </div>
-      </li>
-    </ul>
-    <p class="mt-10 text-center text-sm faded-grey tracking-wide">
-      Contract:
-      <a class="underline" href="https://bscscan.com/token/0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank">0x3c841c88d3819c901ec0fe29897146dca509552b</a>
-    </p>
-  </section>
-</main>
-
-<!-- Footer -->
-<footer class="py-6 text-center faded-grey">
-  <p>© 2025 BEL Token. All rights reserved.</p>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-<script>
-function showBELQR() {
-  document.getElementById('addTokenModal').classList.remove('hidden');
-}
-</script>
-
-<!-- Modal toggle script -->
-<script>
-  function toggleModal() {
-    document.getElementById('infoModal').classList.toggle('hidden');
-  }
-</script>
-
-<!-- Add Token Instructions Modal -->
-<div class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50" id="addTokenModal">
-  <div class="bg-white text-black p-6 rounded-lg shadow-xl max-w-md w-full relative">
-    <h2 class="text-xl font-bold mb-4 text-center">➕ Add BEL to Your Wallet</h2>
-    <ol class="list-decimal list-inside text-sm mb-4">
-      <li>Open your wallet (e.g., Trust Wallet or MetaMask).</li>
-      <li>Go to the "Tokens" or "Assets" tab.</li>
-      <li>Click <strong>"Add Token"</strong> or <strong>"Import Token"</strong>.</li>
-      <li>Choose <strong>Custom Token</strong> and paste this address:<br/>
-        <code class="text-xs break-all">0x3c841c88d3819c901ec0fe29897146dca509552b</code>
-      </li>
-      <li>Token Symbol: <strong>BEL</strong></li>
-      <li>Decimals: <strong>18</strong></li>
-      <li>Save/Confirm. You're done!</li>
-    </ol>
-    <button class="absolute top-2 right-2 text-black hover:text-red-600 font-bold text-lg" onclick="document.getElementById('addTokenModal').classList.add('hidden')">✕</button>
-  </div>
-</div>
-
-<!-- Inject the right-side "Join Telegram" client-only panel -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const resume = document.querySelector('.resume-box');
-  if (!resume) return;
-
-  // Create a wrapper grid and insert it before the resume box
-  const wrapper = document.createElement('div');
-  wrapper.className = 'max-w-5xl mx-auto px-4 mt-10 grid grid-cols-1 md:[grid-template-columns:minmax(0,1fr)_260px] gap-6 items-stretch';
-  resume.parentNode.insertBefore(wrapper, resume);
-  wrapper.appendChild(resume);
-
-  // Build the Telegram "connected" card (client-only)
-  const card = document.createElement('aside');
-  card.className = 'rounded-xl border border-slate-700/60 bg-gradient-to-b from-slate-900 via-slate-900/80 to-slate-950 shadow-xl p-4 md:p-5 h-full flex flex-col';
-  card.innerHTML = `
-    <h3 class="text-xl font-semibold mb-3 tracking-wide">Join Telegram</h3>
-
-    <div id="tg-status" class="mb-3 text-sm text-slate-300 rounded-lg border border-slate-700 p-3 bg-slate-900/60">
-      <div class="flex items-center gap-2">
-        <span id="tg-dot" class="inline-block w-2.5 h-2.5 rounded-full bg-slate-500"></span>
-        <span id="tg-text">Not connected</span>
-      </div>
-    </div>
-
-    <label class="text-xs text-slate-400 mb-2">Your Telegram @username (optional)</label>
-    <input id="tg-handle" type="text" placeholder="@yourhandle" class="mb-3 w-full rounded-lg bg-slate-800/70 border border-slate-700 px-3 py-2 text-slate-100 placeholder-slate-400 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-
-    <div class="mt-auto space-y-2">
-      <a id="tg-join" href="https://t.me/+LsSrv9TgJMA5YWZk" target="_blank"
-         class="block w-full text-center rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors px-4 py-2 font-semibold text-white">
-        Open Telegram Channel
-      </a>
-      <button id="tg-confirm" class="w-full rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-slate-100">
-        I joined — mark me connected
-      </button>
-      <button id="tg-disconnect" class="hidden w-full rounded-lg bg-red-700/80 hover:bg-red-700 border border-red-800 px-4 py-2 text-white">
-        Disconnect
-      </button>
-    </div>
-
-    <p class="mt-3 text-xs text-slate-400 leading-relaxed">
-      This is a simple local setting for convenience (no bot verification). Clearing your browser data will reset it.
-    </p>
-  `;
-  wrapper.appendChild(card);
-
-  // Local status helpers
-  const KEY = "tg_connected_v1";
-  const dot = () => document.getElementById('tg-dot');
-  const txt = () => document.getElementById('tg-text');
-  const joinBtn = () => document.getElementById('tg-join');
-  const confirmBtn = () => document.getElementById('tg-confirm');
-  const disconnectBtn = () => document.getElementById('tg-disconnect');
-  const handleInput = () => document.getElementById('tg-handle');
-
-  function getSession() {
-    try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch { return null; }
-  }
-  function renderStatus() {
-    const sess = getSession();
-    if (sess?.connected) {
-      dot().className = "inline-block w-2.5 h-2.5 rounded-full bg-green-500";
-      txt().textContent = sess.name ? \`Connected as \${sess.name}\` : "Connected";
-      joinBtn().classList.add('hidden');
-      confirmBtn().classList.add('hidden');
-      disconnectBtn().classList.remove('hidden');
-      if (sess.name) handleInput().value = sess.name;
-    } else {
-      dot().className = "inline-block w-2.5 h-2.5 rounded-full bg-slate-500";
-      txt().textContent = "Not connected";
-      joinBtn().classList.remove('hidden');
-      confirmBtn().classList.remove('hidden');
-      disconnectBtn().classList.add('hidden');
-    }
-  }
-  function setConnected(name) {
-    localStorage.setItem(KEY, JSON.stringify({ connected: true, name: name || null, ts: Date.now() }));
-    renderStatus();
-  }
-  function clearConnected() {
-    localStorage.removeItem(KEY);
-    renderStatus();
-  }
-
-  confirmBtn().addEventListener('click', () => {
-    const name = handleInput().value.trim() || null;
-    setConnected(name);
-  });
-  disconnectBtn().addEventListener('click', clearConnected);
-
-  renderStatus();
-});
-</script>
 
 </body>
 </html>
-
-
-
-
-
-
-
