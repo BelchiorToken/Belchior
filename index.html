@@ -1091,14 +1091,14 @@
             </h2>
 
             <p class="text-xs text-slate-400 mt-1">
-              Connect your browser wallet to check the active network.
+              Connect Binance Wallet to check the active network.
               No transaction is initiated by this button.
             </p>
           </div>
 
           <div class="wallet-status">
             <span id="wallet-dot" class="wallet-dot"></span>
-            <span id="wallet-status-text">Wallet not connected</span>
+            <span id="wallet-status-text">Binance Wallet not connected</span>
           </div>
 
         </div>
@@ -1110,7 +1110,7 @@
             class="btn btn-primary"
             type="button"
           >
-            🔗 Connect Wallet
+            🟨 Connect Binance Wallet
           </button>
 
           <button
@@ -1126,7 +1126,7 @@
             class="btn btn-dark hidden"
             type="button"
           >
-            Disconnect
+            Clear Wallet State
           </button>
 
         </div>
@@ -1248,8 +1248,8 @@
       </div>
 
       <p class="swap-warning">
-        ⚠️ The XRP route above uses an XRP token representation on BNB Chain.
-        Always confirm the token contract displayed by PancakeSwap before swapping.
+        ⚠️ The XRP route above uses an XRP token representation on BNB Chain, not native XRP.
+        Always confirm both the XRP representation contract and BEL contract displayed by PancakeSwap before swapping.
         Your wallet should be connected to BNB Chain (BSC).
       </p>
 
@@ -1728,13 +1728,13 @@
           </tr>
 
           <tr>
-            <td>Circulating Supply</td>
+            <td>Total Supply</td>
             <td>100,000,000 BEL</td>
           </tr>
 
           <tr>
-            <td>Max Supply</td>
-            <td>100,000,000 BEL</td>
+            <td>Circulating Supply</td>
+            <td>Verify on-chain</td>
           </tr>
 
           <tr>
@@ -1773,7 +1773,7 @@
 
         <p>
           <strong>How much is 1 BEL?</strong><br>
-          The reference value shown above is $0.000184 USD.
+          The page shows a manually entered reference value of $0.000184 USD; it is not live data.
           Market prices can change at any time.
         </p>
 
@@ -1841,13 +1841,13 @@
       </h2>
 
       <div class="notice">
-        Make sure your wallet is on BNB Chain before adding the token.
+        Make sure Binance Wallet is on BNB Smart Chain before adding the token.
       </div>
 
       <ol class="list-decimal list-inside text-sm text-slate-300 space-y-3">
 
         <li>
-          Open MetaMask, Trust Wallet or another compatible wallet.
+          Open Binance Wallet.
         </li>
 
         <li>
@@ -1998,38 +1998,29 @@
 
 
     /* =========================================================
-       WALLET
+       BINANCE WALLET / BNB CHAIN
        ========================================================= */
 
-    const connectWalletButton =
-      document.getElementById("connect-wallet");
+    const connectWalletButton = document.getElementById("connect-wallet");
+    const switchBscButton = document.getElementById("switch-bsc");
+    const disconnectWalletButton = document.getElementById("disconnect-wallet");
+    const walletDot = document.getElementById("wallet-dot");
+    const walletStatusText = document.getElementById("wallet-status-text");
+    const walletMessage = document.getElementById("wallet-message");
 
-    const switchBscButton =
-      document.getElementById("switch-bsc");
+    let activeWalletProvider = null;
+    let activeWalletInfo = null;
+    let walletListenersAttachedTo = null;
+    let binanceEip6963Provider = null;
+    let binanceEip6963Info = null;
 
-    const disconnectWalletButton =
-      document.getElementById("disconnect-wallet");
-
-    const walletDot =
-      document.getElementById("wallet-dot");
-
-    const walletStatusText =
-      document.getElementById("wallet-status-text");
-
-    const walletMessage =
-      document.getElementById("wallet-message");
-
+    const BINANCE_WALLET_RDNS = "com.binance.wallet";
+    const BINANCE_WALLET_URL = "https://www.binance.com/en/web3wallet";
 
     function shortAddress(address) {
-      if (!address) return "";
-
-      return (
-        address.slice(0, 6) +
-        "..." +
-        address.slice(-4)
-      );
+      if (!address || typeof address !== "string") return "";
+      return address.slice(0, 6) + "..." + address.slice(-4);
     }
-
 
     function setWalletMessage(message, type = "normal") {
       if (!message) {
@@ -2040,7 +2031,6 @@
 
       walletMessage.textContent = message;
       walletMessage.classList.remove("hidden");
-
       walletMessage.classList.remove(
         "text-red-400",
         "text-green-400",
@@ -2056,348 +2046,322 @@
       }
     }
 
+    function isBinanceProviderInfo(info) {
+      if (!info) return false;
 
-    function getEthereum() {
-      if (!window.ethereum) {
-        setWalletMessage(
-          "No browser wallet detected. Install MetaMask, Trust Wallet or another compatible wallet.",
-          "error"
-        );
+      const rdns = String(info.rdns || "").toLowerCase();
+      const name = String(info.name || "").toLowerCase();
 
-        return null;
-      }
-
-      return window.ethereum;
+      return (
+        rdns === BINANCE_WALLET_RDNS ||
+        name.includes("binance wallet") ||
+        name === "binance chain wallet"
+      );
     }
 
+    function captureEip6963Provider(event) {
+      const detail = event && event.detail;
+      if (!detail || !detail.provider || !detail.info) return;
+
+      if (isBinanceProviderInfo(detail.info)) {
+        binanceEip6963Provider = detail.provider;
+        binanceEip6963Info = detail.info;
+      }
+    }
+
+    window.addEventListener(
+      "eip6963:announceProvider",
+      captureEip6963Provider
+    );
+
+    function requestEip6963Providers() {
+      try {
+        window.dispatchEvent(new Event("eip6963:requestProvider"));
+      } catch (error) {
+        console.debug("EIP-6963 provider discovery unavailable.", error);
+      }
+    }
+
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function getBinanceProvider() {
+      requestEip6963Providers();
+
+      // Give injected EIP-6963 wallets a moment to announce themselves.
+      if (!binanceEip6963Provider) {
+        await wait(350);
+      }
+
+      if (binanceEip6963Provider) {
+        return {
+          provider: binanceEip6963Provider,
+          info: binanceEip6963Info
+        };
+      }
+
+      // Legacy Binance Wallet injection.
+      if (window.BinanceChain && typeof window.BinanceChain.request === "function") {
+        return {
+          provider: window.BinanceChain,
+          info: { name: "Binance Wallet", rdns: BINANCE_WALLET_RDNS }
+        };
+      }
+
+      return null;
+    }
 
     function updateWalletUI(address, chainId) {
-
       if (!address) {
-
         walletDot.classList.remove("connected");
-
-        walletStatusText.textContent =
-          "Wallet not connected";
-
+        walletStatusText.textContent = "Binance Wallet not connected";
         connectWalletButton.classList.remove("hidden");
-
         switchBscButton.classList.add("hidden");
-
         disconnectWalletButton.classList.add("hidden");
-
         return;
       }
 
       walletDot.classList.add("connected");
-
-      walletStatusText.innerHTML = `
-        <span class="wallet-address">
-          ${shortAddress(address)}
-        </span>
-      `;
-
+      walletStatusText.textContent = shortAddress(address);
       connectWalletButton.classList.add("hidden");
-
       disconnectWalletButton.classList.remove("hidden");
 
-      if (chainId && chainId.toLowerCase() === BEL_CONFIG.chainIdHex) {
-
+      if (
+        typeof chainId === "string" &&
+        chainId.toLowerCase() === BEL_CONFIG.chainIdHex
+      ) {
         switchBscButton.classList.add("hidden");
-
         setWalletMessage(
-          "Wallet connected to BNB Chain.",
+          "Binance Wallet connected to BNB Smart Chain.",
           "success"
         );
-
       } else {
-
         switchBscButton.classList.remove("hidden");
-
         setWalletMessage(
-          "Wallet connected, but it is not currently on BNB Chain.",
+          "Binance Wallet connected, but it is not on BNB Smart Chain.",
           "normal"
         );
       }
     }
 
-
-    async function getCurrentAccount(ethereum) {
+    async function getCurrentAccount(provider = activeWalletProvider) {
+      if (!provider) return null;
 
       try {
-
-        const accounts = await ethereum.request({
-          method: "eth_accounts"
-        });
-
-        return accounts && accounts.length
-          ? accounts[0]
-          : null;
-
+        const accounts = await provider.request({ method: "eth_accounts" });
+        return accounts && accounts.length ? accounts[0] : null;
       } catch (error) {
-
-        console.error(error);
-
+        console.error("Unable to read wallet accounts.", error);
         return null;
       }
     }
 
-
-    async function getChainId(ethereum) {
+    async function getChainId(provider = activeWalletProvider) {
+      if (!provider) return null;
 
       try {
-
-        return await ethereum.request({
-          method: "eth_chainId"
-        });
-
+        return await provider.request({ method: "eth_chainId" });
       } catch (error) {
-
-        console.error(error);
-
+        console.error("Unable to read wallet chain.", error);
         return null;
       }
     }
 
+    function detachWalletListeners() {
+      if (!walletListenersAttachedTo || typeof walletListenersAttachedTo.removeListener !== "function") {
+        walletListenersAttachedTo = null;
+        return;
+      }
+
+      walletListenersAttachedTo.removeListener("accountsChanged", handleAccountsChanged);
+      walletListenersAttachedTo.removeListener("chainChanged", handleChainChanged);
+      walletListenersAttachedTo.removeListener("disconnect", handleProviderDisconnect);
+      walletListenersAttachedTo = null;
+    }
+
+    function attachWalletListeners(provider) {
+      detachWalletListeners();
+
+      if (!provider || typeof provider.on !== "function") return;
+
+      provider.on("accountsChanged", handleAccountsChanged);
+      provider.on("chainChanged", handleChainChanged);
+      provider.on("disconnect", handleProviderDisconnect);
+      walletListenersAttachedTo = provider;
+    }
+
+    async function handleAccountsChanged(accounts) {
+      if (!accounts || !accounts.length) {
+        activeWalletProvider = null;
+        activeWalletInfo = null;
+        detachWalletListeners();
+        updateWalletUI(null, null);
+        setWalletMessage("Binance Wallet is no longer connected to this site.");
+        return;
+      }
+
+      const chainId = await getChainId();
+      updateWalletUI(accounts[0], chainId);
+    }
+
+    async function handleChainChanged(chainId) {
+      const address = await getCurrentAccount();
+      if (address) {
+        updateWalletUI(address, chainId);
+      } else {
+        updateWalletUI(null, null);
+      }
+    }
+
+    function handleProviderDisconnect(error) {
+      console.warn("Binance Wallet provider disconnected.", error);
+      activeWalletProvider = null;
+      activeWalletInfo = null;
+      detachWalletListeners();
+      updateWalletUI(null, null);
+      setWalletMessage("Binance Wallet provider disconnected.", "error");
+    }
 
     async function connectWallet() {
+      setWalletMessage("Looking for Binance Wallet...");
 
-      const ethereum = getEthereum();
+      const wallet = await getBinanceProvider();
 
-      if (!ethereum) return;
+      if (!wallet) {
+        setWalletMessage(
+          "Binance Wallet was not detected. Open or install Binance Wallet, then try again.",
+          "error"
+        );
+        window.open(BINANCE_WALLET_URL, "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      const provider = wallet.provider;
+      activeWalletProvider = provider;
+      activeWalletInfo = wallet.info;
+      attachWalletListeners(provider);
 
       try {
+        setWalletMessage("Waiting for Binance Wallet confirmation...");
 
-        setWalletMessage(
-          "Waiting for wallet confirmation..."
-        );
-
-        const accounts = await ethereum.request({
+        const accounts = await provider.request({
           method: "eth_requestAccounts"
         });
 
         if (!accounts || !accounts.length) {
           setWalletMessage(
-            "No wallet account was returned.",
+            "Binance Wallet did not return an account.",
             "error"
           );
-
           return;
         }
 
-        const chainId = await getChainId(ethereum);
-
+        const chainId = await getChainId(provider);
         updateWalletUI(accounts[0], chainId);
-
       } catch (error) {
+        console.error("Binance Wallet connection failed.", error);
 
-        console.error(error);
-
-        if (error.code === 4001) {
-
+        if (error && error.code === 4001) {
           setWalletMessage(
-            "Wallet connection was rejected.",
+            "Binance Wallet connection was rejected.",
             "error"
           );
-
         } else {
-
           setWalletMessage(
-            error.message || "Unable to connect wallet.",
+            (error && error.message) || "Unable to connect Binance Wallet.",
             "error"
           );
         }
       }
     }
-
 
     async function switchToBsc() {
+      const provider = activeWalletProvider || (await getBinanceProvider())?.provider;
 
-      const ethereum = getEthereum();
-
-      if (!ethereum) return;
-
-      try {
-
-        await ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [
-            {
-              chainId: BEL_CONFIG.chainIdHex
-            }
-          ]
-        });
-
-        const address =
-          await getCurrentAccount(ethereum);
-
-        const chainId =
-          await getChainId(ethereum);
-
-        updateWalletUI(address, chainId);
-
-      } catch (error) {
-
-        /*
-         * Error 4902 means the wallet does not have
-         * BNB Chain configured.
-         */
-
-        if (error.code === 4902) {
-
-          try {
-
-            await ethereum.request({
-              method: "wallet_addEthereumChain",
-              params: [
-                {
-                  chainId: BEL_CONFIG.chainIdHex,
-                  chainName: BEL_CONFIG.chainName,
-                  nativeCurrency: BEL_CONFIG.nativeCurrency,
-                  rpcUrls: BEL_CONFIG.rpcUrls,
-                  blockExplorerUrls:
-                    BEL_CONFIG.blockExplorerUrls
-                }
-              ]
-            });
-
-            const address =
-              await getCurrentAccount(ethereum);
-
-            const chainId =
-              await getChainId(ethereum);
-
-            updateWalletUI(address, chainId);
-
-          } catch (addError) {
-
-            console.error(addError);
-
-            setWalletMessage(
-              addError.message ||
-              "Unable to add BNB Chain.",
-              "error"
-            );
-          }
-
-        } else {
-
-          console.error(error);
-
-          setWalletMessage(
-            error.message ||
-            "Unable to switch network.",
-            "error"
-          );
-        }
-      }
-    }
-
-
-    function disconnectWallet() {
-
-      /*
-       * Browser wallets do not provide a universal
-       * programmatic disconnect method.
-       *
-       * We therefore reset the site's UI state.
-       */
-
-      updateWalletUI(null, null);
-
-      setWalletMessage(
-        "Wallet disconnected from this page."
-      );
-    }
-
-
-    connectWalletButton.addEventListener(
-      "click",
-      connectWallet
-    );
-
-    switchBscButton.addEventListener(
-      "click",
-      switchToBsc
-    );
-
-    disconnectWalletButton.addEventListener(
-      "click",
-      disconnectWallet
-    );
-
-
-    /* =========================================================
-       WALLET EVENT LISTENERS
-       ========================================================= */
-
-    async function initializeWallet() {
-
-      const ethereum = getEthereum();
-
-      if (!ethereum) {
+      if (!provider) {
+        setWalletMessage("Binance Wallet is not available.", "error");
         return;
       }
 
-      const address =
-        await getCurrentAccount(ethereum);
+      activeWalletProvider = provider;
 
-      const chainId =
-        await getChainId(ethereum);
+      try {
+        await provider.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: BEL_CONFIG.chainIdHex }]
+        });
+
+        const address = await getCurrentAccount(provider);
+        const chainId = await getChainId(provider);
+        updateWalletUI(address, chainId);
+      } catch (error) {
+        if (error && error.code === 4902) {
+          try {
+            await provider.request({
+              method: "wallet_addEthereumChain",
+              params: [{
+                chainId: BEL_CONFIG.chainIdHex,
+                chainName: BEL_CONFIG.chainName,
+                nativeCurrency: BEL_CONFIG.nativeCurrency,
+                rpcUrls: BEL_CONFIG.rpcUrls,
+                blockExplorerUrls: BEL_CONFIG.blockExplorerUrls
+              }]
+            });
+
+            const address = await getCurrentAccount(provider);
+            const chainId = await getChainId(provider);
+            updateWalletUI(address, chainId);
+          } catch (addError) {
+            console.error("Unable to add BNB Smart Chain.", addError);
+            setWalletMessage(
+              (addError && addError.message) || "Unable to add BNB Smart Chain.",
+              "error"
+            );
+          }
+        } else if (error && error.code === 4001) {
+          setWalletMessage("Network switch was rejected in Binance Wallet.", "error");
+        } else {
+          console.error("Unable to switch network.", error);
+          setWalletMessage(
+            (error && error.message) || "Unable to switch to BNB Smart Chain.",
+            "error"
+          );
+        }
+      }
+    }
+
+    function disconnectWallet() {
+      // EIP-1193 does not provide a universal site-side disconnect method.
+      // Clear this page's state without pretending to revoke wallet permissions.
+      activeWalletProvider = null;
+      activeWalletInfo = null;
+      detachWalletListeners();
+      updateWalletUI(null, null);
+      setWalletMessage("Wallet state cleared for this page.");
+    }
+
+    async function initializeWallet() {
+      const wallet = await getBinanceProvider();
+      if (!wallet) return;
+
+      activeWalletProvider = wallet.provider;
+      activeWalletInfo = wallet.info;
+      attachWalletListeners(activeWalletProvider);
+
+      const address = await getCurrentAccount(activeWalletProvider);
+      const chainId = await getChainId(activeWalletProvider);
 
       if (address) {
         updateWalletUI(address, chainId);
       }
     }
 
-
-    if (window.ethereum) {
-
-      window.ethereum.on(
-        "accountsChanged",
-        accounts => {
-
-          if (!accounts || !accounts.length) {
-
-            updateWalletUI(null, null);
-
-            setWalletMessage(
-              "Wallet disconnected from this page."
-            );
-
-            return;
-          }
-
-          getChainId(window.ethereum)
-            .then(chainId => {
-              updateWalletUI(
-                accounts[0],
-                chainId
-              );
-            });
-        }
-      );
-
-      window.ethereum.on(
-        "chainChanged",
-        chainId => {
-
-          getCurrentAccount(window.ethereum)
-            .then(address => {
-
-              if (address) {
-                updateWalletUI(
-                  address,
-                  chainId
-                );
-              }
-            });
-        }
-      );
-    }
+    connectWalletButton.addEventListener("click", connectWallet);
+    switchBscButton.addEventListener("click", switchToBsc);
+    disconnectWalletButton.addEventListener("click", disconnectWallet);
 
     initializeWallet();
-
 
     /* =========================================================
        TELEGRAM LOCAL STATUS
