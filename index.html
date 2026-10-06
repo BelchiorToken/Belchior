@@ -7,37 +7,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      min-height: 100vh;
-      background: #050505;
-      color: #f4f1ea;
-      font-family: Inter, system-ui, sans-serif;
-    }
-    .bg {
-      position: fixed; inset: 0; pointer-events: none;
-      background:
-        linear-gradient(118deg, transparent 47%, rgba(255,255,255,.07) 47.4%, transparent 47.8%),
-        linear-gradient(62deg, transparent 38%, rgba(255,255,255,.05) 38.4%, transparent 38.8%);
-    }
-    .wrap { position: relative; max-width: 420px; margin: 0 auto; padding: 36px 18px 48px; text-align: center; }
+    body { min-height: 100vh; background: #050505; color: #f4f1ea; font-family: Inter, system-ui, sans-serif; }
+    .bg { position: fixed; inset: 0; pointer-events: none; background: linear-gradient(118deg, transparent 47%, rgba(255,255,255,.07) 47.4%, transparent 47.8%), linear-gradient(62deg, transparent 38%, rgba(255,255,255,.05) 38.4%, transparent 38.8%); }
+    .wrap { position: relative; max-width: 420px; margin: 0 auto; padding: 36px 18px 64px; text-align: center; }
     .eyebrow { letter-spacing: .42em; font-size: 11px; color: #8a8a8a; }
     h1 { font-weight: 500; font-size: 28px; margin-top: 6px; }
-    .mark {
-      width: 250px; height: 250px; margin: 26px auto 8px;
-      border: 0; background: transparent; color: inherit; cursor: pointer; position: relative;
-    }
-    .mark:disabled { opacity: .45; cursor: not-allowed; }
-    .ring {
-      position: absolute; inset: 8px; border-radius: 50%;
-      border: 1px solid rgba(243,234,215,.75);
-    }
-    .ring.inner { inset: 22px; border-color: rgba(243,234,215,.28); }
-    .mark.on .ring { animation: spin 10s linear infinite; border-style: dashed; }
-    .b {
-      font-family: "Libre Bodoni", Didot, "Bodoni MT", serif;
-      font-size: 168px; line-height: 1; color: #f3ead7;
-      font-weight: 500; position: relative; top: 8px;
-    }
+    .mark { width: 250px; height: 250px; margin: 26px auto 8px; border: 0; background: transparent; color: inherit; cursor: pointer; position: relative; }
+    .ring-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .mark.on .ring-svg { animation: spin 6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .b { font-family: "Libre Bodoni", Didot, "Bodoni MT", serif; font-size: 168px; line-height: 1; color: #f3ead7; font-weight: 500; position: relative; top: 8px; }
     .hint { display: block; margin-top: -8px; letter-spacing: .22em; font-size: 11px; color: #8a8a8a; text-transform: uppercase; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #2a2a2a; margin: 22px 0 12px; text-align: left; }
     .grid div { padding: 12px 14px; border-right: 1px solid #2a2a2a; border-bottom: 1px solid #2a2a2a; }
@@ -45,22 +24,18 @@
     .grid strong { font-weight: 500; font-size: 16px; }
     .card { border: 1px solid #2a2a2a; padding: 16px; margin-top: 12px; text-align: left; }
     .label { font-size: 11px; letter-spacing: .22em; color: #737373; margin-bottom: 10px; }
-    .row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+    .row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; font-size: 14px; }
     .row span:first-child { color: #a3a3a3; }
-    button.btn, input {
-      width: 100%; padding: 12px; border: 1px solid #fff; background: #fff; color: #000;
-      font-weight: 600; cursor: pointer;
-    }
-    button.btn.ghost { background: transparent; color: #fff; margin-top: 8px; }
+    button.btn, input { width: 100%; padding: 12px; border: 1px solid #fff; background: #fff; color: #000; font-weight: 600; cursor: pointer; }
+    button.btn.ghost { background: transparent; color: #fff; }
+    a.buy { display: block; margin-top: 8px; text-align: center; text-decoration: none; background: #f3ead7; color: #000; border: 1px solid #f3ead7; letter-spacing: .14em; font-size: 16px; padding: 16px; font-weight: 600; }
     button.btn:disabled { opacity: .35; cursor: not-allowed; }
     .split { display: flex; gap: 8px; margin-top: 10px; }
     input { background: #000; color: #fff; border-color: #404040; font-weight: 400; }
-    .addr { font-family: ui-monospace, monospace; font-size: 13px; margin-bottom: 10px; }
-    .tiny { color: #737373; font-size: 12px; margin: 6px 0 8px; }
-    .picker {
-      position: fixed; inset: 0; background: rgba(0,0,0,.72);
-      display: none; align-items: center; justify-content: center; z-index: 5;
-    }
+    .addr { font-family: ui-monospace, monospace; font-size: 13px; margin-bottom: 10px; word-break: break-all; }
+    .tiny { color: #737373; font-size: 12px; margin: 6px 0 8px; line-height: 1.45; }
+    .note { color: #d6d3d1; font-size: 12px; line-height: 1.45; margin-top: 10px; }
+    .picker { position: fixed; inset: 0; background: rgba(0,0,0,.72); display: none; align-items: center; justify-content: center; z-index: 5; padding: 16px; }
     .picker.on { display: flex; }
     .sheet { width: 320px; background: #0a0a0a; border: 1px solid #2a2a2a; padding: 18px; text-align: left; }
     .sheet button { margin-top: 8px; }
@@ -72,192 +47,236 @@
     <p class="eyebrow">BEL TOKEN</p>
     <h1>Mine</h1>
     <p class="hint"><a href="token.html" style="color:#8a8a8a;text-decoration:none;letter-spacing:.18em">TOKEN PAGE</a></p>
-    <button class="mark" id="mark">
-      <span class="ring"></span>
-      <span class="ring inner"></span>
+    <button class="mark" id="mark" type="button">
+      <svg class="ring-svg" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(243,234,215,.22)" stroke-width="0.7"></circle>
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#f3ead7" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="78 212"></circle>
+        <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(243,234,215,.28)" stroke-width="0.5"></circle>
+      </svg>
       <span class="b">B</span>
     </button>
-    <span class="hint" id="hint">Connect wallet</span>
+    <span class="hint" id="hint">Tap to mine</span>
     <div class="grid">
       <div><span>STATUS</span><strong id="status">IDLE</strong></div>
       <div><span>ELAPSED</span><strong id="elapsed">00:00:00</strong></div>
-      <div><span>PENDING</span><strong id="pending">0.0000</strong></div>
+      <div><span>SCORE</span><strong id="pending">0.0000</strong></div>
       <div><span>RATE</span><strong>100/24h</strong></div>
     </div>
+    <p class="tiny">The vault is mined BEL plus staked BEL.</p>
+    <div class="split">
+      <button class="btn ghost" id="depositBtn" type="button">Deposit</button>
+      <button class="btn ghost" id="withdrawBtn" type="button">Withdraw</button>
+    </div>
+    <a class="btn buy" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=BNB&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" rel="noreferrer">BUY BEL</a>
     <div class="card">
       <div class="label">WALLET</div>
       <div class="addr" id="addr" hidden></div>
-      <button class="btn" id="walletBtn">Connect BSC Wallet</button>
+      <div class="row"><span>Your BEL</span><span id="walletBel">—</span></div>
+      <p class="tiny" id="walletHint">Connect inside Binance Wallet, Trust Wallet, or MetaMask.</p>
+      <button class="btn" id="walletBtn" type="button">Connect BSC Wallet</button>
     </div>
     <div class="card">
-      <div class="label">STAKE</div>
-      <div class="row"><span>Your APY</span><span id="apy">3%</span></div>
-      <p class="tiny">3% under 10k · 3.5% from 10k · 4% from 100k · 5% from 1M</p>
+      <div class="label">BEL VAULT</div>
+      <div class="row"><span>Mined</span><span id="mined">0.0000 BEL</span></div>
       <div class="row"><span>Staked</span><span id="staked">0 BEL</span></div>
-      <div class="row"><span>Est. / day</span><span id="daily">0.0000 BEL</span></div>
-      <div class="row"><span>Pending</span><span id="stakePending">0.000000</span></div>
-      <input id="amount" type="number" min="1" value="1000" />
-      <div class="split">
-        <button class="btn" id="stakeBtn">Stake</button>
-        <button class="btn" id="claimStake">Claim</button>
-      </div>
-      <button class="btn ghost" id="unstake">Unstake all</button>
+      <div class="row"><span>Stake yield</span><span id="stakePending">0.0000 BEL</span></div>
+      <div class="row"><span>In vault</span><span id="vaultBel">0.0000 BEL</span></div>
+      <p class="tiny" id="apyLine">3% APY · 3% under 10k · 3.5% from 10k · 4% from 100k · 5% from 1M</p>
+      <input id="amount" inputmode="decimal" value="1000" />
+      <p class="note" id="note"></p>
     </div>
   </div>
   <div class="picker" id="picker">
     <div class="sheet">
       <div class="label">CHOOSE WALLET</div>
-      <button class="btn" data-wallet="binance">Binance Wallet</button>
-      <button class="btn" data-wallet="trust">Trust Wallet</button>
-      <button class="btn" data-wallet="metamask">MetaMask</button>
-      <input id="manualAddr" placeholder="Or paste BSC address" style="width:100%;margin-top:10px;padding:12px;background:#000;color:#fff;border:1px solid #404040" />
-      <button class="btn" id="useAddr">Use this address</button>
-      <button class="btn ghost" id="closePicker">Cancel</button>
+      <button class="btn" data-wallet="binance" type="button">Binance Wallet</button>
+      <button class="btn" data-wallet="trust" type="button">Trust Wallet</button>
+      <button class="btn" data-wallet="metamask" type="button">MetaMask</button>
+      <input id="manualAddr" placeholder="Or paste BSC address" style="margin-top:10px" />
+      <button class="btn" id="useAddr" type="button">Use this address</button>
+      <button class="btn ghost" id="closePicker" type="button">Cancel</button>
     </div>
   </div>
   <script>
     const RATE = 100
-    const key = "bel_mining_v3"
-    let s = JSON.parse(localStorage.getItem(key) || "{}")
-    s = Object.assign({ wallet: null, mining: false, start: null, claimed: 0, staked: 0, stakeStart: null, stakeClaimed: 0 }, s)
+    const BEL = "0x3c841c88d3819c901ec0fe29897146dca509552b"
+    const KEY = "bel_mining_v5"
+    const RPC = "https://bsc.publicnode.com"
     const $ = (id) => document.getElementById(id)
+    let provider = null
+    let decimals = 18
+    let s = Object.assign({ wallet: null, walletName: null, canSign: false, mining: false, start: null, claimed: 0, staked: 0, stakeStart: null, vault: "", chainBel: null }, JSON.parse(localStorage.getItem(KEY) || "{}"))
+    function save() { localStorage.setItem(KEY, JSON.stringify(s)) }
+    function note(t) { $("note").textContent = t || "" }
     function apyFor(n) { return n >= 1e6 ? 5 : n >= 1e5 ? 4 : n >= 1e4 ? 3.5 : 3 }
-    function save() { localStorage.setItem(key, JSON.stringify(s)) }
     function fmt(ms) {
-      const t = Math.floor(ms / 1000)
-      return [Math.floor(t/3600), Math.floor((t%3600)/60), t%60].map(n => String(n).padStart(2,"0")).join(":")
+      const t = Math.max(0, Math.floor(ms / 1000))
+      return [Math.floor(t / 3600), Math.floor((t % 3600) / 60), t % 60].map((n) => String(n).padStart(2, "0")).join(":")
+    }
+    function short(a) { return a.slice(0, 6) + "…" + a.slice(-4) }
+    function isAddr(a) { return /^0x[a-fA-F0-9]{40}$/.test(a || "") }
+    function pad(hex, size) { return hex.replace(/^0x/i, "").padStart(size, "0") }
+    function addrWord(a) { return pad(a, 64) }
+    function fromUnits(raw) {
+      const n = BigInt(raw)
+      const base = 10n ** BigInt(decimals)
+      const frac = (n % base).toString().padStart(decimals, "0").replace(/0+$/, "")
+      return n / base + (frac ? "." + frac.slice(0, 4) : "")
+    }
+    async function rpc(method, params) {
+      const res = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) })
+      const json = await res.json()
+      if (json.error) throw new Error(json.error.message || "RPC error")
+      return json.result
+    }
+    async function call(to, data) {
+      return BigInt(await rpc("eth_call", [{ to, data }, "latest"]))
+    }
+    function findProvider(kind) {
+      const eth = window.ethereum
+      const list = eth && eth.providers ? eth.providers : []
+      if (kind === "binance") return window.BinanceChain || list.find((p) => p.isBinance) || (eth && eth.isBinance ? eth : null)
+      if (kind === "trust") return window.trustwallet || list.find((p) => p.isTrust || p.isTrustWallet) || (eth && eth.isTrust ? eth : null)
+      return list.find((p) => p.isMetaMask && !p.isBraveWallet) || (eth && eth.isMetaMask ? eth : null)
+    }
+    async function chainCall(to, data) {
+      if (provider && provider.request) return BigInt(await provider.request({ method: "eth_call", params: [{ to, data }, "latest"] }))
+      return call(to, data)
+    }
+    async function refreshBalances() {
+      if (!isAddr(s.wallet)) { s.chainBel = null; return }
+      try {
+        decimals = Number(await chainCall(BEL, "0x313ce567")) || 18
+        s.chainBel = fromUnits(await chainCall(BEL, "0x70a08231" + addrWord(s.wallet)))
+      } catch (err) {
+        s.chainBel = null
+        note(err.message || "Could not read BEL balance")
+      }
+      render()
     }
     function render() {
       const mining = s.mining && s.start
       $("mark").classList.toggle("on", !!mining)
-      $("mark").disabled = !s.wallet
-      $("hint").textContent = !s.wallet ? "Connect wallet" : mining ? "Tap to claim" : "Tap to mine"
+      $("hint").textContent = mining ? "Tap to claim" : "Tap to mine"
       $("status").textContent = mining ? "MINING" : "IDLE"
       const elapsed = mining ? Date.now() - s.start : 0
       $("elapsed").textContent = fmt(elapsed)
       $("pending").textContent = ((elapsed / 36e5) / 24 * RATE).toFixed(4)
       if (s.wallet) {
         $("addr").hidden = false
-        $("addr").textContent = (s.walletName ? s.walletName + " · " : "") + s.wallet
+        $("addr").textContent = (s.walletName ? s.walletName + " · " : "") + short(s.wallet) + (s.canSign ? "" : " · view only")
+        $("walletHint").hidden = true
         $("walletBtn").textContent = "Disconnect"
+        $("walletBel").textContent = s.chainBel == null ? "…" : s.chainBel + " BEL"
       } else {
         $("addr").hidden = true
+        $("walletHint").hidden = false
         $("walletBtn").textContent = "Connect BSC Wallet"
+        $("walletBel").textContent = "—"
       }
-      const apy = apyFor(s.staked)
+      const apy = apyFor(s.staked || 0)
+      const minedPending = mining ? ((Date.now() - s.start) / 36e5) / 24 * RATE : 0
+      const mined = (s.claimed || 0) + minedPending
       const years = s.stakeStart ? (Date.now() - s.stakeStart) / (36e5 * 24 * 365) : 0
-      const pendingStake = s.staked * (apy / 100) * years
-      $("apy").textContent = apy + "%"
-      $("staked").textContent = s.staked.toLocaleString() + " BEL"
-      $("daily").textContent = (s.staked * (apy / 100) / 365).toFixed(4) + " BEL"
-      $("stakePending").textContent = pendingStake.toFixed(6)
+      const yieldBel = (s.staked || 0) * (apy / 100) * years
+      $("mined").textContent = mined.toFixed(4) + " BEL"
+      $("staked").textContent = (s.staked || 0).toLocaleString() + " BEL"
+      $("stakePending").textContent = yieldBel.toFixed(4) + " BEL"
+      $("vaultBel").textContent = (mined + (s.staked || 0) + yieldBel).toFixed(4) + " BEL"
+      $("apyLine").textContent = apy + "% APY · 3% under 10k · 3.5% from 10k · 4% from 100k · 5% from 1M"
     }
-    function findProvider(kind) {
-      const list = window.ethereum?.providers || []
-      const eth = window.ethereum
-      if (kind === "binance") return window.BinanceChain || list.find(p => p.isBinance) || (eth?.isBinance ? eth : null)
-      if (kind === "trust") return window.trustwallet || list.find(p => p.isTrust || p.isTrustWallet) || (eth?.isTrust ? eth : null)
-      if (kind === "metamask") return list.find(p => p.isMetaMask && !p.isBraveWallet) || (eth?.isMetaMask ? eth : null)
-      return eth || null
-    }
-    async function connectProvider(provider, label) {
-      if (!provider) {
-        alert(label + " was not found in this browser. Install its extension, or open this page inside that wallet's browser.")
+    async function connect(kind, label) {
+      const found = findProvider(kind)
+      if (!found) {
+        if (kind === "trust") location.href = "https://link.trustwallet.com/open_url?coin_id=20000714&url=" + encodeURIComponent(location.href)
+        else note("Open this page inside " + label + ", then tap Connect again.")
+        $("picker").classList.remove("on")
         return
       }
-      const accounts = await provider.request({ method: "eth_requestAccounts" })
-      const chain = await provider.request({ method: "eth_chainId" })
-      if (chain !== "0x38") {
-        try {
-          await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId: "0x38" }] })
-        } catch (err) {
-          if (err.code === 4902) {
-            await provider.request({
-              method: "wallet_addEthereumChain",
-              params: [{
-                chainId: "0x38",
-                chainName: "BNB Smart Chain",
-                nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
-                rpcUrls: ["https://bsc-dataseed.binance.org"],
-                blockExplorerUrls: ["https://bscscan.com"],
-              }],
-            })
-          } else throw err
-        }
-      }
+      const accounts = await found.request({ method: "eth_requestAccounts" })
+      if (!accounts || !accounts[0]) throw new Error("No account")
+      provider = found
       s.wallet = accounts[0]
       s.walletName = label
-      save(); render()
+      s.canSign = true
+      save(); render(); refreshBalances()
       $("picker").classList.remove("on")
+      note("")
     }
-    $("walletBtn").onclick = () => {
-      if (s.wallet) { s.wallet = null; s.walletName = null; save(); render(); return }
-      $("picker").classList.add("on")
+    function vaultNow() {
+      const minedPending = s.mining && s.start ? ((Date.now() - s.start) / 36e5) / 24 * RATE : 0
+      const years = s.stakeStart ? (Date.now() - s.stakeStart) / (36e5 * 24 * 365) : 0
+      return (s.claimed || 0) + minedPending + (s.staked || 0) + (s.staked || 0) * (apyFor(s.staked || 0) / 100) * years
     }
-    $("closePicker").onclick = () => $("picker").classList.remove("on")
-    $("useAddr").onclick = () => {
-      const addr = $("manualAddr").value.trim()
-      if (!/^0x[a-fA-F0-9]{40}$/.test(addr)) {
-        alert("Paste a full BSC address. It looks like 0x and has 42 characters.")
-        return
-      }
-      s.wallet = addr
-      s.walletName = "Pasted address"
+    $("depositBtn").onclick = () => {
+      const n = Number($("amount").value)
+      if (!n) { note("Enter how much BEL to stake into the vault."); return }
+      const banked = s.mining && s.start ? ((Date.now() - s.start) / 36e5) / 24 * RATE : 0
+      s.claimed = (s.claimed || 0) + banked
+      if (s.mining) s.start = Date.now()
+      s.staked = (s.staked || 0) + n
+      if (!s.stakeStart) s.stakeStart = Date.now()
       save(); render()
-      $("picker").classList.remove("on")
+      note("Added to the vault. The vault is mined BEL plus staked BEL.")
     }
-    document.querySelectorAll("[data-wallet]").forEach(btn => {
-      btn.onclick = () => {
-        if (btn.dataset.wallet === "trust" && !findProvider("trust")) {
-          const here = encodeURIComponent(location.href)
-          location.href = "https://link.trustwallet.com/open_url?coin_id=20000714&url=" + here
-          return
-        }
-        connectProvider(findProvider(btn.dataset.wallet), btn.textContent).catch(e => alert(e.message || "Cancelled"))
-      }
-    })
+    $("withdrawBtn").onclick = () => {
+      const total = vaultNow()
+      if (total <= 0) { note("The vault is empty. Mine or deposit a stake first."); return }
+      s.claimed = 0
+      s.mining = false
+      s.start = null
+      s.staked = 0
+      s.stakeStart = null
+      save(); render()
+      note("Withdrew " + total.toFixed(4) + " BEL from the vault.")
+    }
     $("mark").onclick = () => {
-      if (!s.wallet) return
       if (s.mining && s.start) {
-        const earned = ((Date.now() - s.start) / 36e5) / 24 * RATE
-        s.claimed += earned
+        s.claimed += ((Date.now() - s.start) / 36e5) / 24 * RATE
         s.mining = false
         s.start = null
-        alert("Claimed " + earned.toFixed(4) + " BEL")
       } else {
         s.mining = true
         s.start = Date.now()
       }
       save(); render()
     }
-    $("stakeBtn").onclick = () => {
-      if (!s.wallet) return alert("Connect wallet first")
-      const n = Number($("amount").value)
-      if (!n) return
-      if (!s.stakeStart) s.stakeStart = Date.now()
-      s.staked += n
-      save(); render()
+    $("walletBtn").onclick = () => {
+      if (s.wallet) { s.wallet = null; s.walletName = null; s.canSign = false; s.chainBel = null; provider = null; save(); render(); return }
+      $("picker").classList.add("on")
     }
-    $("claimStake").onclick = () => {
-      const apy = apyFor(s.staked)
-      const years = s.stakeStart ? (Date.now() - s.stakeStart) / (36e5 * 24 * 365) : 0
-      const earned = s.staked * (apy / 100) * years
-      if (earned <= 0) return
-      s.stakeClaimed += earned
-      s.stakeStart = Date.now()
-      alert("Claimed " + earned.toFixed(6) + " BEL")
-      save(); render()
+    $("closePicker").onclick = () => $("picker").classList.remove("on")
+    document.querySelectorAll("[data-wallet]").forEach((btn) => {
+      btn.onclick = () => connect(btn.dataset.wallet, btn.textContent).catch((e) => note(e.message || "Cancelled"))
+    })
+    $("useAddr").onclick = () => {
+      const addr = $("manualAddr").value.trim()
+      if (!isAddr(addr)) { note("Paste a full BSC address."); return }
+      provider = null
+      s.wallet = addr
+      s.walletName = "View only"
+      s.canSign = false
+      save(); render(); refreshBalances()
+      $("picker").classList.remove("on")
     }
-    $("unstake").onclick = () => {
-      const apy = apyFor(s.staked)
-      const years = s.stakeStart ? (Date.now() - s.stakeStart) / (36e5 * 24 * 365) : 0
-      s.stakeClaimed += s.staked * (apy / 100) * years
-      s.staked = 0
-      s.stakeStart = null
-      save(); render()
+    async function resumeWallet() {
+      const injected = window.BinanceChain || window.ethereum || window.trustwallet
+      if (!injected) return
+      provider = injected
+      try {
+        const accounts = await injected.request({ method: "eth_accounts" })
+        if (accounts && accounts[0]) {
+          s.wallet = accounts[0]
+          s.walletName = window.BinanceChain || injected.isBinance ? "Binance Wallet" : "Wallet"
+          s.canSign = true
+          save(); render(); refreshBalances()
+        }
+      } catch (err) {}
     }
+    window.addEventListener("ethereum#initialized", resumeWallet)
     setInterval(render, 1000)
     render()
+    resumeWallet()
   </script>
 </body>
 </html>
