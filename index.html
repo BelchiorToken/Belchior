@@ -3,259 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BEL TOKEN</title>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <title>BEL TOKEN — The mine is open</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { min-height: 100vh; background: #050505; color: #f4f1ea; font-family: Inter, system-ui, sans-serif; }
-    .bg { position: fixed; inset: 0; pointer-events: none; background: linear-gradient(118deg, transparent 47%, rgba(255,255,255,.07) 47.4%, transparent 47.8%), linear-gradient(62deg, transparent 38%, rgba(255,255,255,.05) 38.4%, transparent 38.8%); }
-    .wrap { position: relative; max-width: 420px; margin: 0 auto; padding: 36px 18px 64px; text-align: center; }
-    .eyebrow { letter-spacing: .42em; font-size: 11px; color: #8a8a8a; }
-    h1 { font-weight: 500; font-size: 28px; margin-top: 6px; }
-    .mark { width: 250px; height: 250px; margin: 26px auto 8px; border: 0; background: transparent; color: inherit; cursor: pointer; position: relative; }
-    .ring-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .mark.on .ring-svg { animation: spin 6s linear infinite; }
+    html { scroll-behavior: smooth; }
+    body { background: #050505; color: #f4f1ea; font-family: Inter, system-ui, sans-serif; }
+    .bg { position: fixed; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 46%, rgba(243,234,215,.08) 46.3%, transparent 46.7%), linear-gradient(65deg, transparent 30%, rgba(255,255,255,.04) 30.25%, transparent 30.6%), radial-gradient(ellipse at 50% 0%, rgba(243,234,215,.08), transparent 55%); }
+    a { color: inherit; }
+    .wrap { position: relative; max-width: 880px; margin: 0 auto; padding: 28px 20px 80px; }
+    nav { display: flex; justify-content: space-between; align-items: center; letter-spacing: .28em; font-size: 11px; color: #8a8a8a; }
+    nav a { text-decoration: none; }
+    .hero { min-height: calc(100vh - 80px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .eyebrow { letter-spacing: .46em; font-size: 11px; color: #8a8a8a; }
+    h1 { font-family: "Libre Bodoni", Didot, serif; font-weight: 500; font-size: clamp(64px, 14vw, 128px); line-height: .86; margin: 18px 0 8px; }
+    .sub { max-width: 440px; color: #c8c4bb; line-height: 1.55; margin-top: 14px; }
+    .mark { width: min(280px, 70vw); height: min(280px, 70vw); margin: 28px auto 6px; position: relative; }
+    .ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(243,234,215,.25); }
+    .ring.spin { border-top-color: #f3ead7; border-right-color: #f3ead7; animation: spin 8s linear infinite; }
+    .ring.inner { inset: 22px; border-color: rgba(243,234,215,.18); }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .b { font-family: "Libre Bodoni", Didot, "Bodoni MT", serif; font-size: 168px; line-height: 1; color: #f3ead7; font-weight: 500; position: relative; top: 8px; }
-    .hint { display: block; margin-top: -8px; letter-spacing: .22em; font-size: 11px; color: #8a8a8a; text-transform: uppercase; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #2a2a2a; margin: 22px 0 12px; text-align: left; }
-    .grid div { padding: 12px 14px; border-right: 1px solid #2a2a2a; border-bottom: 1px solid #2a2a2a; }
-    .grid span { display: block; color: #737373; font-size: 11px; letter-spacing: .14em; }
-    .grid strong { font-weight: 500; font-size: 16px; }
-    .card { border: 1px solid #2a2a2a; padding: 16px; margin-top: 12px; text-align: left; }
-    .label { font-size: 11px; letter-spacing: .22em; color: #737373; margin-bottom: 10px; }
-    .row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; font-size: 14px; }
-    .row span:first-child { color: #a3a3a3; }
-    button.btn, input { width: 100%; padding: 12px; border: 1px solid #fff; background: #fff; color: #000; font-weight: 600; cursor: pointer; }
-    button.btn.ghost { background: transparent; color: #fff; }
-    a.buy { display: block; margin-top: 8px; text-align: center; text-decoration: none; background: #f3ead7; color: #000; border: 1px solid #f3ead7; letter-spacing: .14em; font-size: 16px; padding: 16px; font-weight: 600; }
-    .addr { font-family: ui-monospace, monospace; font-size: 13px; margin-bottom: 10px; word-break: break-all; }
-    .tiny { color: #737373; font-size: 12px; margin: 6px 0 8px; line-height: 1.45; }
-    .note { color: #d6d3d1; font-size: 12px; line-height: 1.45; margin-top: 10px; }
-    .picker { position: fixed; inset: 0; background: rgba(0,0,0,.72); display: none; align-items: center; justify-content: center; z-index: 5; padding: 16px; }
-    .picker.on { display: flex; }
-    .sheet { width: 320px; background: #0a0a0a; border: 1px solid #2a2a2a; padding: 18px; text-align: left; }
-    .sheet button { margin-top: 8px; }
+    .b { position: absolute; inset: 0; display: grid; place-items: center; font-family: "Libre Bodoni", serif; font-size: clamp(120px, 28vw, 190px); color: #f3ead7; line-height: 1; }
+    .hint { letter-spacing: .32em; font-size: 11px; color: #8a8a8a; margin-top: 4px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 28px; }
+    .btn { display: inline-block; text-decoration: none; background: #f3ead7; color: #111; padding: 16px 22px; font-weight: 700; letter-spacing: .12em; font-size: 13px; }
+    .ghost { background: transparent; color: #f4f1ea; border: 1px solid rgba(244,241,234,.7); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #2a2a2a; margin-top: 54px; text-align: left; }
+    .stats div { padding: 18px 16px; border-right: 1px solid #2a2a2a; }
+    .stats div:last-child { border-right: 0; }
+    .stats span { display: block; color: #737373; font-size: 11px; letter-spacing: .16em; }
+    .stats strong { display: block; margin-top: 8px; font-weight: 500; font-size: 22px; font-family: "Libre Bodoni", serif; }
+    h2 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 36px; margin: 64px 0 8px; }
+    .lead { color: #c8c4bb; max-width: 560px; line-height: 1.6; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
+    .step { border: 1px solid #2a2a2a; padding: 18px; min-height: 160px; }
+    .num { color: #8a8a8a; letter-spacing: .2em; font-size: 11px; }
+    .step h3 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 26px; margin: 10px 0; }
+    .step p { color: #bdb8ae; line-height: 1.5; font-size: 14px; }
+    .split { display: grid; grid-template-columns: 1.1fr .9fr; gap: 12px; margin-top: 18px; }
+    .card { border: 1px solid #2a2a2a; padding: 20px; }
+    .card p, .card li { color: #c8c4bb; line-height: 1.55; font-size: 14px; }
+    .card ul { margin: 10px 0 0 16px; }
+    .card li { margin: 6px 0; }
+    .k { color: #737373; letter-spacing: .16em; font-size: 11px; }
+    code { display: block; margin-top: 6px; word-break: break-all; color: #f4f1ea; font-size: 13px; }
+    .fine { margin-top: 28px; color: #737373; font-size: 12px; line-height: 1.5; }
+    footer { margin-top: 48px; display: flex; justify-content: space-between; gap: 12px; color: #737373; font-size: 12px; letter-spacing: .08em; }
+    @media (max-width: 720px) {
+      .stats, .steps, .split { grid-template-columns: 1fr; }
+      .stats div { border-right: 0; border-bottom: 1px solid #2a2a2a; }
+      footer { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
   <div class="bg"></div>
   <div class="wrap">
-    <p class="eyebrow">BEL TOKEN</p>
-    <h1>Mine</h1>
-    <p class="hint"><a href="token.html" style="color:#8a8a8a;text-decoration:none;letter-spacing:.18em">TOKEN PAGE</a></p>
-    <button class="mark" id="mark" type="button">
-      <svg class="ring-svg" viewBox="0 0 100 100" aria-hidden="true">
-        <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(243,234,215,.22)" stroke-width="0.7"></circle>
-        <circle cx="50" cy="50" r="46" fill="none" stroke="#f3ead7" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="78 212"></circle>
-        <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(243,234,215,.28)" stroke-width="0.5"></circle>
-      </svg>
-      <span class="b">B</span>
-    </button>
-    <span class="hint" id="hint">Tap to mine</span>
-    <div class="grid">
-      <div><span>STATUS</span><strong id="status">IDLE</strong></div>
-      <div><span>ELAPSED</span><strong id="elapsed">00:00:00</strong></div>
-      <div><span>SCORE</span><strong id="pending">0.0000</strong></div>
-      <div><span>RATE</span><strong id="rate">1/h</strong></div>
+    <nav>
+      <span>BEL TOKEN</span>
+      <a href="whitepaper.html">WHITE PAPER</a>
+    </nav>
+    <header class="hero">
+      <p class="eyebrow">ANDROID · BNB SMART CHAIN</p>
+      <h1>The mine<br>is open.</h1>
+      <p class="sub">Tap the B. One BEL an hour, moved by the price. The score stays on the phone, and it is still there tomorrow.</p>
+      <div class="mark" aria-hidden="true">
+        <div class="ring spin"></div>
+        <div class="ring inner"></div>
+        <div class="b">B</div>
+      </div>
+      <p class="hint">TAP TO MINE</p>
+      <div class="actions">
+        <a class="btn" href="BEL.apk">DOWNLOAD THE APP</a>
+        <a class="btn ghost" href="whitepaper.html">READ THE PAPER</a>
+        <a class="btn ghost" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=BNB&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" rel="noreferrer">BUY BEL</a>
+      </div>
+      <div class="stats">
+        <div><span>BASE RATE</span><strong>1 BEL / hour</strong></div>
+        <div><span>SAVED</span><strong>On the phone</strong></div>
+        <div><span>CHAIN</span><strong>BNB Smart Chain</strong></div>
+      </div>
+    </header>
+    <h2>Three taps.</h2>
+    <p class="lead">No account. No email. The app is the mine. Your wallet is only there so the score knows who you are.</p>
+    <div class="steps">
+      <article class="step"><div class="num">01</div><h3>Install</h3><p>Download the APK. Android will ask permission to install from the browser. That warning is normal.</p></article>
+      <article class="step"><div class="num">02</div><h3>Connect</h3><p>Paste a BSC address, or open Binance, Trust, or MetaMask. Use the Belchior contract, not another coin named BEL.</p></article>
+      <article class="step"><div class="num">03</div><h3>Mine</h3><p>Tap the B to start. Tap again to stop. Close the app. Open it tomorrow. The total is still there.</p></article>
     </div>
-    <p class="tiny" id="rateLine">Base is 1 BEL per hour. The price change since the daily mark adjusts it.</p>
-    <a class="btn buy" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=BNB&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" rel="noreferrer">BUY BEL</a>
-    <div class="card">
-      <div class="label">WALLET</div>
-      <div class="addr" id="addr" hidden></div>
-      <div class="row"><span>Your BEL</span><span id="walletBel">—</span></div>
-      <p class="tiny" id="walletHint">Connect inside Binance Wallet, Trust Wallet, or MetaMask.</p>
-      <button class="btn" id="walletBtn" type="button">Connect BSC Wallet</button>
+    <h2>The rules.</h2>
+    <div class="split">
+      <div class="card">
+        <div class="k">HOW THE HOUR IS PAID</div>
+        <p style="margin-top:10px">The base is 1 BEL per hour. Once a day the app marks the BEL price. A higher price raises the hour. A lower price cuts it. It does not go below zero.</p>
+        <ul>
+          <li>Withdrawals open only after 1,000 BEL mined.</li>
+          <li>You would receive 95%. The 5% stays in the vault.</li>
+          <li>That is about 42 days of continuous mining.</li>
+          <li>Staking is later, and it is not this score.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="k">OFFICIAL TOKEN</div>
+        <code>0x3c841c88d3819c901ec0fe29897146dca509552b</code>
+        <div class="k" style="margin-top:16px">MINING VAULT</div>
+        <code>0xF1F263Ef432C51e1a8C180Ae0bCc5e873a23BFBc</code>
+        <div class="k" style="margin-top:16px">IN THE POOL</div>
+        <code>14,000 BEL, cap 1,000,000</code>
+      </div>
     </div>
-    <div class="card">
-      <div class="label">MINED</div>
-      <div class="row"><span>This session</span><span id="mined">0.0000 BEL</span></div>
-      <div class="row"><span>Total mined</span><span id="vaultBel">0.0000 BEL</span></div>
-      <p class="tiny">Staking is off until a later version. This score is not a token transfer yet.</p>
-      <p class="note" id="note"></p>
-    </div>
+    <p class="fine">The number on the phone is a mining score. It is not BEL in your wallet yet, and the app does not pay from the vault today. A different coin also called BEL, beginning 0xC50c6, is not Belchior. Read the white paper before you buy. The download button works after BEL.apk is uploaded to this same folder.</p>
+    <footer>
+      <span>BELCHIOR · 2026</span>
+      <a href="whitepaper.html">WHITE PAPER</a>
+    </footer>
   </div>
-  <div class="picker" id="picker">
-    <div class="sheet">
-      <div class="label">CHOOSE WALLET</div>
-      <button class="btn" data-wallet="binance" type="button">Binance Wallet</button>
-      <button class="btn" data-wallet="trust" type="button">Trust Wallet</button>
-      <button class="btn" data-wallet="metamask" type="button">MetaMask</button>
-      <input id="manualAddr" placeholder="Or paste BSC address" style="margin-top:10px" />
-      <button class="btn" id="useAddr" type="button">Use this address</button>
-      <button class="btn ghost" id="closePicker" type="button">Cancel</button>
-    </div>
-  </div>
-  <script>
-    const RATE = 1
-    const PAIR = "0x1d7eedbb3da26c04ab1fb8756bf763e84d6370a4"
-    const ANCHOR = "bel_price_anchor"
-    const BEL = "0x3c841c88d3819c901ec0fe29897146dca509552b"
-    const KEY = "bel_mining_v6"
-    const RPC = "https://bsc-dataseed.binance.org"
-    const $ = (id) => document.getElementById(id)
-    let priceFactor = 1
-    let provider = null
-    let decimals = 18
-    let s = Object.assign({ wallet: null, walletName: null, canSign: false, mining: false, start: null, claimed: 0, chainBel: null }, JSON.parse(localStorage.getItem(KEY) || "{}"))
-    function save() { localStorage.setItem(KEY, JSON.stringify(s)) }
-    function note(t) { $("note").textContent = t || "" }
-    function fmt(ms) {
-      const t = Math.max(0, Math.floor(ms / 1000))
-      return [Math.floor(t / 3600), Math.floor((t % 3600) / 60), t % 60].map((n) => String(n).padStart(2, "0")).join(":")
-    }
-    function short(a) { return a.slice(0, 6) + "…" + a.slice(-4) }
-    function isAddr(a) { return /^0x[a-fA-F0-9]{40}$/.test(a || "") }
-    function pad(hex, size) { return hex.replace(/^0x/i, "").padStart(size, "0") }
-    function addrWord(a) { return pad(a, 64) }
-    function fromUnits(raw) {
-      const n = BigInt(raw)
-      const base = 10n ** BigInt(decimals)
-      const frac = (n % base).toString().padStart(decimals, "0").replace(/0+$/, "")
-      return n / base + (frac ? "." + frac.slice(0, 4) : "")
-    }
-    async function rpc(method, params) {
-      const res = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) })
-      const json = await res.json()
-      if (json.error) throw new Error(json.error.message || "RPC error")
-      return json.result
-    }
-    async function call(to, data) { return BigInt(await rpc("eth_call", [{ to, data }, "latest"])) }
-    function findProvider(kind) {
-      const eth = window.ethereum
-      const list = eth && eth.providers ? eth.providers : []
-      if (kind === "binance") return window.BinanceChain || list.find((p) => p.isBinance) || (eth && eth.isBinance ? eth : null)
-      if (kind === "trust") return window.trustwallet || list.find((p) => p.isTrust || p.isTrustWallet) || (eth && eth.isTrust ? eth : null)
-      return list.find((p) => p.isMetaMask && !p.isBraveWallet) || (eth && eth.isMetaMask ? eth : null)
-    }
-    async function chainCall(to, data) {
-      if (provider && provider.request) return BigInt(await provider.request({ method: "eth_call", params: [{ to, data }, "latest"] }))
-      return call(to, data)
-    }
-    async function refreshBalances() {
-      if (!isAddr(s.wallet)) { s.chainBel = null; return }
-      try {
-        decimals = Number(await chainCall(BEL, "0x313ce567")) || 18
-        s.chainBel = fromUnits(await chainCall(BEL, "0x70a08231" + addrWord(s.wallet)))
-      } catch (err) {
-        s.chainBel = null
-        note(err.message || "Could not read BEL balance")
-      }
-      render()
-    }
-    function render() {
-      const mining = s.mining && s.start
-      $("mark").classList.toggle("on", !!mining)
-      $("hint").textContent = mining ? "Tap to claim" : "Tap to mine"
-      $("status").textContent = mining ? "MINING" : "IDLE"
-      const elapsed = mining ? Date.now() - s.start : 0
-      $("elapsed").textContent = fmt(elapsed)
-      const session = mining ? (elapsed / 36e5) * RATE * priceFactor : 0
-      $("pending").textContent = session.toFixed(4)
-      $("rate").textContent = (RATE * priceFactor).toFixed(2) + "/h"
-      const pct = (priceFactor - 1) * 100
-      $("rateLine").textContent = "Base is 1 BEL per hour. Price since the daily mark is " + (pct >= 0 ? "+" : "") + pct.toFixed(1) + "%, so this hour pays " + (RATE * priceFactor).toFixed(4) + " BEL."
-      if (s.wallet) {
-        $("addr").hidden = false
-        $("addr").textContent = (s.walletName ? s.walletName + " · " : "") + short(s.wallet)
-        $("walletHint").hidden = true
-        $("walletBtn").textContent = "Disconnect"
-        $("walletBel").textContent = s.chainBel == null ? "…" : s.chainBel + " BEL"
-      } else {
-        $("addr").hidden = true
-        $("walletHint").hidden = false
-        $("walletBtn").textContent = "Connect BSC Wallet"
-        $("walletBel").textContent = "—"
-      }
-      $("mined").textContent = session.toFixed(4) + " BEL"
-      $("vaultBel").textContent = ((s.claimed || 0) + session).toFixed(4) + " BEL"
-    }
-    async function connect(kind, label) {
-      const found = findProvider(kind)
-      if (!found) {
-        if (kind === "trust") location.href = "https://link.trustwallet.com/open_url?coin_id=20000714&url=" + encodeURIComponent(location.href)
-        else note("Open this page inside " + label + ", then tap Connect again.")
-        $("picker").classList.remove("on")
-        return
-      }
-      const accounts = await found.request({ method: "eth_requestAccounts" })
-      if (!accounts || !accounts[0]) throw new Error("No account")
-      provider = found
-      s.wallet = accounts[0]
-      s.walletName = label
-      s.canSign = true
-      save(); render(); refreshBalances()
-      $("picker").classList.remove("on")
-      note("")
-    }
-    $("mark").onclick = () => {
-      if (s.mining && s.start) {
-        s.claimed = (s.claimed || 0) + ((Date.now() - s.start) / 36e5) * RATE * priceFactor
-        s.mining = false
-        s.start = null
-      } else {
-        s.mining = true
-        s.start = Date.now()
-      }
-      save(); render()
-    }
-    $("walletBtn").onclick = () => {
-      if (s.wallet) { s.wallet = null; s.walletName = null; s.canSign = false; s.chainBel = null; provider = null; save(); render(); return }
-      $("picker").classList.add("on")
-    }
-    $("closePicker").onclick = () => $("picker").classList.remove("on")
-    document.querySelectorAll("[data-wallet]").forEach((btn) => {
-      btn.onclick = () => connect(btn.dataset.wallet, btn.textContent).catch((e) => note(e.message || "Cancelled"))
-    })
-    $("useAddr").onclick = () => {
-      const addr = $("manualAddr").value.trim()
-      if (!isAddr(addr)) { note("Paste a full BSC address."); return }
-      provider = null
-      s.wallet = addr
-      s.walletName = "View only"
-      s.canSign = false
-      save(); render(); refreshBalances()
-      $("picker").classList.remove("on")
-    }
-    async function resumeWallet() {
-      const injected = window.BinanceChain || window.ethereum || window.trustwallet
-      if (!injected) return
-      provider = injected
-      try {
-        const accounts = await injected.request({ method: "eth_accounts" })
-        if (accounts && accounts[0]) {
-          s.wallet = accounts[0]
-          s.walletName = window.BinanceChain || injected.isBinance ? "Binance Wallet" : "Wallet"
-          s.canSign = true
-          save(); render(); refreshBalances()
-        }
-      } catch (err) {}
-    }
-    async function loadPrice() {
-      try {
-        const raw = await rpc("eth_call", [{ to: PAIR, data: "0x0902f1ac" }, "latest"])
-        const hex = String(raw).slice(2)
-        const reserveBel = BigInt("0x" + hex.slice(0, 64))
-        const reserveUsdt = BigInt("0x" + hex.slice(64, 128))
-        if (reserveBel === 0n) return
-        const price = Number(reserveUsdt) / Number(reserveBel)
-        let anchor = null
-        try { anchor = JSON.parse(localStorage.getItem(ANCHOR) || "null") } catch (e) { anchor = null }
-        if (!anchor || Date.now() - anchor.time > 86400000) {
-          anchor = { price: price, time: Date.now() }
-          localStorage.setItem(ANCHOR, JSON.stringify(anchor))
-        }
-        priceFactor = anchor.price > 0 ? Math.max(0, price / anchor.price) : 1
-        render()
-      } catch (err) {}
-    }
-    window.addEventListener("ethereum#initialized", resumeWallet)
-    setInterval(render, 1000)
-    render()
-    resumeWallet()
-    loadPrice()
-    setInterval(loadPrice, 60000)
-  </script>
 </body>
 </html>
