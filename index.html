@@ -29,9 +29,6 @@
     button.btn, input { width: 100%; padding: 12px; border: 1px solid #fff; background: #fff; color: #000; font-weight: 600; cursor: pointer; }
     button.btn.ghost { background: transparent; color: #fff; }
     a.buy { display: block; margin-top: 8px; text-align: center; text-decoration: none; background: #f3ead7; color: #000; border: 1px solid #f3ead7; letter-spacing: .14em; font-size: 16px; padding: 16px; font-weight: 600; }
-    button.btn:disabled { opacity: .35; cursor: not-allowed; }
-    .split { display: flex; gap: 8px; margin-top: 10px; }
-    input { background: #000; color: #fff; border-color: #404040; font-weight: 400; }
     .addr { font-family: ui-monospace, monospace; font-size: 13px; margin-bottom: 10px; word-break: break-all; }
     .tiny { color: #737373; font-size: 12px; margin: 6px 0 8px; line-height: 1.45; }
     .note { color: #d6d3d1; font-size: 12px; line-height: 1.45; margin-top: 10px; }
@@ -60,13 +57,9 @@
       <div><span>STATUS</span><strong id="status">IDLE</strong></div>
       <div><span>ELAPSED</span><strong id="elapsed">00:00:00</strong></div>
       <div><span>SCORE</span><strong id="pending">0.0000</strong></div>
-      <div><span>RATE</span><strong>100/24h</strong></div>
+      <div><span>RATE</span><strong id="rate">1/h</strong></div>
     </div>
-    <p class="tiny">The vault is mined BEL plus staked BEL.</p>
-    <div class="split">
-      <button class="btn ghost" id="depositBtn" type="button">Deposit</button>
-      <button class="btn ghost" id="withdrawBtn" type="button">Withdraw</button>
-    </div>
+    <p class="tiny" id="rateLine">Base is 1 BEL per hour. The price change since the daily mark adjusts it.</p>
     <a class="btn buy" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=BNB&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" rel="noreferrer">BUY BEL</a>
     <div class="card">
       <div class="label">WALLET</div>
@@ -76,13 +69,10 @@
       <button class="btn" id="walletBtn" type="button">Connect BSC Wallet</button>
     </div>
     <div class="card">
-      <div class="label">BEL VAULT</div>
-      <div class="row"><span>Mined</span><span id="mined">0.0000 BEL</span></div>
-      <div class="row"><span>Staked</span><span id="staked">0 BEL</span></div>
-      <div class="row"><span>Stake yield</span><span id="stakePending">0.0000 BEL</span></div>
-      <div class="row"><span>In vault</span><span id="vaultBel">0.0000 BEL</span></div>
-      <p class="tiny" id="apyLine">3% APY · 3% under 10k · 3.5% from 10k · 4% from 100k · 5% from 1M</p>
-      <input id="amount" inputmode="decimal" value="1000" />
+      <div class="label">MINED</div>
+      <div class="row"><span>This session</span><span id="mined">0.0000 BEL</span></div>
+      <div class="row"><span>Total mined</span><span id="vaultBel">0.0000 BEL</span></div>
+      <p class="tiny">Staking is off until a later version. This score is not a token transfer yet.</p>
       <p class="note" id="note"></p>
     </div>
   </div>
@@ -98,17 +88,19 @@
     </div>
   </div>
   <script>
-    const RATE = 100
+    const RATE = 1
+    const PAIR = "0x1d7eedbb3da26c04ab1fb8756bf763e84d6370a4"
+    const ANCHOR = "bel_price_anchor"
     const BEL = "0x3c841c88d3819c901ec0fe29897146dca509552b"
-    const KEY = "bel_mining_v5"
-    const RPC = "https://bsc.publicnode.com"
+    const KEY = "bel_mining_v6"
+    const RPC = "https://bsc-dataseed.binance.org"
     const $ = (id) => document.getElementById(id)
+    let priceFactor = 1
     let provider = null
     let decimals = 18
-    let s = Object.assign({ wallet: null, walletName: null, canSign: false, mining: false, start: null, claimed: 0, staked: 0, stakeStart: null, vault: "", chainBel: null }, JSON.parse(localStorage.getItem(KEY) || "{}"))
+    let s = Object.assign({ wallet: null, walletName: null, canSign: false, mining: false, start: null, claimed: 0, chainBel: null }, JSON.parse(localStorage.getItem(KEY) || "{}"))
     function save() { localStorage.setItem(KEY, JSON.stringify(s)) }
     function note(t) { $("note").textContent = t || "" }
-    function apyFor(n) { return n >= 1e6 ? 5 : n >= 1e5 ? 4 : n >= 1e4 ? 3.5 : 3 }
     function fmt(ms) {
       const t = Math.max(0, Math.floor(ms / 1000))
       return [Math.floor(t / 3600), Math.floor((t % 3600) / 60), t % 60].map((n) => String(n).padStart(2, "0")).join(":")
@@ -129,9 +121,7 @@
       if (json.error) throw new Error(json.error.message || "RPC error")
       return json.result
     }
-    async function call(to, data) {
-      return BigInt(await rpc("eth_call", [{ to, data }, "latest"]))
-    }
+    async function call(to, data) { return BigInt(await rpc("eth_call", [{ to, data }, "latest"])) }
     function findProvider(kind) {
       const eth = window.ethereum
       const list = eth && eth.providers ? eth.providers : []
@@ -161,10 +151,14 @@
       $("status").textContent = mining ? "MINING" : "IDLE"
       const elapsed = mining ? Date.now() - s.start : 0
       $("elapsed").textContent = fmt(elapsed)
-      $("pending").textContent = ((elapsed / 36e5) / 24 * RATE).toFixed(4)
+      const session = mining ? (elapsed / 36e5) * RATE * priceFactor : 0
+      $("pending").textContent = session.toFixed(4)
+      $("rate").textContent = (RATE * priceFactor).toFixed(2) + "/h"
+      const pct = (priceFactor - 1) * 100
+      $("rateLine").textContent = "Base is 1 BEL per hour. Price since the daily mark is " + (pct >= 0 ? "+" : "") + pct.toFixed(1) + "%, so this hour pays " + (RATE * priceFactor).toFixed(4) + " BEL."
       if (s.wallet) {
         $("addr").hidden = false
-        $("addr").textContent = (s.walletName ? s.walletName + " · " : "") + short(s.wallet) + (s.canSign ? "" : " · view only")
+        $("addr").textContent = (s.walletName ? s.walletName + " · " : "") + short(s.wallet)
         $("walletHint").hidden = true
         $("walletBtn").textContent = "Disconnect"
         $("walletBel").textContent = s.chainBel == null ? "…" : s.chainBel + " BEL"
@@ -174,16 +168,8 @@
         $("walletBtn").textContent = "Connect BSC Wallet"
         $("walletBel").textContent = "—"
       }
-      const apy = apyFor(s.staked || 0)
-      const minedPending = mining ? ((Date.now() - s.start) / 36e5) / 24 * RATE : 0
-      const mined = (s.claimed || 0) + minedPending
-      const years = s.stakeStart ? (Date.now() - s.stakeStart) / (36e5 * 24 * 365) : 0
-      const yieldBel = (s.staked || 0) * (apy / 100) * years
-      $("mined").textContent = mined.toFixed(4) + " BEL"
-      $("staked").textContent = (s.staked || 0).toLocaleString() + " BEL"
-      $("stakePending").textContent = yieldBel.toFixed(4) + " BEL"
-      $("vaultBel").textContent = (mined + (s.staked || 0) + yieldBel).toFixed(4) + " BEL"
-      $("apyLine").textContent = apy + "% APY · 3% under 10k · 3.5% from 10k · 4% from 100k · 5% from 1M"
+      $("mined").textContent = session.toFixed(4) + " BEL"
+      $("vaultBel").textContent = ((s.claimed || 0) + session).toFixed(4) + " BEL"
     }
     async function connect(kind, label) {
       const found = findProvider(kind)
@@ -203,36 +189,9 @@
       $("picker").classList.remove("on")
       note("")
     }
-    function vaultNow() {
-      const minedPending = s.mining && s.start ? ((Date.now() - s.start) / 36e5) / 24 * RATE : 0
-      const years = s.stakeStart ? (Date.now() - s.stakeStart) / (36e5 * 24 * 365) : 0
-      return (s.claimed || 0) + minedPending + (s.staked || 0) + (s.staked || 0) * (apyFor(s.staked || 0) / 100) * years
-    }
-    $("depositBtn").onclick = () => {
-      const n = Number($("amount").value)
-      if (!n) { note("Enter how much BEL to stake into the vault."); return }
-      const banked = s.mining && s.start ? ((Date.now() - s.start) / 36e5) / 24 * RATE : 0
-      s.claimed = (s.claimed || 0) + banked
-      if (s.mining) s.start = Date.now()
-      s.staked = (s.staked || 0) + n
-      if (!s.stakeStart) s.stakeStart = Date.now()
-      save(); render()
-      note("Added to the vault. The vault is mined BEL plus staked BEL.")
-    }
-    $("withdrawBtn").onclick = () => {
-      const total = vaultNow()
-      if (total <= 0) { note("The vault is empty. Mine or deposit a stake first."); return }
-      s.claimed = 0
-      s.mining = false
-      s.start = null
-      s.staked = 0
-      s.stakeStart = null
-      save(); render()
-      note("Withdrew " + total.toFixed(4) + " BEL from the vault.")
-    }
     $("mark").onclick = () => {
       if (s.mining && s.start) {
-        s.claimed += ((Date.now() - s.start) / 36e5) / 24 * RATE
+        s.claimed = (s.claimed || 0) + ((Date.now() - s.start) / 36e5) * RATE * priceFactor
         s.mining = false
         s.start = null
       } else {
@@ -273,10 +232,30 @@
         }
       } catch (err) {}
     }
+    async function loadPrice() {
+      try {
+        const raw = await rpc("eth_call", [{ to: PAIR, data: "0x0902f1ac" }, "latest"])
+        const hex = String(raw).slice(2)
+        const reserveBel = BigInt("0x" + hex.slice(0, 64))
+        const reserveUsdt = BigInt("0x" + hex.slice(64, 128))
+        if (reserveBel === 0n) return
+        const price = Number(reserveUsdt) / Number(reserveBel)
+        let anchor = null
+        try { anchor = JSON.parse(localStorage.getItem(ANCHOR) || "null") } catch (e) { anchor = null }
+        if (!anchor || Date.now() - anchor.time > 86400000) {
+          anchor = { price: price, time: Date.now() }
+          localStorage.setItem(ANCHOR, JSON.stringify(anchor))
+        }
+        priceFactor = anchor.price > 0 ? Math.max(0, price / anchor.price) : 1
+        render()
+      } catch (err) {}
+    }
     window.addEventListener("ethereum#initialized", resumeWallet)
     setInterval(render, 1000)
     render()
     resumeWallet()
+    loadPrice()
+    setInterval(loadPrice, 60000)
   </script>
 </body>
 </html>
