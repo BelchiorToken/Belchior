@@ -4,135 +4,111 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Belchior White Paper</title>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@500&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #050505; color: #f4f1ea; font-family: Inter, system-ui, sans-serif; }
-    .bg { position: fixed; inset: 0; pointer-events: none; background: linear-gradient(118deg, transparent 47%, rgba(255,255,255,.07) 47.4%, transparent 47.8%), linear-gradient(62deg, transparent 38%, rgba(255,255,255,.05) 38.4%, transparent 38.8%); }
-    .wrap { position: relative; max-width: 720px; margin: 0 auto; padding: 48px 20px 80px; }
+    .bg { position: fixed; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 46%, rgba(243,234,215,.08) 46.3%, transparent 46.7%), radial-gradient(ellipse at 50% 0%, rgba(243,234,215,.08), transparent 55%); }
     a { color: #f3ead7; }
-    .eyebrow { letter-spacing: .42em; font-size: 11px; color: #8a8a8a; }
-    h1 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 52px; line-height: .95; margin: 12px 0 8px; }
-    h2 { font-size: 13px; letter-spacing: .2em; color: #8a8a8a; margin: 32px 0 10px; }
-    p, li { color: #d6d3d1; line-height: 1.6; font-size: 15px; }
-    p { margin-top: 10px; }
+    .wrap { position: relative; max-width: 760px; margin: 0 auto; padding: 36px 20px 80px; }
+    nav { display: flex; justify-content: space-between; letter-spacing: .28em; font-size: 11px; color: #8a8a8a; }
+    nav a { text-decoration: none; }
+    .eyebrow { margin-top: 48px; letter-spacing: .42em; font-size: 11px; color: #8a8a8a; }
+    h1 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: clamp(56px, 12vw, 92px); line-height: .9; margin: 12px 0 16px; }
+    h2 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 32px; margin: 42px 0 10px; }
+    p, li { color: #c8c4bb; line-height: 1.6; font-size: 16px; }
+    p { margin: 10px 0; }
     ul { margin: 8px 0 0 18px; }
     li { margin: 6px 0; }
-    code { word-break: break-all; color: #f4f1ea; }
-    .card { border: 1px solid #2a2a2a; padding: 16px; margin-top: 12px; }
-    .k { color: #737373; font-size: 12px; letter-spacing: .14em; }
-    .v { display: block; margin: 4px 0 12px; }
-    .note { border-left: 2px solid #f3ead7; padding-left: 12px; margin-top: 14px; }
+    .row { display: grid; grid-template-columns: 160px 1fr; gap: 8px 16px; border-top: 1px solid #2a2a2a; margin-top: 16px; }
+    .row div { padding: 12px 0; border-bottom: 1px solid #2a2a2a; }
+    .k { color: #737373; letter-spacing: .14em; font-size: 11px; }
+    code { display: block; margin-top: 6px; word-break: break-all; color: #f4f1ea; font-size: 13px; }
+    .px { font-family: "Libre Bodoni", serif; font-size: 42px; color: #f4f1ea; margin: 8px 0; }
+    footer { margin-top: 48px; color: #737373; font-size: 12px; letter-spacing: .08em; }
+    @media (max-width: 640px) { .row { grid-template-columns: 1fr; } .row div { padding: 8px 0; } }
   </style>
 </head>
 <body>
   <div class="bg"></div>
   <div class="wrap">
+    <nav>
+      <span>BEL TOKEN</span>
+      <a href="index.html">BACK</a>
+    </nav>
     <p class="eyebrow">WHITE PAPER · 6 OCT 2026</p>
     <h1>Belchior</h1>
-    <p>Belchior (BEL) is a BEP-20 token on BNB Smart Chain. This paper replaces the earlier one. The old lock amounts, liquidity amounts, and dollar values were wrong. The numbers below are the ones on the chain.</p>
-    <p><a href="index.html">Back to BEL TOKEN</a></p>
+    <p>Belchior (BEL) is a BEP-20 token on BNB Smart Chain. The price in this paper is always BEL / USDC. The largest pool is BEL / XRP. The phone counts a mining score. Real BEL leaves the vault only when the same wallet starts mining on the contract and later claims.</p>
 
-    <h2>THE NAME</h2>
-    <p>Belchior is a family name. The family dates the line to 1993, and its rule has been the same: work hard, save harder. BEL is the token that carries that name onto BNB Smart Chain. It is not a promise of profit. It is a fixed-supply token with a public contract, a public mining vault, and a phone app that counts a mining score.</p>
+    <h2>The name</h2>
+    <p>Belchior is a family name. The family dates the line to 1993, and its rule has been the same: work hard, save harder. BEL carries that name onto BNB Smart Chain. It is not a promise of profit. It is a fixed-supply token with a public contract, a public mining vault, and a phone app.</p>
 
-    <h2>TOKEN</h2>
-    <div class="card">
-      <div class="k">NAME</div><span class="v">Belchior</span>
-      <div class="k">SYMBOL</div><span class="v">BEL</span>
-      <div class="k">CHAIN</div><span class="v">BNB Smart Chain</span>
-      <div class="k">STANDARD</div><span class="v">BEP-20</span>
-      <div class="k">DECIMALS</div><span class="v">18</span>
-      <div class="k">TOTAL SUPPLY</div><span class="v">100,000,000 BEL. No mint function is part of this paper. The supply read from the contract is 100,000,000.</span>
-      <div class="k">CONTRACT</div><span class="v"><code>0x3c841c88d3819c901ec0fe29897146dca509552b</code></span>
+    <h2>Token</h2>
+    <div class="row">
+      <div class="k">NAME</div><div>Belchior</div>
+      <div class="k">SYMBOL</div><div>BEL</div>
+      <div class="k">CHAIN</div><div>BNB Smart Chain</div>
+      <div class="k">STANDARD</div><div>BEP-20, 18 decimals</div>
+      <div class="k">SUPPLY</div><div>100,000,000 BEL</div>
+      <div class="k">CONTRACT</div><div><code>0x3c841c88d3819c901ec0fe29897146dca509552b</code></div>
     </div>
-    <p class="note">Only this contract is Belchior. A different coin, also called BEL, begins with <code>0xC50c6</code>. That coin is not this token. Do not buy it, and do not send it to the vault.</p>
+    <p>Only this contract is Belchior. A different coin, also called BEL, begins with <code>0xC50c6</code>. That coin is not this token.</p>
 
-    <h2>LIQUIDITY</h2>
-    <p>There are two public BEL pools on PancakeSwap V2. The figures are the reserves read on 6 Oct 2026, not a target and not a lock.</p>
-    <div class="card">
-      <div class="k">BEL / USDT</div>
-      <span class="v"><code>0x1d7eedbb3da26c04ab1fb8756bf763e84d6370a4</code></span>
-      <div class="k">IN THAT POOL</div>
-      <span class="v">About 805,729 BEL and 53.59 USDT.</span>
-      <div class="k">BEL / XRP</div>
-      <span class="v"><code>0xef50ba8e8e21681b3cd854a42f1a0fb866b367af</code></span>
-      <div class="k">IN THAT POOL</div>
-      <span class="v">About 59,898,123 BEL and 2,639 XRP. The XRP contract is the Binance-peg token <code>0x1D2F0da169ceB9Fc7B3144628dB156f3F6c60dBE</code>.</span>
+    <h2>Price</h2>
+    <p class="k">BEL / USDC · 6 OCT 2026</p>
+    <p class="px">0.0000665</p>
+    <p>About 15,045 BEL for 1 USDC. The figure is the pool, not a target.</p>
+    <div class="row">
+      <div class="k">USDC POOL</div><div><code>0x39dd455d59d29e2f1e8d727c94315d08e6c2fac1</code></div>
+      <div class="k">IN THAT POOL</div><div>3,165,245 BEL and 210.38 USDC</div>
     </div>
-    <p>The XRP pool is the larger liquidity. It is about 2,639 XRP, not a separate pile of 2,000 XRP outside the pair. The USDT side is 53.59 USDT. Together these pools are not a $200 lock, and they are not the old paper's 2.6 million BEL or $487. A small BEL/WBNB pair also exists and holds less than one dollar of WBNB, so it is not counted here.</p>
-    <p>The price moves when a pool moves. The app reads the BEL/USDT pair once a day and uses that change to adjust the mining rate.</p>
 
-    <h2>MINING</h2>
+    <h2>Liquidity</h2>
+    <p>The deep pool is BEL / XRP. That is the liquidity behind the token. The printed price stays in USDC.</p>
+    <div class="row">
+      <div class="k">XRP POOL</div><div><code>0xef50ba8e8e21681b3cd854a42f1a0fb866b367af</code></div>
+      <div class="k">IN THAT POOL</div><div>59,898,123 BEL and 2,639 XRP</div>
+      <div class="k">XRP TOKEN</div><div><code>0x1D2F0da169ceB9Fc7B3144628dB156f3F6c60dBE</code></div>
+    </div>
+    <p>The XRP in this pair is the Binance-peg XRP on BNB Smart Chain.</p>
+
+    <h2>Mining</h2>
     <p>The Android app is the miner. Tap the B to start. Tap again to stop.</p>
     <ul>
       <li>The base rate is 1 BEL per hour.</li>
-      <li>Once a day the app marks the BEL price. If the price is higher than that mark, the hour pays more than 1. If it is lower, the hour pays less. The rate does not go below zero.</li>
       <li>The score is saved on the phone. It is still there the next day.</li>
       <li>Uninstalling the app, or clearing its data, deletes the score.</li>
-      <li>The score is not BEL in a wallet. The app does not pay tokens yet.</li>
+      <li>The score on the phone is not BEL in a wallet.</li>
     </ul>
-    <p>Wallets: Binance, Trust, and MetaMask, on BNB Smart Chain. A pasted address also works. The next app build adds a QR code and buttons that open those wallets.</p>
+    <p>Wallets: Binance, Trust, and MetaMask, on BNB Smart Chain. A pasted address also works.</p>
 
-    <h2>THE VAULT</h2>
-    <p>Mining rewards are meant to be paid from one contract. It was deployed by the project wallet, the source matched on Sourcify, and BEL was sent into it.</p>
-    <div class="card">
-      <div class="k">VAULT</div><span class="v"><code>0xF1F263Ef432C51e1a8C180Ae0bCc5e873a23BFBc</code></span>
-      <div class="k">IN THE REWARD POOL</div><span class="v">14,000 BEL</span>
-      <div class="k">CAP</div><span class="v">1,000,000 BEL. Anything above the cap is outside the design and should not be sent.</span>
-      <div class="k">BASE RATE IN THE CONTRACT</div><span class="v">1 BEL per hour, adjusted by the BEL/USDT price against a daily anchor.</span>
-      <div class="k">OWNER</div><span class="v"><code>0x196a5e5c06fa4099ab6aedc384a8a6bbb67beef7</code></span>
+    <h2>The vault</h2>
+    <div class="row">
+      <div class="k">VAULT</div><div><code>0xF1F263Ef432C51e1a8C180Ae0bCc5e873a23BFBc</code></div>
+      <div class="k">IN THE POOL</div><div>14,000 BEL</div>
+      <div class="k">CAP</div><div>1,000,000 BEL</div>
+      <div class="k">OWNER</div><div><code>0x196a5e5c06fa4099ab6aedc384a8a6bbb67beef7</code></div>
     </div>
-    <p>The owner can add more BEL, up to the cap, by sending BEL and calling sync. The owner can also withdraw BEL that has not already been mined. Mined amounts that a user has already earned are not taken back.</p>
-    <p>There is no PinkLock in this version. The earlier paper's 50,000,000 BEL PinkLock and 46,800,000 BEL treasury line are withdrawn. They were not the numbers on this contract.</p>
+    <p>The owner can add BEL, up to the cap, by sending it and calling sync. The owner can withdraw BEL that has not already been mined. There is no minimum and no fee.</p>
+    <p>A claim pays only time that started on the contract. The same wallet calls startMine. Later it calls claim. The contract sends 100% of that mined amount to the wallet. A little BNB is required for the fee. If startMine was never confirmed, claim pays nothing.</p>
+    <p>The vault’s rate uses the BEL/USDT pair <code>0x1d7eedbb3da26c04ab1fb8756bf763e84d6370a4</code>, about 805,729 BEL and 53.59 USDT. That pair is not the published price. The published price is BEL / USDC.</p>
 
-    <h2>WITHDRAWAL RULE</h2>
-    <p>This is the rule for the version that pays. It is not enforced by the vault that holds the 14,000 BEL today. No claim button pays real BEL yet.</p>
-    <ul>
-      <li>A user can withdraw only after 1,000 BEL have been mined.</li>
-      <li>The user receives 95%.</li>
-      <li>5% stays in the same vault.</li>
-      <li>At 1 BEL per hour, 1,000 BEL is about 42 days of continuous mining.</li>
-    </ul>
-    <p>Before the first real payout, the vault will be replaced with a contract that contains this rule. The 14,000 BEL can be moved into that contract by the owner.</p>
+    <h2>Staking</h2>
+    <p>Staking is not live. It is not in the app and it is not in the vault. Mining is the only active score. A later staking contract would use its own BEL, not the 14,000 already in the mining vault.</p>
 
-    <h2>FUTURE STAKING</h2>
-    <p>Staking is not live. It is not in the app, and it is not in the vault. Mining stays the only active score.</p>
-    <p>When staking is added, it will be a separate choice from mining:</p>
+    <h2>What this paper does not say</h2>
     <ul>
-      <li>A holder locks BEL in a staking contract.</li>
-      <li>The rate is meant to be low, starting near 3% a year, and it can change with how much BEL is staked.</li>
-      <li>Staking rewards are not taken from the phone's mining score.</li>
-      <li>The mining vault is not automatically the staking vault. Staking gets its own supply, so the two do not spend the same 14,000 BEL twice.</li>
-      <li>Until that contract exists, any APY shown anywhere else is not Belchior staking.</li>
-    </ul>
-
-    <h2>HISTORY</h2>
-    <ul>
-      <li>Belchior was issued on BNB Smart Chain. The contract reports a supply of 100,000,000 BEL.</li>
-      <li>Two PancakeSwap V2 pairs were opened: BEL/USDT and BEL/XRP.</li>
-      <li>An earlier public note used the wrong liquidity and the wrong lock sizes. This paper replaces that note.</li>
-      <li>The Android app was built. It counts the mining score on the phone and stores it there.</li>
-      <li>The mining vault was deployed. 14,000 BEL was sent in and synced to the reward pool. The cap is 1,000,000 BEL.</li>
-      <li>The paying rules were set, and are waiting on the next contract: withdraw after 1,000 BEL mined, 5% stays in the vault.</li>
-      <li>Staking was left for a later contract.</li>
-    </ul>
-
-    <h2>WHAT THIS PAPER DOES NOT SAY</h2>
-    <ul>
-      <li>It does not say the token price will rise.</li>
-      <li>It does not say the mining score is already BEL you can sell.</li>
-      <li>It does not say liquidity is locked with PinkLock.</li>
+      <li>It does not say the price will rise.</li>
+      <li>It does not say the phone score is already BEL you can sell.</li>
       <li>It does not say staking is open.</li>
-      <li>Holding BEL can lose money. The public pool is small. Read the contract before you buy.</li>
+      <li>Holding BEL can lose money. Read the contract before you buy.</li>
     </ul>
 
-    <h2>LINKS</h2>
-    <ul>
-      <li>Site: <a href="https://belchiortoken.github.io/Belchior/">belchiortoken.github.io/Belchior</a></li>
-      <li>Buy: <a href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=BNB&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">PancakeSwap BEL/BNB</a></li>
-      <li>App file, after it is uploaded: <a href="BEL.apk">BEL.apk</a></li>
-    </ul>
+    <h2>Links</h2>
+    <p><a href="https://belchiortoken.github.io/Belchior/">belchiortoken.github.io/Belchior</a></p>
+    <p><a href="https://github.com/BelchiorToken/Belchior/releases/download/v1.0.0/bel.apk.apk">Download the app</a></p>
+    <p><a href="https://pancakeswap.finance/swap?chain=bsc&amp;inputCurrency=BNB&amp;outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b">Buy BEL on PancakeSwap</a></p>
+    <footer>BELCHIOR · 2026</footer>
   </div>
 </body>
 </html>
