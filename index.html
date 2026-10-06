@@ -207,7 +207,14 @@
       $("picker").classList.remove("on")
     }
     document.querySelectorAll("[data-wallet]").forEach(btn => {
-      btn.onclick = () => connectProvider(findProvider(btn.dataset.wallet), btn.textContent).catch(e => alert(e.message || "Cancelled"))
+      btn.onclick = () => {
+        if (btn.dataset.wallet === "trust" && !findProvider("trust")) {
+          const here = encodeURIComponent(location.href)
+          location.href = "https://link.trustwallet.com/open_url?coin_id=20000714&url=" + here
+          return
+        }
+        connectProvider(findProvider(btn.dataset.wallet), btn.textContent).catch(e => alert(e.message || "Cancelled"))
+      }
     })
     $("mark").onclick = () => {
       if (!s.wallet) return
