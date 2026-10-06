@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
     body { background: #050505; color: #f4f1ea; font-family: Inter, system-ui, sans-serif; }
     .bg { position: fixed; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 46%, rgba(243,234,215,.08) 46.3%, transparent 46.7%), linear-gradient(65deg, transparent 30%, rgba(255,255,255,.04) 30.25%, transparent 30.6%), radial-gradient(ellipse at 50% 0%, rgba(243,234,215,.08), transparent 55%); }
     a { color: inherit; }
@@ -17,7 +16,7 @@
     .hero { min-height: calc(100vh - 80px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
     .eyebrow { letter-spacing: .46em; font-size: 11px; color: #8a8a8a; }
     h1 { font-family: "Libre Bodoni", Didot, serif; font-weight: 500; font-size: clamp(64px, 14vw, 128px); line-height: .86; margin: 18px 0 8px; }
-    .sub { max-width: 440px; color: #c8c4bb; line-height: 1.55; margin-top: 14px; }
+    .sub { max-width: 460px; color: #c8c4bb; line-height: 1.55; margin-top: 14px; }
     .mark { width: min(280px, 70vw); height: min(280px, 70vw); margin: 28px auto 6px; position: relative; }
     .ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(243,234,215,.25); }
     .ring.spin { border-top-color: #f3ead7; border-right-color: #f3ead7; animation: spin 8s linear infinite; }
@@ -40,13 +39,14 @@
     .num { color: #8a8a8a; letter-spacing: .2em; font-size: 11px; }
     .step h3 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 26px; margin: 10px 0; }
     .step p { color: #bdb8ae; line-height: 1.5; font-size: 14px; }
-    .split { display: grid; grid-template-columns: 1.1fr .9fr; gap: 12px; margin-top: 18px; }
+    .split { display: grid; grid-template-columns: 1.15fr .85fr; gap: 12px; margin-top: 18px; }
     .card { border: 1px solid #2a2a2a; padding: 20px; }
-    .card p, .card li { color: #c8c4bb; line-height: 1.55; font-size: 14px; }
-    .card ul { margin: 10px 0 0 16px; }
-    .card li { margin: 6px 0; }
+    .card p { color: #c8c4bb; line-height: 1.55; font-size: 14px; }
     .k { color: #737373; letter-spacing: .16em; font-size: 11px; }
     code { display: block; margin-top: 6px; word-break: break-all; color: #f4f1ea; font-size: 13px; }
+    .px { font-family: "Libre Bodoni", serif; font-size: 34px; margin: 8px 0 4px; }
+    .chart { margin-top: 16px; border: 1px solid #2a2a2a; padding: 14px 14px 8px; }
+    .chart svg { width: 100%; height: 92px; display: block; }
     .fine { margin-top: 28px; color: #737373; font-size: 12px; line-height: 1.5; }
     footer { margin-top: 48px; display: flex; justify-content: space-between; gap: 12px; color: #737373; font-size: 12px; letter-spacing: .08em; }
     @media (max-width: 720px) {
@@ -59,19 +59,12 @@
 <body>
   <div class="bg"></div>
   <div class="wrap">
-    <nav>
-      <span>BEL TOKEN</span>
-      <a href="whitepaper.html">WHITE PAPER</a>
-    </nav>
+    <nav><span>BEL TOKEN</span><a href="whitepaper.html">WHITE PAPER</a></nav>
     <header class="hero">
       <p class="eyebrow">ANDROID · BNB SMART CHAIN</p>
       <h1>The mine<br>is open.</h1>
-      <p class="sub">Tap the B. One BEL an hour, moved by the price. The score stays on the phone, and it is still there tomorrow.</p>
-      <div class="mark" aria-hidden="true">
-        <div class="ring spin"></div>
-        <div class="ring inner"></div>
-        <div class="b">B</div>
-      </div>
+      <p class="sub">Tap the B. One BEL an hour. The score stays on the phone, and it is still there tomorrow. The price on this page is always BEL / USDC.</p>
+      <div class="mark" aria-hidden="true"><div class="ring spin"></div><div class="ring inner"></div><div class="b">B</div></div>
       <p class="hint">TAP TO MINE</p>
       <div class="actions">
         <a class="btn" href="https://github.com/BelchiorToken/Belchior/releases/download/v1.0.0/bel.apk.apk">DOWNLOAD THE APP</a>
@@ -79,9 +72,9 @@
         <a class="btn ghost" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=BNB&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" rel="noreferrer">BUY BEL</a>
       </div>
       <div class="stats">
+        <div><span>BEL / USDC</span><strong>0.0000665</strong></div>
         <div><span>BASE RATE</span><strong>1 BEL / hour</strong></div>
-        <div><span>SAVED</span><strong>On the phone</strong></div>
-        <div><span>CHAIN</span><strong>BNB Smart Chain</strong></div>
+        <div><span>XRP POOL</span><strong>2,639 XRP</strong></div>
       </div>
     </header>
     <h2>Three taps.</h2>
@@ -91,32 +84,37 @@
       <article class="step"><div class="num">02</div><h3>Connect</h3><p>Paste a BSC address, or open Binance, Trust, or MetaMask. Use the Belchior contract, not another coin named BEL.</p></article>
       <article class="step"><div class="num">03</div><h3>Mine</h3><p>Tap the B to start. Tap again to stop. Close the app. Open it tomorrow. The total is still there.</p></article>
     </div>
-    <h2>The rules.</h2>
+    <h2>Price and liquidity.</h2>
+    <p class="lead">The deep pool is BEL / XRP. That is the liquidity behind the token. The price printed here is never in XRP. It is the BEL / USDC pool.</p>
     <div class="split">
       <div class="card">
-        <div class="k">HOW THE HOUR IS PAID</div>
-        <p style="margin-top:10px">The base is 1 BEL per hour. Once a day the app marks the BEL price. A higher price raises the hour. A lower price cuts it. It does not go below zero.</p>
-        <ul>
-          <li>Withdrawals open only after 1,000 BEL mined.</li>
-          <li>You would receive 95%. The 5% stays in the vault.</li>
-          <li>That is about 42 days of continuous mining.</li>
-          <li>Staking is later, and it is not this score.</li>
-        </ul>
+        <div class="k">BEL / USDC</div>
+        <div class="px">0.0000665</div>
+        <p>About 15,045 BEL for 1 USDC. Read from the pool on 6 Oct 2026: 3,165,245 BEL and 210.38 USDC.</p>
+        <div class="chart">
+          <svg viewBox="0 0 320 92">
+            <line x1="8" y1="16" x2="312" y2="16" stroke="#2a2a2a" />
+            <line x1="8" y1="46" x2="312" y2="46" stroke="#2a2a2a" />
+            <line x1="8" y1="76" x2="312" y2="76" stroke="#2a2a2a" />
+            <line x1="28" y1="12" x2="28" y2="80" stroke="#f3ead7" stroke-width="2" />
+            <rect x="22" y="40" width="12" height="12" fill="#f3ead7" />
+            <text x="44" y="50" fill="#f4f1ea" font-size="12" font-family="Inter, sans-serif">0.0000665 USDC</text>
+            <text x="44" y="68" fill="#737373" font-size="10" font-family="Inter, sans-serif">LIVE BEL / USDC</text>
+          </svg>
+        </div>
       </div>
       <div class="card">
-        <div class="k">OFFICIAL TOKEN</div>
+        <div class="k">XRP LIQUIDITY</div>
+        <p style="margin-top:10px">2,639 XRP paired with 59,898,123 BEL. This is the large pool.</p>
+        <code>0xef50ba8e8e21681b3cd854a42f1a0fb866b367af</code>
+        <div class="k" style="margin-top:16px">USDC POOL</div>
+        <code>0x39dd455d59d29e2f1e8d727c94315d08e6c2fac1</code>
+        <div class="k" style="margin-top:16px">TOKEN</div>
         <code>0x3c841c88d3819c901ec0fe29897146dca509552b</code>
-        <div class="k" style="margin-top:16px">MINING VAULT</div>
-        <code>0xF1F263Ef432C51e1a8C180Ae0bCc5e873a23BFBc</code>
-        <div class="k" style="margin-top:16px">IN THE POOL</div>
-        <code>14,000 BEL, cap 1,000,000</code>
       </div>
     </div>
-    <p class="fine">The number on the phone is a mining score. It is not BEL in your wallet yet, and the app does not pay from the vault today. A different coin also called BEL, beginning 0xC50c6, is not Belchior. Read the white paper before you buy.</p>
-    <footer>
-      <span>BELCHIOR · 2026</span>
-      <a href="whitepaper.html">WHITE PAPER</a>
-    </footer>
+    <p class="fine">The number on the phone is a mining score. It is not BEL in your wallet yet. A different coin also called BEL, beginning 0xC50c6, is not Belchior. A week of candles is not drawn here: the public BSC node did not return the trade history, so this page shows the live BEL / USDC price only.</p>
+    <footer><span>BELCHIOR · 2026</span><a href="whitepaper.html">WHITE PAPER</a></footer>
   </div>
 </body>
 </html>
