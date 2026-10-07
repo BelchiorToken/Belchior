@@ -24,8 +24,9 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .b { position: absolute; inset: 0; display: grid; place-items: center; font-family: "Libre Bodoni", serif; font-size: clamp(92px, 22vw, 150px); color: #f3ead7; line-height: 1; }
     .hint { letter-spacing: .32em; font-size: 11px; color: #8a8a8a; margin-top: 4px; }
-    .actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 22px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; margin-top: 22px; }
     .btn { display: inline-block; text-decoration: none; background: #f3ead7; color: #111; padding: 16px 22px; font-weight: 700; letter-spacing: .12em; font-size: 13px; }
+    .dl { align-self: center; color: #8a8a8a; font-size: 12px; letter-spacing: .04em; }
     .ghost { background: transparent; color: #f4f1ea; border: 1px solid rgba(244,241,234,.7); }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #2a2a2a; margin-top: 28px; text-align: left; width: 100%; }
     .stats div { padding: 18px 16px; border-right: 1px solid #2a2a2a; }
@@ -86,6 +87,7 @@
       </div>
       <div class="actions">
         <a class="btn" href="https://github.com/BelchiorToken/Belchior/releases/download/v1.0.0/bel.apk">DOWNLOAD THE APP</a>
+        <span class="dl" id="dlcount">3 downloads</span>
         <a class="btn ghost" href="whitepaper.html">READ THE PAPER</a>
         <a class="btn ghost" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=BNB&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" rel="noreferrer">BUY BEL</a>
       </div>
@@ -221,8 +223,19 @@
         document.getElementById("vault-left").textContent = n + "." + frac + " BEL";
       } catch (e) {}
     }
+    async function loadDownloads() {
+      try {
+        const res = await fetch("https://api.github.com/repos/BelchiorToken/Belchior/releases/tags/v1.0.0");
+        const data = await res.json();
+        const apk = (data.assets || []).find((a) => a.name === "bel.apk");
+        if (!apk || typeof apk.download_count !== "number") return;
+        const n = apk.download_count;
+        document.getElementById("dlcount").textContent = n + (n === 1 ? " download" : " downloads");
+      } catch (e) {}
+    }
     loadBoard();
     loadVault();
+    loadDownloads();
   </script>
 </body>
 </html>
