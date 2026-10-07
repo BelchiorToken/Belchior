@@ -47,6 +47,10 @@
     .px { font-family: "Libre Bodoni", serif; font-size: 34px; margin: 8px 0 4px; }
     .chart { margin-top: 16px; border: 1px solid #2a2a2a; padding: 14px 14px 8px; }
     .chart svg { width: 100%; height: 92px; display: block; }
+    .board { margin-top: 18px; }
+    .pay { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid #2a2a2a; text-decoration: none; }
+    .pay b { font-weight: 500; letter-spacing: .04em; }
+    .pay span { color: #f3ead7; font-variant-numeric: tabular-nums; }
     .fine { margin-top: 28px; color: #737373; font-size: 12px; line-height: 1.5; }
     footer { margin-top: 48px; display: flex; justify-content: space-between; gap: 12px; color: #737373; font-size: 12px; letter-spacing: .08em; }
     .qr { margin: 26px auto 0; background: #f3ead7; color: #111; padding: 16px 16px 12px; display: inline-block; }
@@ -91,6 +95,9 @@
       <article class="step"><div class="num">02</div><h3>Connect</h3><p>Paste a BSC address, or open Binance, Trust, or MetaMask. Use the Belchior contract, not another coin named BEL.</p></article>
       <article class="step"><div class="num">03</div><h3>Mine</h3><p>Tap the B to start. Tap again to stop. Close the app. Open it tomorrow. The total is still there.</p></article>
     </div>
+    <h2>Latest withdrawals.</h2>
+    <p class="lead">BEL that has already left the vault. The ten most recent amounts, read from the chain when this page opens.</p>
+    <div class="card board" id="board"><p>Reading the vault…</p></div>
     <h2>Price and liquidity.</h2>
     <p class="lead">The deep pool is BEL / XRP. That is the liquidity behind the token. The price printed here is never in XRP. It is the BEL / USDC pool.</p>
     <div class="split">
@@ -123,5 +130,75 @@
     <p class="fine">The number on the phone is a mining score. It is not BEL in your wallet yet. A different coin also called BEL, beginning 0xC50c6, is not Belchior. A week of candles is not drawn here: the public BSC node did not return the trade history, so this page shows the live BEL / USDC price only.</p>
     <footer><span>BELCHIOR · 2026</span><a href="whitepaper.html">WHITE PAPER</a></footer>
   </div>
+  <script>
+    const BEL = "0x3c841c88d3819c901ec0fe29897146dca509552b";
+    const VAULT = "0xf1f263ef432c51e1a8c180ae0bcc5e873a23bfbc";
+    const TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
+    const FROM = "0x" + VAULT.slice(2).padStart(64, "0");
+    const RPCS = ["https://rpc-bsc.48.club", "https://bsc-dataseed.binance.org", "https://bsc.publicnode.com"];
+    async function rpc(method, params) {
+      let last;
+      for (const url of RPCS) {
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params })
+          });
+          const out = await res.json();
+          if (out.error) throw out.error;
+          return out.result;
+        } catch (e) { last = e; }
+      }
+      throw last;
+    }
+    function bel(hex) {
+      const v = BigInt(hex);
+      const whole = v / 1000000000000000000n;
+      const frac = (v % 1000000000000000000n).toString().padStart(18, "0").slice(0, 4).replace(/0+$/, "");
+      return frac ? whole.toString() + "." + frac : whole.toString();
+    }
+    function short(a) { return a.slice(0, 6) + "\u2026" + a.slice(-4); }
+    async function loadBoard() {
+      const board = document.getElementById("board");
+      try {
+        const latest = parseInt(await rpc("eth_blockNumber", []), 16);
+        const rows = [];
+        let end = latest;
+        const floor = Math.max(0, latest - 80000);
+        while (end >= floor && rows.length < 10) {
+          const start = Math.max(floor, end - 4900);
+          const part = await rpc("eth_getLogs", [{
+            address: BEL,
+            fromBlock: "0x" + start.toString(16),
+            toBlock: "0x" + end.toString(16),
+            topics: [TOPIC, FROM]
+          }]);
+          for (const lg of part) {
+            rows.push({
+              block: parseInt(lg.blockNumber, 16),
+              to: "0x" + lg.topics[2].slice(26),
+              amt: bel(lg.data),
+              tx: lg.transactionHash
+            });
+          }
+          end = start - 1;
+        }
+        rows.sort((a, b) => b.block - a.block);
+        const top = rows.slice(0, 10);
+        if (!top.length) {
+          board.innerHTML = "<p>No BEL has left the vault in the latest blocks.</p>";
+          return;
+        }
+        board.innerHTML = top.map((r) =>
+          '<a class="pay" href="https://bscscan.com/tx/' + r.tx + '" target="_blank" rel="noreferrer"><b>' +
+          short(r.to) + "</b><span>" + r.amt + " BEL</span></a>"
+        ).join("");
+      } catch (e) {
+        board.innerHTML = "<p>The vault list could not be read just now. Refresh the page.</p>";
+      }
+    }
+    loadBoard();
+  </script>
 </body>
 </html>
