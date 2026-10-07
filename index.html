@@ -34,6 +34,11 @@
     .stats strong { display: block; margin-top: 8px; font-weight: 500; font-size: 22px; font-family: "Libre Bodoni", serif; }
     h2 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 36px; margin: 36px 0 8px; }
     .lead { color: #c8c4bb; max-width: 560px; line-height: 1.6; }
+    .vaultrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .vaultrow .lead { margin: 0; }
+    .vaultbox { border: 1px solid #2a2a2a; padding: 12px 16px; min-width: 190px; text-align: right; }
+    .vaultbox span { display: block; color: #737373; font-size: 11px; letter-spacing: .16em; }
+    .vaultbox strong { display: block; margin-top: 6px; font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 22px; }
     .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
     .step { border: 1px solid #2a2a2a; padding: 18px; min-height: 160px; }
     .num { color: #8a8a8a; letter-spacing: .2em; font-size: 11px; }
@@ -58,8 +63,9 @@
     .qr img { display: block; width: 160px; height: 160px; }
     .qr p { margin-top: 10px; letter-spacing: .18em; font-size: 11px; font-weight: 600; }
     @media (max-width: 720px) {
-      .stats, .steps, .split { grid-template-columns: 1fr; }
+      .stats, .steps, .split, .vaultrow { grid-template-columns: 1fr; flex-direction: column; align-items: stretch; }
       .stats div { border-right: 0; border-bottom: 1px solid #2a2a2a; }
+      .vaultbox { text-align: left; }
       footer { flex-direction: column; }
     }
   </style>
@@ -90,7 +96,10 @@
       </div>
     </header>
     <h2>Latest withdrawals.</h2>
-    <p class="lead">BEL already sent out of the vault. Your two tests are listed. A new claim replaces this list when the page can read the chain.</p>
+    <div class="vaultrow">
+      <p class="lead">BEL already sent out of the vault.</p>
+      <div class="vaultbox"><span>STILL IN THE VAULT</span><strong id="vault-left">99,997.63 BEL</strong></div>
+    </div>
     <div class="card board" id="board">
       <a class="pay" href="https://bscscan.com/tx/0x273662244fe88dc354d0891071c11a16527126f128f20b6e3e61b295112ccb89" target="_blank" rel="noreferrer"><b>0x7106…1b5d</b><span>2.373 BEL</span></a>
       <a class="pay" href="https://bscscan.com/tx/0x3d99a22db098d9a76d625644ba9f507881b20fed0f5589cc9f93a32e1f0a078f" target="_blank" rel="noreferrer"><b>0x7106…1b5d</b><span>0.0387 BEL</span></a>
@@ -201,7 +210,19 @@
         ).join("");
       } catch (e) {}
     }
+    async function loadVault() {
+      try {
+        const data = "0x70a08231" + VAULT.slice(2).padStart(64, "0");
+        const raw = await rpc("eth_call", [{ to: BEL, data }, "latest"]);
+        const v = BigInt(raw);
+        const whole = v / 1000000000000000000n;
+        const frac = (v % 1000000000000000000n).toString().padStart(18, "0").slice(0, 2);
+        const n = whole.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        document.getElementById("vault-left").textContent = n + "." + frac + " BEL";
+      } catch (e) {}
+    }
     loadBoard();
+    loadVault();
   </script>
 </body>
 </html>
