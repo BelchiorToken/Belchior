@@ -386,7 +386,7 @@
         var klass = pct > 0 ? "up" : pct < 0 ? "down" : "flat";
         var pctHtml = '<span class="' + klass + '">' + (pct > 0 ? "+" : "") + pct.toFixed(2) + "%</span>";
         var line = "Last hour · " + rate.toFixed(3) + "/h · " + pctHtml;
-        el.innerHTML = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : line;
+        el.innerHTML = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : pctHtml;
       }).catch(function () {});
   }
   tick();
