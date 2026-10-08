@@ -52,6 +52,9 @@
     .stats span { display: block; color: #737373; font-size: 11px; letter-spacing: .16em; }
     .stats strong { display: block; margin-top: 8px; font-weight: 500; font-size: 22px; font-family: "Libre Bodoni", serif; }
     .minute { display: block; margin-top: 8px; color: #a3a3a3; font-style: normal; font-size: 12px; letter-spacing: 0; line-height: 1.45; }
+    .dayline { display: flex; align-items: baseline; gap: 8px; margin-top: 10px; }
+    .dayline b { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 22px; }
+    .dayline i { color: #737373; font-style: normal; font-size: 11px; letter-spacing: .16em; }
     h2 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 36px; margin: 36px 0 8px; }
     .lead { color: #c8c4bb; max-width: 560px; line-height: 1.6; }
     .vaultrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
@@ -121,7 +124,7 @@
       </div>
       <div class="stats">
         <div><span>BEL / USDC</span><strong>0.0000665</strong></div>
-        <div><span>BASE RATE</span><strong>1 BEL / hour</strong><em class="minute" id="minute-rate">Last minute · …</em></div>
+        <div><span>BASE RATE</span><strong>1 BEL / hour</strong><p class="dayline"><b id="day-pct">…</b><i>LAST 24H</i></p><em class="minute" id="minute-rate">Last minute · …</em></div>
         <div><span>XRP POOL</span><strong>2,639 XRP</strong></div>
       </div>
     </header>
@@ -344,8 +347,25 @@
       el.innerHTML = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : line;
     }).catch(function () {});
   }
+  function day() {
+    fetch("https://api.dexscreener.com/latest/dex/tokens/0x3c841c88d3819c901ec0fe29897146dca509552b")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var hit = null;
+        (d.pairs || []).forEach(function (pair) {
+          if ((pair.pairAddress || "").toLowerCase() === "0x39dd455d59d29e2f1e8d727c94315d08e6c2fac1") hit = pair;
+        });
+        var el = document.getElementById("day-pct");
+        if (!el || !hit || !hit.priceChange || hit.priceChange.h24 == null) return;
+        var pct = Number(hit.priceChange.h24);
+        el.style.color = pct > 0 ? "#3dd68c" : pct < 0 ? "#f07167" : "#a3a3a3";
+        el.textContent = (pct > 0 ? "+" : "") + pct.toFixed(2) + "%";
+      }).catch(function () {});
+  }
   tick();
+  day();
   setInterval(tick, 15000);
+  setInterval(day, 60000);
 })();
 </script>
 </body>
