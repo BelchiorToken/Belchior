@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BEL Mine</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="BEL" />
+  <meta name="theme-color" content="#050505" />
+  <link rel="apple-touch-icon" href="assets/BEL-Token.png" />
+  <link rel="manifest" href="mine.webmanifest" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #050505; color: #f4f1ea; font-family: Inter, system-ui, sans-serif; min-height: 100vh; }
+    a { color: inherit; }
+    button, input { font: inherit; }
+    .wrap { max-width: 480px; margin: 0 auto; padding: 22px 18px 48px; }
+    nav { display: flex; justify-content: space-between; align-items: center; letter-spacing: .22em; font-size: 11px; color: #8a8a8a; }
+    nav a { text-decoration: none; }
+    .hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 18px; }
+    .mark { width: min(240px, 68vw); height: min(240px, 68vw); margin: 18px auto 8px; position: relative; }
+    .ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(243,234,215,.28); }
+    .orb { position: absolute; inset: 0; opacity: 0; }
+    .on .orb { opacity: 1; animation: spin 8s linear infinite; }
+    .orb i { position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #fff; box-shadow: 0 0 14px #fff; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .b { position: absolute; inset: 0; border: 0; background: transparent; color: #f3ead7; font-family: "Libre Bodoni", serif; font-size: 120px; line-height: 1; cursor: pointer; }
+    .b:disabled { cursor: default; }
+    .hint { letter-spacing: .28em; font-size: 12px; color: #8a8a8a; min-height: 18px; }
+    .grid { width: 100%; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #2a2a2a; margin-top: 18px; text-align: left; }
+    .grid div { padding: 14px; border-right: 1px solid #2a2a2a; border-bottom: 1px solid #2a2a2a; }
+    .grid div:nth-child(2n) { border-right: 0; }
+    .grid div:nth-last-child(-n+2) { border-bottom: 0; }
+    .k { color: #737373; font-size: 11px; letter-spacing: .16em; }
+    .v { margin-top: 6px; font-family: "Libre Bodoni", serif; font-size: 22px; font-weight: 500; }
+    .note { color: #8a8a8a; font-size: 13px; line-height: 1.5; margin-top: 14px; text-align: left; }
+    .btn { display: block; width: 100%; text-align: center; text-decoration: none; background: #f3ead7; color: #111; border: 0; padding: 16px 12px; margin-top: 12px; font-weight: 700; letter-spacing: .14em; cursor: pointer; }
+    .btn:disabled { opacity: .45; cursor: default; }
+    .ghost { background: transparent; color: #f4f1ea; border: 1px solid rgba(244,241,234,.7); }
+    .wallets { display: flex; gap: 8px; margin-top: 12px; }
+    .wallets button { flex: 1; background: #111; color: #fff; border: 1px solid #2a2a2a; padding: 12px 6px; font-weight: 700; font-size: 13px; cursor: pointer; }
+    .msg { min-height: 18px; margin-top: 10px; color: #d6d3d1; font-size: 13px; }
+    .who { margin-top: 14px; color: #a3a3a3; font-size: 13px; }
+    .tiny { margin-top: 22px; color: #737373; font-size: 12px; line-height: 1.5; text-align: left; }
+    code { word-break: break-all; color: #f4f1ea; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav><a href="index.html">BEL TOKEN</a><a href="whitepaper.html">WHITE PAPER</a></nav>
+    <header class="hero">
+      <div class="mark" id="mark">
+        <div class="ring"></div>
+        <div class="orb"><i></i></div>
+        <button class="b" id="mine" type="button" aria-label="Start mining">B</button>
+      </div>
+      <p class="hint" id="hint">TAP TO MINE</p>
+      <div class="grid">
+        <div><div class="k">STATUS</div><div class="v" id="status">IDLE</div></div>
+        <div><div class="k">ELAPSED</div><div class="v" id="elapsed">00:00:00</div></div>
+        <div><div class="k">TO CLAIM</div><div class="v" id="owed">0.0000</div></div>
+        <div><div class="k">RATE</div><div class="v" id="rate">1.00/h</div></div>
+      </div>
+      <p class="note" id="rate-note">Base is 1 BEL per hour. The price moves the rate.</p>
+      <p class="who" id="who">Wallet not connected.</p>
+      <div class="wallets" id="wallets">
+        <button type="button" data-wallet="binance">Binance</button>
+        <button type="button" data-wallet="trust">Trust</button>
+        <button type="button" data-wallet="metamask">MetaMask</button>
+      </div>
+      <button class="btn ghost" id="browser" type="button" hidden>Use this wallet</button>
+      <button class="btn" id="claim" type="button" disabled>CLAIM BEL</button>
+      <a class="btn ghost" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=BNB&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" rel="noreferrer">BUY BEL</a>
+      <p class="msg" id="msg"></p>
+      <p class="note" id="gate">Claim sends BEL from the vault to this wallet. The button turns on only when this wallet holds at least 15,000 BEL. The vault balance does not count.</p>
+      <button class="btn ghost" id="disconnect" type="button" hidden>DISCONNECT</button>
+      <p class="tiny">On iPhone, open this page in Safari, tap Share, then Add to Home Screen. The icon uses the same vault as the Android app.<br><br>Contract <code>0x3c841c88d3819c901ec0fe29897146dca509552b</code><br>Vault <code>0xF1F263Ef432C51e1a8C180Ae0bCc5e873a23BFBc</code></p>
+    </header>
+  </div>
+  <script type="module">
+    const VAULT = "0xF1F263Ef432C51e1a8C180Ae0bCc5e873a23BFBc";
+    const BEL = "0x3c841c88d3819c901ec0fe29897146dca509552b";
+    const RPCS = ["https://bsc-dataseed.binance.org", "https://bsc.publicnode.com", "https://rpc-bsc.48.club"];
+    const WC = "d558f07cba5953c0b5eb8cd3b7a4b84a";
+    const DAY = 86400n;
+    const HOUR = 3600n;
+    const UNIT = 1000000000000000000n;
+    const NEED = 15000n * UNIT;
+    const SEL = {
+      mineFrom: "0x472aa706",
+      claimable: "0x402914f5",
+      hourly: "0x59a7b3fe",
+      start: "0xed73ee25",
+      claim: "0x4e71d92d",
+      balance: "0x70a08231"
+    };
+
+    const el = (id) => document.getElementById(id);
+    let provider, eth, account, busy = false;
+    let chain = { mineFrom: 0n, banked: 0n, rate: UNIT, balance: 0n, now: 0n };
+
+    function pad(n) { return String(n).padStart(64, "0"); }
+    function fmt(wei, d = 4) {
+      const base = 10n ** 18n;
+      const whole = wei / base;
+      const frac = (wei % base).toString().padStart(18, "0").slice(0, d);
+      return whole.toString() + "." + frac;
+    }
+    function clock(sec) {
+      const s = Number(sec < 0n ? 0n : sec);
+      const h = Math.floor(s / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const r = s % 60;
+      return [h, m, r].map((n) => String(n).padStart(2, "0")).join(":");
+    }
+    function live(at) {
+      if (chain.mineFrom === 0n || at <= chain.mineFrom) return 0n;
+      return ((at - chain.mineFrom) * chain.rate) / HOUR;
+    }
+    function owed(at) { return chain.banked + live(at); }
+    function setMsg(text) { el("msg").textContent = text || ""; }
+
+    async function rpc(method, params) {
+      let last;
+      for (const url of RPCS) {
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params })
+          });
+          const out = await res.json();
+          if (out.error) throw out.error;
+          return out.result;
+        } catch (e) { last = e; }
+      }
+      throw last;
+    }
+    async function read(data) {
+      const raw = await rpc("eth_call", [{ to: VAULT, data }, "latest"]);
+      return BigInt(raw);
+    }
+
+    async function refresh() {
+      const block = await rpc("eth_getBlockByNumber", ["latest", false]);
+      chain.now = BigInt(block.timestamp);
+      chain.rate = await read(SEL.hourly);
+      if (account) {
+        const arg = pad(account.slice(2));
+        chain.mineFrom = await read(SEL.mineFrom + arg);
+        chain.banked = await read(SEL.claimable + arg);
+        chain.balance = BigInt(await rpc("eth_call", [{ to: BEL, data: SEL.balance + arg }, "latest"]));
+      } else {
+        chain.mineFrom = 0n;
+        chain.banked = 0n;
+        chain.balance = 0n;
+      }
+      render();
+    }
+
+    function render() {
+      const at = chain.now;
+      const mining = account && chain.mineFrom > 0n;
+      const elapsed = mining ? at - chain.mineFrom : 0n;
+      const amount = account ? owed(at) : 0n;
+      const pct = Number((chain.rate - UNIT) * 10000n / UNIT) / 100;
+      el("mark").classList.toggle("on", Boolean(mining));
+      el("status").textContent = mining ? "MINING" : "IDLE";
+      el("elapsed").textContent = clock(elapsed);
+      el("owed").textContent = fmt(amount);
+      el("rate").textContent = (Number(chain.rate) / 1e18).toFixed(2) + "/h";
+      el("rate-note").textContent = "Base is 1 BEL per hour. Price since the daily mark is " + (pct >= 0 ? "+" : "") + pct.toFixed(2) + "%, so this hour pays " + fmt(chain.rate) + " BEL.";
+      if (!account) {
+        el("hint").textContent = "TAP TO MINE";
+        el("who").textContent = "Wallet not connected.";
+        el("wallets").hidden = false;
+        el("disconnect").hidden = true;
+      } else {
+        const left = DAY > elapsed ? DAY - elapsed : 0n;
+        el("hint").textContent = mining ? (left > 0n ? "LOCKED " + clock(left) : "STILL MINING") : "TAP TO MINE";
+        el("who").textContent = account.slice(0, 6) + "…" + account.slice(-4) + " · " + fmt(chain.balance, 2) + " BEL";
+        el("wallets").hidden = true;
+        el("disconnect").hidden = false;
+      }
+      const canClaim = account && chain.balance >= NEED && amount > 0n && !busy;
+      el("claim").disabled = !canClaim;
+      el("mine").disabled = busy || Boolean(mining);
+      el("browser").hidden = !window.ethereum || Boolean(account);
+    }
+
+    async function getProvider() {
+      if (provider) return provider;
+      const mod = await import("https://esm.sh/@walletconnect/ethereum-provider@2.21.1?bundle");
+      const EthereumProvider = mod.default || mod.EthereumProvider;
+      provider = await EthereumProvider.init({
+        projectId: WC,
+        chains: [56],
+        showQrModal: false,
+        rpcMap: { 56: RPCS[0] },
+        methods: ["eth_sendTransaction", "personal_sign"],
+        events: ["chainChanged", "accountsChanged"],
+        metadata: {
+          name: "BEL Mine",
+          description: "Mine BEL on BNB Chain",
+          url: "https://belchiortoken.github.io",
+          icons: ["https://belchiortoken.github.io/Belchior/assets/BEL-Token.png"]
+        }
+      });
+      provider.on("display_uri", (uri) => {
+        provider._uri = uri;
+        if (provider._wallet) openWallet(uri, provider._wallet);
+      });
+      provider.on("disconnect", () => { account = null; eth = null; refresh(); });
+      provider.on("accountsChanged", (accs) => { account = accs && accs[0] ? accs[0] : null; refresh(); });
+      if (provider.session && provider.accounts && provider.accounts[0]) {
+        account = provider.accounts[0];
+        eth = provider;
+      }
+      return provider;
+    }
+
+    function openWallet(uri, kind) {
+      const q = encodeURIComponent(uri);
+      const url = {
+        binance: "bnc://app.binance.com/cedefi/wc?uri=" + q,
+        trust: "https://link.trustwallet.com/wc?uri=" + q,
+        metamask: "https://metamask.app.link/wc?uri=" + q
+      }[kind];
+      if (url) window.location.href = url;
+    }
+
+    async function ensureChain() {
+      const id = await eth.request({ method: "eth_chainId" });
+      if (parseInt(id, 16) === 56) return;
+      try {
+        await eth.request({ method: "wallet_switchEthereumChain", params: [{ chainId: "0x38" }] });
+      } catch (e) {
+        if (e && e.code === 4902) {
+          await eth.request({
+            method: "wallet_addEthereumChain",
+            params: [{
+              chainId: "0x38",
+              chainName: "BNB Smart Chain",
+              nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
+              rpcUrls: [RPCS[0]],
+              blockExplorerUrls: ["https://bscscan.com"]
+            }]
+          });
+        } else throw e;
+      }
+    }
+
+    async function connect(kind) {
+      setMsg(kind === "browser" ? "Opening the wallet in this browser…" : "Approve the connection in the wallet, then come back.");
+      try {
+        if (kind === "browser") {
+          eth = window.ethereum;
+          const accs = await eth.request({ method: "eth_requestAccounts" });
+          account = accs[0];
+        } else {
+          const p = await getProvider();
+          eth = p;
+          p._wallet = kind;
+          if (p.session && p.accounts && p.accounts[0]) account = p.accounts[0];
+          else {
+            const accs = await p.connect();
+            account = (accs && accs[0]) || (p.accounts && p.accounts[0]);
+          }
+        }
+        await ensureChain();
+        setMsg("");
+        await refresh();
+      } catch (e) {
+        setMsg(e && e.message ? e.message : "The wallet did not connect.");
+      }
+    }
+
+    async function send(data) {
+      busy = true;
+      render();
+      setMsg("Confirm the transaction in your wallet.");
+      try {
+        await ensureChain();
+        const hash = await eth.request({
+          method: "eth_sendTransaction",
+          params: [{ from: account, to: VAULT, data }]
+        });
+        setMsg("Waiting for BNB Chain…");
+        for (let i = 0; i < 40; i++) {
+          const rc = await rpc("eth_getTransactionReceipt", [hash]);
+          if (rc) {
+            setMsg(rc.status === "0x1" ? "Confirmed." : "The transaction failed.");
+            break;
+          }
+          await new Promise((r) => setTimeout(r, 3000));
+        }
+      } catch (e) {
+        setMsg(e && e.message ? e.message : "The wallet closed the transaction.");
+      }
+      busy = false;
+      await refresh();
+    }
+
+    el("mine").addEventListener("click", () => {
+      if (!account) { setMsg("Connect Binance, Trust, or MetaMask first."); return; }
+      if (chain.mineFrom > 0n) return;
+      send(SEL.start);
+    });
+    el("claim").addEventListener("click", () => send(SEL.claim));
+    document.querySelectorAll("[data-wallet]").forEach((b) => b.addEventListener("click", () => connect(b.dataset.wallet)));
+    el("browser").addEventListener("click", () => connect("browser"));
+    el("disconnect").addEventListener("click", async () => {
+      try { if (provider && provider.disconnect) await provider.disconnect(); } catch (e) {}
+      account = null;
+      eth = null;
+      setMsg("");
+      refresh();
+    });
+
+    if (window.ethereum) el("browser").hidden = false;
+    getProvider().then(refresh).catch(() => refresh());
+    setInterval(() => {
+      if (!account || chain.mineFrom === 0n || busy) return;
+      chain.now += 1n;
+      render();
+    }, 1000);
+    setInterval(() => { if (!busy) refresh().catch(() => {}); }, 20000);
+  </script>
+</body>
+</html>
