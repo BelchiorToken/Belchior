@@ -32,7 +32,8 @@
     .hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 28px; }
     .hero-top { width: min(980px, 100%); display: flex; align-items: center; justify-content: center; gap: 28px; text-align: left; }
     .hero-top h1 { text-align: left; margin: 8px 0 0; }
-    .chart { width: 240px; height: auto; flex: 0 0 240px; border: 1px solid #2a2a2a; background: #050505; display: block; }
+    .hero-chart { width: 240px; height: auto; flex: 0 0 240px; border: 1px solid #2a2a2a; background: #050505; display: block; }
+    .chart-note { margin-top: 8px; color: #8a8a8a; font-size: 11px; letter-spacing: .14em; text-align: left; }
     .eyebrow { letter-spacing: .46em; font-size: 11px; color: #8a8a8a; }
     h1 { font-family: "Libre Bodoni", Didot, serif; font-weight: 500; font-size: clamp(64px, 14vw, 128px); line-height: .86; margin: 18px 0 8px; }
     .sub { max-width: 460px; color: #c8c4bb; line-height: 1.55; margin-top: 14px; }
@@ -98,7 +99,8 @@
     @media (max-width: 720px) {
       .hero-top { flex-direction: column; text-align: center; gap: 16px; }
       .hero-top h1, .hero-top .eyebrow { text-align: center; }
-      .chart { width: min(280px, 86vw); flex-basis: auto; }
+      .hero-chart { width: min(280px, 86vw); flex-basis: auto; }
+      .chart-note { text-align: center; }
       .stats, .steps, .split, .vaultrow { grid-template-columns: 1fr; flex-direction: column; align-items: stretch; }
       .stats div { border-right: 0; border-bottom: 1px solid #2a2a2a; }
       .vaultbox { text-align: left; }
@@ -120,7 +122,10 @@
     </nav>
     <header class="hero">
       <div class="hero-top">
-        <img class="chart" src="bel-chart.png" alt="BEL / USDC 4 hour chart" />
+        <div>
+          <img class="hero-chart" src="bel-chart.png" alt="BEL / USDC 4 hour chart" />
+          <p class="chart-note">4H · BEL / USDC · 23–28 SEP</p>
+        </div>
         <div>
           <p class="eyebrow">ANDROID · BNB SMART CHAIN</p>
           <h1>The mine<br>is open.</h1>
@@ -141,7 +146,7 @@
         <a class="btn apple" href="mine.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.72c-.03-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.71-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.61 2.25 2.76 2.21 1.11-.05 1.53-.71 2.87-.71 1.34 0 1.72.71 2.89.69 1.19-.02 1.95-1.08 2.68-2.15.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.35-3.54zM14.7 6.85c.61-.74 1.02-1.77.91-2.8-.88.04-1.94.59-2.57 1.32-.56.65-1.06 1.7-.93 2.7.98.08 1.98-.5 2.59-1.22z"/></svg>IPHONE</a>
       </div>
       <div class="stats">
-        <div><span>BEL / USDC</span><strong>0.0000665</strong></div>
+        <div><span>BEL / USDC</span><strong id="bel-price">0.0000622</strong></div>
         <div class="ratebox"><span>BASE RATE</span><strong>1 BEL / hour <em class="plus">+</em></strong><p class="pair"><span>LAST 24H</span><span>LAST HOUR</span><b id="day-pct">…</b><b id="minute-rate">…</b></p></div>
         <div><span>XRP POOL</span><strong>2,639 XRP</strong></div>
       </div>
@@ -167,19 +172,8 @@
     <div class="split">
       <div class="card">
         <div class="k">BEL / USDC</div>
-        <div class="px">0.0000665</div>
-        <p>About 15,045 BEL for 1 USDC. Read from the pool on 6 Oct 2026: 3,165,245 BEL and 210.38 USDC.</p>
-        <div class="chart">
-          <svg viewBox="0 0 320 92">
-            <line x1="8" y1="16" x2="312" y2="16" stroke="#2a2a2a" />
-            <line x1="8" y1="46" x2="312" y2="46" stroke="#2a2a2a" />
-            <line x1="8" y1="76" x2="312" y2="76" stroke="#2a2a2a" />
-            <line x1="28" y1="12" x2="28" y2="80" stroke="#f3ead7" stroke-width="2" />
-            <rect x="22" y="40" width="12" height="12" fill="#f3ead7" />
-            <text x="44" y="50" fill="#f4f1ea" font-size="12" font-family="Inter, sans-serif">0.0000665 USDC</text>
-            <text x="44" y="68" fill="#737373" font-size="10" font-family="Inter, sans-serif">LIVE BEL / USDC</text>
-          </svg>
-        </div>
+        <div class="px" id="bel-price-lg">0.0000622</div>
+        <p id="bel-pool">The 4-hour chart is beside the title. This price is BEL / USDC.</p>
       </div>
       <div class="card" style="padding:20px">
         <div class="k">XRP LIQUIDITY</div>
@@ -191,7 +185,7 @@
         <code>0x3c841c88d3819c901ec0fe29897146dca509552b</code>
       </div>
     </div>
-    <p class="fine">The number on the phone is a mining score. It is not BEL in your wallet yet. A different coin also called BEL, beginning 0xC50c6, is not Belchior. A week of candles is not drawn here: the public BSC node did not return the trade history, so this page shows the live BEL / USDC price only.</p>
+    <p class="fine">The number on the phone is a mining score. It is not BEL in your wallet yet. A different coin also called BEL, beginning 0xC50c6, is not Belchior. The chart beside the title is the 4-hour BEL / USDC move from 23 to 28 Sep 2026. The base rate is 1 BEL an hour, plus the last 24 hours.</p>
     <footer><span>BELCHIOR · 2026</span><a href="whitepaper.html">WHITE PAPER</a></footer>
   </div>
 
@@ -371,6 +365,14 @@
         var pct = Number(hit.priceChange.h24);
         el.style.color = pct > 0 ? "#3dd68c" : pct < 0 ? "#f07167" : "#a3a3a3";
         el.textContent = (pct > 0 ? "+" : "") + pct.toFixed(2) + "%";
+        var px = Number(hit.priceUsd);
+        if (px) {
+          var text = px.toFixed(7).replace(/0$/, "");
+          var a = document.getElementById("bel-price");
+          var b = document.getElementById("bel-price-lg");
+          if (a) a.textContent = text;
+          if (b) b.textContent = text;
+        }
       }).catch(function () {});
   }
   tick();
