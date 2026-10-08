@@ -71,6 +71,7 @@
         <button type="button" data-wallet="trust">Trust</button>
         <button type="button" data-wallet="metamask">MetaMask</button>
       </div>
+      <a class="btn" id="jump" hidden>OPEN WALLET</a>
       <button class="btn ghost" id="browser" type="button" hidden>Use this wallet</button>
       <button class="btn" id="claim" type="button" disabled>CLAIM BEL</button>
       <a class="btn ghost" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=BNB&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" rel="noreferrer">BUY BEL</a>
@@ -177,6 +178,7 @@
         el("hint").textContent = "TAP TO MINE";
         el("who").textContent = "Wallet not connected.";
         el("wallets").hidden = false;
+        el("jump").hidden = true;
         el("disconnect").hidden = true;
       } else {
         const left = DAY > elapsed ? DAY - elapsed : 0n;
@@ -211,7 +213,14 @@
       });
       provider.on("display_uri", (uri) => {
         provider._uri = uri;
-        if (provider._wallet) openWallet(uri, provider._wallet);
+        const kind = provider._wallet;
+        if (!kind) return;
+        const url = walletUrl(uri, kind);
+        const jump = el("jump");
+        jump.hidden = false;
+        jump.href = url;
+        jump.textContent = "OPEN " + kind.toUpperCase();
+        window.location.href = url;
       });
       provider.on("disconnect", () => { account = null; eth = null; refresh(); });
       provider.on("accountsChanged", (accs) => { account = accs && accs[0] ? accs[0] : null; refresh(); });
@@ -222,13 +231,16 @@
       return provider;
     }
 
-    function openWallet(uri, kind) {
+    function walletUrl(uri, kind) {
       const q = encodeURIComponent(uri);
-      const url = {
+      return {
         binance: "bnc://app.binance.com/cedefi/wc?uri=" + q,
         trust: "https://link.trustwallet.com/wc?uri=" + q,
         metamask: "https://metamask.app.link/wc?uri=" + q
       }[kind];
+    }
+    function openWallet(uri, kind) {
+      const url = walletUrl(uri, kind);
       if (url) window.location.href = url;
     }
 
