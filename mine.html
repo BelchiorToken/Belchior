@@ -37,6 +37,8 @@
     .k { color: #737373; font-size: 11px; letter-spacing: .16em; }
     .v { margin-top: 6px; font-family: "Libre Bodoni", serif; font-size: 22px; font-weight: 500; }
     .note { color: #8a8a8a; font-size: 13px; line-height: 1.5; margin-top: 14px; text-align: left; }
+    .note .up { color: #3dd68c !important; }
+    .note .down { color: #f07167 !important; }
     .btn { display: block; width: 100%; text-align: center; text-decoration: none; background: #f3ead7; color: #111; border: 0; padding: 16px 12px; margin-top: 12px; font-weight: 700; letter-spacing: .14em; cursor: pointer; }
     .btn:disabled { opacity: .45; cursor: default; }
     .ghost { background: transparent; color: #f4f1ea; border: 1px solid rgba(244,241,234,.7); }
@@ -381,8 +383,8 @@
           return;
         }
         var rate = 1 + pct / 100;
-        var color = pct > 0 ? "#3dd68c" : pct < 0 ? "#f07167" : "#a3a3a3";
-        var pctHtml = '<span style="color:' + color + '">' + (pct > 0 ? "+" : "") + pct.toFixed(2) + "%</span>";
+        var klass = pct > 0 ? "up" : pct < 0 ? "down" : "flat";
+        var pctHtml = '<span class="' + klass + '">' + (pct > 0 ? "+" : "") + pct.toFixed(2) + "%</span>";
         var line = "Last hour · " + rate.toFixed(3) + "/h · " + pctHtml;
         el.innerHTML = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : line;
       }).catch(function () {});
