@@ -14,7 +14,18 @@
     nav { display: flex; justify-content: space-between; align-items: center; letter-spacing: .28em; font-size: 11px; color: #8a8a8a; }
     nav a { text-decoration: none; }
     .navleft { display: flex; align-items: center; gap: 16px; }
-    .navleft a:hover { color: #f4f1ea; }
+    .navleft a:hover, .navbtn:hover { color: #f4f1ea; }
+    .navbtn { background: none; border: 0; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; padding: 0; }
+    .modal { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.72); display: grid; place-items: center; padding: 20px; }
+    .modal[hidden] { display: none; }
+    .modal-card { width: min(520px, 100%); background: #0c0c0c; border: 1px solid #2a2a2a; padding: 28px 22px 18px; position: relative; text-align: left; }
+    .modal-card h2 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 34px; margin-bottom: 8px; }
+    .modal-card p, .modal-card li { color: #c8c4bb; line-height: 1.55; font-size: 14px; }
+    .modal-card ol { margin: 16px 0 0 18px; }
+    .modal-card li { margin-bottom: 10px; }
+    .modal-card code { display: block; margin-top: 8px; word-break: break-all; color: #f4f1ea; font-size: 13px; }
+    .modal-x { position: absolute; top: 10px; right: 12px; background: none; border: 0; color: #f4f1ea; font-size: 18px; cursor: pointer; }
+    .modal-close { margin-top: 8px; width: 100%; background: #f3ead7; color: #111; border: 0; padding: 12px; font-weight: 700; letter-spacing: .12em; cursor: pointer; }
     .hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 28px; }
     .eyebrow { letter-spacing: .46em; font-size: 11px; color: #8a8a8a; }
     h1 { font-family: "Libre Bodoni", Didot, serif; font-weight: 500; font-size: clamp(64px, 14vw, 128px); line-height: .86; margin: 18px 0 8px; }
@@ -81,6 +92,7 @@
         <span>BEL TOKEN</span>
         <a href="https://x.com/BelchiorToken" target="_blank" rel="noreferrer">X</a>
         <a href="https://t.me/+LsSrv9TgJMA5YWZk" target="_blank" rel="noreferrer">TELEGRAM</a>
+        <button class="navbtn" id="open-add" type="button">ADD BEL</button>
       </div>
       <a href="whitepaper.html">WHITE PAPER</a>
     </nav>
@@ -154,6 +166,26 @@
     <p class="fine">The number on the phone is a mining score. It is not BEL in your wallet yet. A different coin also called BEL, beginning 0xC50c6, is not Belchior. A week of candles is not drawn here: the public BSC node did not return the trade history, so this page shows the live BEL / USDC price only.</p>
     <footer><span>BELCHIOR · 2026</span><a href="whitepaper.html">WHITE PAPER</a></footer>
   </div>
+
+    <div class="modal" id="add-modal" hidden role="dialog" aria-modal="true" aria-labelledby="add-title">
+      <div class="modal-card">
+        <button class="modal-x" type="button" data-close aria-label="Close">×</button>
+        <h2 id="add-title">Add BEL</h2>
+        <p>Do this in Binance, Trust, MetaMask, or any wallet on BNB Smart Chain. Stay on that network before you add it.</p>
+        <ol>
+          <li>Open the wallet.</li>
+          <li>Switch the network to BNB Smart Chain.</li>
+          <li>Choose import, or add a custom token.</li>
+          <li>Paste this contract.
+            <code>0x3c841c88d3819c901ec0fe29897146dca509552b</code>
+          </li>
+          <li>Symbol <strong>BEL</strong>. Decimals <strong>18</strong>. If the wallet fills these in, check them before you save.</li>
+        </ol>
+        <p style="margin-top:14px">Another coin also called BEL, beginning 0xC50c6, is not this token.</p>
+        <button class="modal-close" type="button" data-close>CLOSE</button>
+      </div>
+    </div>
+
   <script>
     const BEL = "0x3c841c88d3819c901ec0fe29897146dca509552b";
     const VAULT = "0xf1f263ef432c51e1a8c180ae0bcc5e873a23bfbc";
@@ -245,6 +277,13 @@
     loadBoard();
     loadVault();
     loadDownloads();
+
+    const addModal = document.getElementById("add-modal");
+    const closeAdd = () => { addModal.hidden = true; };
+    document.getElementById("open-add").addEventListener("click", () => { addModal.hidden = false; });
+    addModal.addEventListener("click", (e) => { if (e.target === addModal) closeAdd(); });
+    addModal.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", closeAdd));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeAdd(); });
   </script>
 </body>
 </html>
