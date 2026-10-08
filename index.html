@@ -338,8 +338,10 @@
       }
       var rate = p / best.p;
       var pct = (rate - 1) * 100;
-      var line = "Last minute · " + rate.toFixed(3) + "/h · " + (pct >= 0 ? "+" : "") + pct.toFixed(2) + "%";
-      el.textContent = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : line;
+      var color = pct > 0 ? "#3dd68c" : pct < 0 ? "#f07167" : "#a3a3a3";
+      var pctHtml = '<span style="color:' + color + '">' + (pct >= 0 ? "+" : "") + pct.toFixed(2) + "%</span>";
+      var line = "Last minute · " + rate.toFixed(3) + "/h · " + pctHtml;
+      el.innerHTML = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : line;
     }).catch(function () {});
   }
   tick();
