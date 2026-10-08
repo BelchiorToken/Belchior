@@ -65,6 +65,7 @@
         <div><div class="k">RATE</div><div class="v" id="rate">1.00/h</div></div>
       </div>
       <p class="note" id="rate-note">Base is 1 BEL per hour. The price moves the rate.</p>
+      <p class="note" id="minute-rate" data-long="1">Last minute · …</p>
       <p class="who" id="who">Wallet not connected.</p>
       <div class="wallets" id="wallets">
         <button type="button" data-wallet="binance">Binance</button>
@@ -341,5 +342,59 @@
     }, 1000);
     setInterval(() => { if (!busy) refresh().catch(() => {}); }, 20000);
   </script>
+
+<script>
+(function () {
+  var PAIR = "0x39dd455d59d29E2F1e8D727c94315d08e6c2FaC1";
+  var RPCS = ["https://bsc-dataseed.binance.org", "https://bsc.publicnode.com", "https://rpc-bsc.48.club"];
+  var KEY = "bel_minute_px";
+  function rpc(params) {
+    var i = 0;
+    return new Promise(function (ok, bad) {
+      function next() {
+        if (i >= RPCS.length) return bad(new Error("rpc"));
+        fetch(RPCS[i++], { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: params }) })
+          .then(function (r) { return r.json(); })
+          .then(function (j) { if (!j.result) throw new Error("empty"); ok(j.result); })
+          .catch(next);
+      }
+      next();
+    });
+  }
+  function tick() {
+    var el = document.getElementById("minute-rate");
+    if (!el) return;
+    rpc([{ to: PAIR, data: "0x0902f1ac" }, "latest"]).then(function (raw) {
+      var r0 = Number(BigInt(raw.slice(0, 66)));
+      var r1 = Number(BigInt("0x" + raw.slice(66, 130)));
+      if (!r0) return;
+      var p = r1 / r0;
+      var now = Date.now();
+      var hist = [];
+      try { hist = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
+      hist = hist.filter(function (x) { return now - x.t < 180000 && x.p > 0; });
+      hist.push({ t: now, p: p });
+      localStorage.setItem(KEY, JSON.stringify(hist));
+      var best = null, gap = 1e15;
+      hist.forEach(function (x) {
+        var age = now - x.t;
+        if (age < 45000 || age > 120000) return;
+        var d = Math.abs(age - 60000);
+        if (d < gap) { gap = d; best = x; }
+      });
+      if (!best) {
+        el.textContent = "Last minute · waiting";
+        return;
+      }
+      var rate = p / best.p;
+      var pct = (rate - 1) * 100;
+      var line = "Last minute · " + rate.toFixed(3) + "/h · " + (pct >= 0 ? "+" : "") + pct.toFixed(2) + "%";
+      el.textContent = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : line;
+    }).catch(function () {});
+  }
+  tick();
+  setInterval(tick, 15000);
+})();
+</script>
 </body>
 </html>
