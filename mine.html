@@ -65,7 +65,7 @@
         <div><div class="k">RATE</div><div class="v" id="rate">1.00/h</div></div>
       </div>
       <p class="note" id="rate-note">Base is 1 BEL per hour. The price moves the rate.</p>
-      <p class="note" id="minute-rate" data-long="1">Last minute · …</p>
+      <p class="note" id="minute-rate" data-long="1">Last hour · …</p>
       <p class="who" id="who">Wallet not connected.</p>
       <div class="wallets" id="wallets">
         <button type="button" data-wallet="binance">Binance</button>
@@ -364,38 +364,31 @@
   function tick() {
     var el = document.getElementById("minute-rate");
     if (!el) return;
-    rpc([{ to: PAIR, data: "0x0902f1ac" }, "latest"]).then(function (raw) {
-      var r0 = Number(BigInt(raw.slice(0, 66)));
-      var r1 = Number(BigInt("0x" + raw.slice(66, 130)));
-      if (!r0) return;
-      var p = r1 / r0;
-      var now = Date.now();
-      var hist = [];
-      try { hist = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
-      hist = hist.filter(function (x) { return now - x.t < 180000 && x.p > 0; });
-      hist.push({ t: now, p: p });
-      localStorage.setItem(KEY, JSON.stringify(hist));
-      var best = null, gap = 1e15;
-      hist.forEach(function (x) {
-        var age = now - x.t;
-        if (age < 45000 || age > 120000) return;
-        var d = Math.abs(age - 60000);
-        if (d < gap) { gap = d; best = x; }
-      });
-      if (!best) {
-        el.textContent = "Last minute · waiting";
-        return;
-      }
-      var rate = p / best.p;
-      var pct = (rate - 1) * 100;
-      var color = pct > 0 ? "#3dd68c" : pct < 0 ? "#f07167" : "#a3a3a3";
-      var pctHtml = '<span style="color:' + color + '">' + (pct >= 0 ? "+" : "") + pct.toFixed(2) + "%</span>";
-      var line = "Last minute · " + rate.toFixed(3) + "/h · " + pctHtml;
-      el.innerHTML = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : line;
-    }).catch(function () {});
+    fetch("https://api.dexscreener.com/latest/dex/tokens/0x3c841c88d3819c901ec0fe29897146dca509552b")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var hit = null;
+        (d.pairs || []).forEach(function (pair) {
+          if ((pair.pairAddress || "").toLowerCase() === "0x39dd455d59d29e2f1e8d727c94315d08e6c2fac1") hit = pair;
+        });
+        if (!hit) return;
+        var ch = hit.priceChange || {};
+        var tx = (hit.txns && hit.txns.h1) || {};
+        var traded = (Number(tx.buys) || 0) + (Number(tx.sells) || 0);
+        var pct = ch.h1 == null ? (traded === 0 ? 0 : null) : Number(ch.h1);
+        if (pct == null || isNaN(pct)) {
+          el.textContent = "Last hour · …";
+          return;
+        }
+        var rate = 1 + pct / 100;
+        var color = pct > 0 ? "#3dd68c" : pct < 0 ? "#f07167" : "#a3a3a3";
+        var pctHtml = '<span style="color:' + color + '">' + (pct > 0 ? "+" : "") + pct.toFixed(2) + "%</span>";
+        var line = "Last hour · " + rate.toFixed(3) + "/h · " + pctHtml;
+        el.innerHTML = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : line;
+      }).catch(function () {});
   }
   tick();
-  setInterval(tick, 15000);
+  setInterval(tick, 60000);
 })();
 </script>
 </body>
