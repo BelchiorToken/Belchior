@@ -30,6 +30,9 @@
     .modal-x { position: absolute; top: 10px; right: 12px; background: none; border: 0; color: #f4f1ea; font-size: 18px; cursor: pointer; }
     .modal-close { margin-top: 8px; width: 100%; background: #f3ead7; color: #111; border: 0; padding: 12px; font-weight: 700; letter-spacing: .12em; cursor: pointer; }
     .hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 28px; }
+    .hero-top { width: min(980px, 100%); display: flex; align-items: center; justify-content: center; gap: 28px; text-align: left; }
+    .hero-top h1 { text-align: left; margin: 8px 0 0; }
+    .chart { width: 240px; height: auto; flex: 0 0 240px; border: 1px solid #2a2a2a; background: #050505; display: block; }
     .eyebrow { letter-spacing: .46em; font-size: 11px; color: #8a8a8a; }
     h1 { font-family: "Libre Bodoni", Didot, serif; font-weight: 500; font-size: clamp(64px, 14vw, 128px); line-height: .86; margin: 18px 0 8px; }
     .sub { max-width: 460px; color: #c8c4bb; line-height: 1.55; margin-top: 14px; }
@@ -93,6 +96,9 @@
     .qr img { display: block; width: 160px; height: 160px; }
     .qr p { margin-top: 10px; letter-spacing: .18em; font-size: 11px; font-weight: 600; }
     @media (max-width: 720px) {
+      .hero-top { flex-direction: column; text-align: center; gap: 16px; }
+      .hero-top h1, .hero-top .eyebrow { text-align: center; }
+      .chart { width: min(280px, 86vw); flex-basis: auto; }
       .stats, .steps, .split, .vaultrow { grid-template-columns: 1fr; flex-direction: column; align-items: stretch; }
       .stats div { border-right: 0; border-bottom: 1px solid #2a2a2a; }
       .vaultbox { text-align: left; }
@@ -113,8 +119,13 @@
       <a href="whitepaper.html">WHITE PAPER</a>
     </nav>
     <header class="hero">
-      <p class="eyebrow">ANDROID · BNB SMART CHAIN</p>
-      <h1>The mine<br>is open.</h1>
+      <div class="hero-top">
+        <img class="chart" src="bel-chart.png" alt="BEL / USDC 4 hour chart" />
+        <div>
+          <p class="eyebrow">ANDROID · BNB SMART CHAIN</p>
+          <h1>The mine<br>is open.</h1>
+        </div>
+      </div>
       <p class="sub">Tap the B. One BEL an hour. The score stays on the phone, and it is still there tomorrow. The price on this page is always BEL / USDC.</p>
       <div class="mark" aria-hidden="true"><div class="ring spin"></div><div class="ring inner"></div><div class="b">B</div></div>
       <p class="hint">TAP TO MINE</p>
