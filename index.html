@@ -13,6 +13,8 @@
     .wrap { position: relative; max-width: 880px; margin: 0 auto; padding: 28px 20px 80px; }
     nav { display: flex; justify-content: space-between; align-items: center; letter-spacing: .28em; font-size: 11px; color: #8a8a8a; }
     nav a { text-decoration: none; }
+    .navleft { display: flex; align-items: center; gap: 16px; }
+    .navleft a:hover { color: #f4f1ea; }
     .hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 28px; }
     .eyebrow { letter-spacing: .46em; font-size: 11px; color: #8a8a8a; }
     h1 { font-family: "Libre Bodoni", Didot, serif; font-weight: 500; font-size: clamp(64px, 14vw, 128px); line-height: .86; margin: 18px 0 8px; }
@@ -74,7 +76,14 @@
 <body>
   <div class="bg"></div>
   <div class="wrap">
-    <nav><span>BEL TOKEN</span><a href="whitepaper.html">WHITE PAPER</a></nav>
+    <nav>
+      <div class="navleft">
+        <span>BEL TOKEN</span>
+        <a href="https://x.com/BelchiorToken" target="_blank" rel="noreferrer">X</a>
+        <a href="https://t.me/+LsSrv9TgJMA5YWZk" target="_blank" rel="noreferrer">TELEGRAM</a>
+      </div>
+      <a href="whitepaper.html">WHITE PAPER</a>
+    </nav>
     <header class="hero">
       <p class="eyebrow">ANDROID · BNB SMART CHAIN</p>
       <h1>The mine<br>is open.</h1>
