@@ -59,7 +59,8 @@
     .door p { color: #c8c4bb; line-height: 1.55; font-size: 14px; }
     .door .actions { justify-content: flex-start; margin-top: 16px; }
     .door .qr { margin: 16px 0 0; }
-    .door.later p { color: #8a8a8a; }
+    .door .coins { margin-top: 14px; color: #d6d3d1; font-size: 14px; line-height: 1.6; }
+    .door .quiet { margin-top: 12px; color: #8a8a8a; font-size: 13px; line-height: 1.5; }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #2a2a2a; margin-top: 28px; text-align: left; width: 100%; }
     .stats div { padding: 18px 16px; border-right: 1px solid #2a2a2a; }
     .stats div:last-child { border-right: 0; }
@@ -158,7 +159,10 @@
         <article class="door later">
           <p class="k">VAULT</p>
           <h2>The vault.</h2>
-          <p>Hold BEL and other BNB Chain coins. You withdraw only what you put in. It is not open.</p>
+          <p>Belchior Vault keeps the coins you deposit. Only your wallet can take them out. There is no key that lets Belchior, or anyone else, withdraw your balance.</p>
+          <p class="coins">It holds the coins Belchior follows and uses: <b>BEL</b>, <b>BNB</b>, <b>USDT</b>, <b>USDC</b>, <b>Bitcoin</b>, <b>ETH</b>, and <b>XRP</b>, on BNB Chain. Each coin is counted on its own. Your USDT cannot be paid out as someone else's BEL.</p>
+          <p class="coins">A deposit costs <b>1 BEL</b>, about <b id="fee-bel">$0.000060</b>. Withdrawal is free.</p>
+          <p class="quiet">Not open yet. Nothing is held there until the contract is deployed.</p>
           <div class="actions">
             <span class="btn soon" role="note">BELCHIOR VAULT <i>COMING SOON</i></span>
           </div>
@@ -390,8 +394,10 @@
           var text = px.toFixed(7).replace(/0$/, "");
           var a = document.getElementById("bel-price");
           var b = document.getElementById("bel-price-lg");
+          var fee = document.getElementById("fee-bel");
           if (a) a.textContent = text;
           if (b) b.textContent = text;
+          if (fee) fee.textContent = "$" + text;
         }
       }).catch(function () {});
   }
