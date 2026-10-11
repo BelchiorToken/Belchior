@@ -61,6 +61,7 @@
     .door .qr { margin: 16px 0 0; }
     .door .coins { margin-top: 14px; color: #d6d3d1; font-size: 14px; line-height: 1.6; }
     .door .quiet { margin-top: 12px; color: #8a8a8a; font-size: 13px; line-height: 1.5; }
+    .pxbox svg { width: 100%; height: 34px; display: block; margin-top: 12px; }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #2a2a2a; margin-top: 28px; text-align: left; width: 100%; }
     .stats div { padding: 18px 16px; border-right: 1px solid #2a2a2a; }
     .stats div:last-child { border-right: 0; }
@@ -171,7 +172,7 @@
         </article>
       </div>
       <div class="stats">
-        <div><span>BEL / USDC</span><strong id="bel-price">0.0000622</strong></div>
+        <div class="pxbox"><span>BEL / USDC</span><strong id="bel-price">0.0000622</strong><svg id="spark" viewBox="0 0 100 32" preserveAspectRatio="none" role="img" aria-label="BEL / USDC, last 24 hours"><path d="M0.0 12.5 L3.1 12.5 L6.2 15.3 L9.4 15.2 L12.5 16.4 L15.6 18.4 L18.8 18.5 L21.9 18.2 L25.0 18.0 L28.1 23.1 L31.2 24.2 L34.4 22.0 L37.5 23.2 L40.6 21.7 L43.8 23.6 L46.9 23.9 L50.0 22.3 L53.1 23.2 L56.2 24.3 L59.4 26.0 L62.5 22.0 L65.6 22.9 L68.8 22.2 L71.9 22.8 L75.0 18.2 L78.1 14.9 L81.2 5.1 L84.4 4.6 L87.5 4.0 L90.6 9.1 L93.8 10.9 L96.9 14.6 L100.0 11.5" fill="none" stroke="#f3ead7" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
         <div class="ratebox"><span>MINING BASE RATE</span><strong>1 BEL / hour + <b id="day-pct">…</b></strong><p class="now">= <b id="now-rate">…</b></p><p class="hourline"><span>LAST HOUR</span> <b id="minute-rate">…</b></p></div>
         <div><span>XRP POOL</span><strong>2,639 XRP</strong></div>
       </div>
@@ -372,6 +373,39 @@
         el.innerHTML = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : pctHtml;
       }).catch(function () {});
   }
+
+  var sparkPts = null;
+  function spark(bel) {
+    var svg = document.getElementById("spark");
+    if (!svg || !sparkPts || !bel) return;
+    var last = sparkPts[sparkPts.length - 1];
+    if (!last) return;
+    var ys = sparkPts.map(function (v) { return bel * v / last; });
+    var lo = Math.min.apply(null, ys), hi = Math.max.apply(null, ys), span = hi - lo || 1;
+    var d = ys.map(function (v, i) {
+      var x = (i / (ys.length - 1)) * 100;
+      var y = 26 - ((v - lo) / span) * 22;
+      return (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
+    }).join(" ");
+    var path = svg.querySelector("path");
+    if (path) path.setAttribute("d", d);
+  }
+  function loadSpark() {
+    fetch("https://api.coingecko.com/api/v3/coins/ripple/market_chart?vs_currency=usd&days=1")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var raw = (d.prices || []).map(function (row) { return row[1]; });
+        if (raw.length < 2) return;
+        var step = Math.max(1, Math.floor(raw.length / 32));
+        var pts = [];
+        for (var i = 0; i < raw.length; i += step) pts.push(raw[i]);
+        if (pts[pts.length - 1] !== raw[raw.length - 1]) pts.push(raw[raw.length - 1]);
+        sparkPts = pts;
+        var shown = document.getElementById("bel-price");
+        var bel = shown ? Number(shown.textContent) : 0;
+        if (bel) spark(bel);
+      }).catch(function () {});
+  }
   function day() {
     fetch("https://api.dexscreener.com/latest/dex/tokens/0x3c841c88d3819c901ec0fe29897146dca509552b")
       .then(function (r) { return r.json(); })
@@ -400,13 +434,16 @@
           if (a) a.textContent = text;
           if (b) b.textContent = text;
           if (fee) fee.textContent = "$" + text;
+          spark(px);
         }
       }).catch(function () {});
   }
   tick();
   day();
+  loadSpark();
   setInterval(tick, 60000);
   setInterval(day, 60000);
+  setInterval(loadSpark, 300000);
 })();
 </script>
 </body>
