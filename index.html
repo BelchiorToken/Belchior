@@ -30,7 +30,18 @@
     .modal-x { position: absolute; top: 10px; right: 12px; background: none; border: 0; color: #f4f1ea; font-size: 18px; cursor: pointer; }
     .modal-close { margin-top: 8px; width: 100%; background: #f3ead7; color: #111; border: 0; padding: 12px; font-weight: 700; letter-spacing: .12em; cursor: pointer; }
     .hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 28px; }
-    .glowchart { width: 100%; height: 220px; display: block; margin-top: 16px; border: 1px solid #2a2a2a; background: radial-gradient(ellipse at 50% 88%, rgba(61,214,140,.14), transparent 60%), #050505; box-shadow: inset 0 0 48px rgba(61,214,140,.06); }
+    .glowchart { width: 100%; height: 220px; display: block; margin-top: 16px; border: 1px solid #2a2a2a; background: radial-gradient(ellipse at 50% 88%, rgba(61,214,140,.14), transparent 60%), #050505; box-shadow: inset 0 0 48px rgba(61,214,140,.06); animation: chartBreathe 5s ease-in-out infinite; }
+    @keyframes chartBreathe { 0%, 100% { box-shadow: inset 0 0 28px rgba(61,214,140,.04); } 50% { box-shadow: inset 0 0 72px rgba(61,214,140,.18); } }
+    @keyframes drawSeg { to { stroke-dashoffset: 0; } }
+    @keyframes priceGlow { 0%, 100% { text-shadow: 0 0 0 transparent; } 50% { text-shadow: 0 0 16px rgba(124,255,178,.55); } }
+    .split .card { position: relative; overflow: hidden; }
+    .split .card::after { content: ""; position: absolute; top: 0; bottom: 0; width: 34%; left: -40%; background: linear-gradient(90deg, transparent, rgba(243,234,215,.07), transparent); animation: sheen 8s ease-in-out infinite; pointer-events: none; }
+    .split .card:last-child::after { animation-delay: 2.4s; }
+    @keyframes sheen { 0% { left: -40%; } 60%, 100% { left: 130%; } }
+    .pip { display: inline-block; width: 7px; height: 7px; margin-left: 8px; border-radius: 50%; background: #7CFFB2; box-shadow: 0 0 10px #7CFFB2; vertical-align: 1px; animation: pip 1.6s ease-in-out infinite; }
+    @keyframes pip { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .2; transform: scale(.7); } }
+    #bel-price-lg { animation: priceGlow 3.4s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) { .glowchart, #bel-price-lg, .pip, .split .card::after { animation: none; } }
     .chart-note { margin-top: 12px; color: #c8c4bb; font-size: 14px; line-height: 1.55; }
     .now { margin-top: 10px; color: #8a8a8a; font-size: 13px; }
     .now { margin-top: 4px; }
@@ -190,14 +201,14 @@
     <p class="lead">The deep pool is BEL / XRP. That is the liquidity behind the token. The price printed here is never in XRP. It is the BEL / USDC pool.</p>
     <div class="split">
       <div class="card">
-        <div class="k">BEL / USDC</div>
+        <div class="k">BEL / USDC <i class="pip"></i></div>
         <div class="px" id="bel-price-lg">0.0000622</div>
         <p id="bel-pool">Live BEL / USDC price.</p>
         <svg class="glowchart" id="bel-glow" viewBox="0 0 320 168" preserveAspectRatio="none" role="img" aria-label="BEL / USDC, last 7 days"></svg>
         <p class="chart-note">BEL is bullish. After the big push, price is in a correction, waiting for the next pump.</p>
       </div>
       <div class="card" style="padding:20px">
-        <div class="k">XRP LIQUIDITY</div>
+        <div class="k">XRP LIQUIDITY <i class="pip"></i></div>
         <p style="margin-top:10px">2,639 XRP paired with 59,898,123 BEL. This is the large pool.</p>
         <svg class="glowchart" id="xrp-glow" viewBox="0 0 320 168" preserveAspectRatio="none" role="img" aria-label="XRP, last 7 days"></svg>
         <p class="chart-note">XRP over the last 7 days. The pool moves with it.</p>
@@ -394,27 +405,34 @@
       var gy = (pad + (h - pad * 2) * g / 4).toFixed(1);
       bits.push('<line x1="' + pad + '" y1="' + gy + '" x2="' + (w - pad) + '" y2="' + gy + '" stroke="rgba(243,234,215,.08)" stroke-width="1" vector-effect="non-scaling-stroke"/>');
     }
+    var trace = "M" + X(0).toFixed(1) + " " + Y(values[0]).toFixed(1);
     var area = "M" + X(0).toFixed(1) + " " + (h - 6) + " L" + X(0).toFixed(1) + " " + Y(values[0]).toFixed(1);
     var down = 0;
     for (var i = 1; i < values.length; i++) {
       var x1 = X(i - 1), y1 = Y(values[i - 1]), x2 = X(i), y2 = Y(values[i]);
+      trace += " L" + x2.toFixed(1) + " " + y2.toFixed(1);
       area += " L" + x2.toFixed(1) + " " + y2.toFixed(1);
+      var len = Math.hypot(x2 - x1, y2 - y1).toFixed(1);
+      var delay = ((i - 1) * 0.045).toFixed(2);
+      var dash = ' stroke-dasharray="' + len + '" stroke-dashoffset="' + len + '" style="animation:drawSeg .5s ease ' + delay + 's forwards"';
       var up = values[i] >= values[i - 1];
       if (up) {
         down = 0;
-        bits.push('<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#7CFFB2" stroke-width="2.6" stroke-linecap="round" filter="url(#' + gid + ')" vector-effect="non-scaling-stroke"/>');
+        bits.push('<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#7CFFB2" stroke-width="2.6" stroke-linecap="round" filter="url(#' + gid + ')" vector-effect="non-scaling-stroke"' + dash + '/>');
       } else {
         down++;
         var op = Math.max(0.18, 0.7 - (down - 1) * 0.14).toFixed(2);
-        bits.push('<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#ff6b62" stroke-opacity="' + op + '" stroke-width="1.8" stroke-linecap="round" filter="url(#' + rid + ')" vector-effect="non-scaling-stroke"/>');
+        bits.push('<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#ff6b62" stroke-opacity="' + op + '" stroke-width="1.8" stroke-linecap="round" filter="url(#' + rid + ')" vector-effect="non-scaling-stroke"' + dash + '/>');
       }
     }
     area += " L" + X(values.length - 1).toFixed(1) + " " + (h - 6) + " Z";
     var rising = values[values.length - 1] >= values[0];
     var fill = rising ? "rgba(124,255,178,.16)" : "rgba(255,107,98,.07)";
     var lx = X(values.length - 1).toFixed(1), ly = Y(values[values.length - 1]).toFixed(1);
-    var dot = '<circle cx="' + lx + '" cy="' + ly + '" r="2.6" fill="' + (rising ? "#b8ffd4" : "#ffb0aa") + '" filter="url(#' + gid + ')"/>';
-    svg.innerHTML = defs + '<path d="' + area + '" fill="' + fill + '"/>' + bits.join("") + dot;
+    var dot = '<circle cx="' + lx + '" cy="' + ly + '" r="2.6" fill="' + (rising ? "#b8ffd4" : "#ffb0aa") + '" filter="url(#' + gid + ')"><animate attributeName="r" values="2.2;4.2;2.2" dur="1.8s" repeatCount="indefinite"/></circle>';
+    var rider = '<circle r="3.1" fill="#f7fff9" filter="url(#' + gid + ')"><animateMotion dur="8s" repeatCount="indefinite" path="' + trace + '"/></circle>';
+    var rider2 = '<circle r="2" fill="#7CFFB2" opacity="0.55" filter="url(#' + gid + ')"><animateMotion dur="8s" begin="-4s" repeatCount="indefinite" path="' + trace + '"/></circle>';
+    svg.innerHTML = defs + '<path d="' + area + '" fill="' + fill + '"/>' + bits.join("") + dot + rider + rider2;
   }
   function paintCharts(bel) {
     glowChart("xrp-glow", weekPts);
@@ -502,7 +520,6 @@
           if (b) b.textContent = text;
           if (fee) fee.textContent = "$" + text;
           spark(px);
-          paintCharts(px);
         }
       }).catch(function () {});
   }
