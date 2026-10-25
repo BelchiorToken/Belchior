@@ -30,7 +30,7 @@
     .modal-x { position: absolute; top: 10px; right: 12px; background: none; border: 0; color: #f4f1ea; font-size: 18px; cursor: pointer; }
     .modal-close { margin-top: 8px; width: 100%; background: #f3ead7; color: #111; border: 0; padding: 12px; font-weight: 700; letter-spacing: .12em; cursor: pointer; }
     .hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 28px; }
-    .price-chart { width: 100%; height: auto; display: block; margin-top: 16px; border: 1px solid #2a2a2a; background: #050505; }
+    .glowchart { width: 100%; height: 220px; display: block; margin-top: 16px; border: 1px solid #2a2a2a; background: radial-gradient(ellipse at 50% 88%, rgba(61,214,140,.14), transparent 60%), #050505; box-shadow: inset 0 0 48px rgba(61,214,140,.06); }
     .chart-note { margin-top: 12px; color: #c8c4bb; font-size: 14px; line-height: 1.55; }
     .now { margin-top: 10px; color: #8a8a8a; font-size: 13px; }
     .now { margin-top: 4px; }
@@ -95,7 +95,7 @@
     .num { color: #8a8a8a; letter-spacing: .2em; font-size: 11px; }
     .step h3 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 26px; margin: 10px 0; }
     .step p { color: #bdb8ae; line-height: 1.5; font-size: 14px; }
-    .split { display: grid; grid-template-columns: 1.15fr .85fr; gap: 12px; margin-top: 18px; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
     .card { border: 1px solid #2a2a2a; padding: 8px 20px; }
     .card p { color: #c8c4bb; line-height: 1.55; font-size: 14px; }
     .k { color: #737373; letter-spacing: .16em; font-size: 11px; }
@@ -193,12 +193,14 @@
         <div class="k">BEL / USDC</div>
         <div class="px" id="bel-price-lg">0.0000622</div>
         <p id="bel-pool">Live BEL / USDC price.</p>
-        <img class="price-chart" src="bel-chart.png" alt="BEL / USDC 4 hour chart" />
+        <svg class="glowchart" id="bel-glow" viewBox="0 0 320 168" preserveAspectRatio="none" role="img" aria-label="BEL / USDC, last 7 days"></svg>
         <p class="chart-note">BEL is bullish. After the big push, price is in a correction, waiting for the next pump.</p>
       </div>
       <div class="card" style="padding:20px">
         <div class="k">XRP LIQUIDITY</div>
         <p style="margin-top:10px">2,639 XRP paired with 59,898,123 BEL. This is the large pool.</p>
+        <svg class="glowchart" id="xrp-glow" viewBox="0 0 320 168" preserveAspectRatio="none" role="img" aria-label="XRP, last 7 days"></svg>
+        <p class="chart-note">XRP over the last 7 days. The pool moves with it.</p>
         <code>0xef50ba8e8e21681b3cd854a42f1a0fb866b367af</code>
         <div class="k" style="margin-top:16px">USDC POOL</div>
         <code>0x39dd455d59d29e2f1e8d727c94315d08e6c2fac1</code>
@@ -374,6 +376,56 @@
       }).catch(function () {});
   }
 
+
+  var weekPts = [1.2725,1.2735,1.2742,1.3053,1.3091,1.3139,1.3125,1.3095,1.2974,1.3020,1.3023,1.2969,1.3055,1.3003,1.2924,1.2989,1.3221,1.3233,1.3328,1.3365,1.3315,1.3325,1.3554,1.3570,1.3799,1.3865,1.3822,1.3629,1.3442,1.3407,1.3281,1.3238,1.3208,1.3065,1.3070,1.3114,1.3204,1.3283,1.3178,1.3165,1.3116,1.3081,1.3048,1.2861,1.2900,1.2884,1.2760,1.2840,1.2673,1.2856,1.2916,1.3042,1.3100,1.2941,1.2934,1.2956,1.2981];
+  function glowChart(id, values) {
+    var svg = document.getElementById(id);
+    if (!svg || !values || values.length < 2) return;
+    var w = 320, h = 168, pad = 12;
+    var lo = Math.min.apply(null, values), hi = Math.max.apply(null, values);
+    var span = hi - lo || Math.abs(hi) * 0.02 || 1;
+    lo -= span * 0.12; hi += span * 0.12; span = hi - lo;
+    function X(i) { return pad + (i / (values.length - 1)) * (w - pad * 2); }
+    function Y(v) { return pad + (1 - (v - lo) / span) * (h - pad * 2); }
+    var gid = id + "g", rid = id + "r";
+    var defs = '<defs><filter id="' + gid + '" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="' + rid + '" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.1" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
+    var bits = [];
+    for (var g = 1; g < 4; g++) {
+      var gy = (pad + (h - pad * 2) * g / 4).toFixed(1);
+      bits.push('<line x1="' + pad + '" y1="' + gy + '" x2="' + (w - pad) + '" y2="' + gy + '" stroke="rgba(243,234,215,.08)" stroke-width="1" vector-effect="non-scaling-stroke"/>');
+    }
+    var area = "M" + X(0).toFixed(1) + " " + (h - 6) + " L" + X(0).toFixed(1) + " " + Y(values[0]).toFixed(1);
+    var down = 0;
+    for (var i = 1; i < values.length; i++) {
+      var x1 = X(i - 1), y1 = Y(values[i - 1]), x2 = X(i), y2 = Y(values[i]);
+      area += " L" + x2.toFixed(1) + " " + y2.toFixed(1);
+      var up = values[i] >= values[i - 1];
+      if (up) {
+        down = 0;
+        bits.push('<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#7CFFB2" stroke-width="2.6" stroke-linecap="round" filter="url(#' + gid + ')" vector-effect="non-scaling-stroke"/>');
+      } else {
+        down++;
+        var op = Math.max(0.18, 0.7 - (down - 1) * 0.14).toFixed(2);
+        bits.push('<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#ff6b62" stroke-opacity="' + op + '" stroke-width="1.8" stroke-linecap="round" filter="url(#' + rid + ')" vector-effect="non-scaling-stroke"/>');
+      }
+    }
+    area += " L" + X(values.length - 1).toFixed(1) + " " + (h - 6) + " Z";
+    var rising = values[values.length - 1] >= values[0];
+    var fill = rising ? "rgba(124,255,178,.16)" : "rgba(255,107,98,.07)";
+    var lx = X(values.length - 1).toFixed(1), ly = Y(values[values.length - 1]).toFixed(1);
+    var dot = '<circle cx="' + lx + '" cy="' + ly + '" r="2.6" fill="' + (rising ? "#b8ffd4" : "#ffb0aa") + '" filter="url(#' + gid + ')"/>';
+    svg.innerHTML = defs + '<path d="' + area + '" fill="' + fill + '"/>' + bits.join("") + dot;
+  }
+  function paintCharts(bel) {
+    glowChart("xrp-glow", weekPts);
+    if (!bel) {
+      var shown = document.getElementById("bel-price");
+      bel = shown ? Number(shown.textContent) : 0;
+    }
+    if (!bel || !weekPts.length) return;
+    var last = weekPts[weekPts.length - 1];
+    glowChart("bel-glow", weekPts.map(function (v) { return bel * v / last; }));
+  }
   var sparkPts = null;
   function spark(bel) {
     var svg = document.getElementById("spark");
@@ -390,6 +442,20 @@
     var path = svg.querySelector("path");
     if (path) path.setAttribute("d", d);
   }
+  function loadWeek() {
+    fetch("https://api.coingecko.com/api/v3/coins/ripple/market_chart?vs_currency=usd&days=7")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var raw = (d.prices || []).map(function (row) { return row[1]; });
+        if (raw.length < 2) return;
+        var step = Math.max(1, Math.floor(raw.length / 56));
+        var pts = [];
+        for (var i = 0; i < raw.length; i += step) pts.push(raw[i]);
+        if (pts[pts.length - 1] !== raw[raw.length - 1]) pts.push(raw[raw.length - 1]);
+        weekPts = pts;
+        paintCharts();
+      }).catch(function () {});
+  }
   function loadSpark() {
     fetch("https://api.coingecko.com/api/v3/coins/ripple/market_chart?vs_currency=usd&days=1")
       .then(function (r) { return r.json(); })
@@ -401,6 +467,7 @@
         for (var i = 0; i < raw.length; i += step) pts.push(raw[i]);
         if (pts[pts.length - 1] !== raw[raw.length - 1]) pts.push(raw[raw.length - 1]);
         sparkPts = pts;
+        paintCharts();
         var shown = document.getElementById("bel-price");
         var bel = shown ? Number(shown.textContent) : 0;
         if (bel) spark(bel);
@@ -435,15 +502,19 @@
           if (b) b.textContent = text;
           if (fee) fee.textContent = "$" + text;
           spark(px);
+          paintCharts(px);
         }
       }).catch(function () {});
   }
   tick();
   day();
+  paintCharts();
+  loadWeek();
   loadSpark();
   setInterval(tick, 60000);
   setInterval(day, 60000);
   setInterval(loadSpark, 300000);
+  setInterval(loadWeek, 300000);
 })();
 </script>
 </body>
