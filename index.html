@@ -43,6 +43,10 @@
     #bel-price-lg { animation: priceGlow 3.4s ease-in-out infinite; }
     @media (prefers-reduced-motion: reduce) { .glowchart, #bel-price-lg, .pip, .split .card::after { animation: none; } }
     .chart-note { margin-top: 12px; color: #c8c4bb; font-size: 14px; line-height: 1.55; }
+    .news { margin-top: 16px; }
+    .headline { display: block; text-decoration: none; color: #f4f1ea; padding: 11px 0; border-bottom: 1px solid #2a2a2a; line-height: 1.4; font-size: 14px; }
+    .headline span { display: block; margin-top: 4px; color: #737373; font-size: 11px; letter-spacing: .08em; }
+    .headline:hover { color: #7CFFB2; }
     .now { margin-top: 10px; color: #8a8a8a; font-size: 13px; }
     .now { margin-top: 4px; }
     .now b { font-family: Inter, system-ui, sans-serif; font-weight: 600; font-size: 15px; }
@@ -212,6 +216,7 @@
         <p style="margin-top:10px">3,000 XRP paired with 65,944,629 BEL. This is the large pool.</p>
         <svg class="glowchart" id="xrp-glow" viewBox="0 0 320 168" preserveAspectRatio="none" role="img" aria-label="XRP, last 7 days"></svg>
         <p class="chart-note">XRP over the last 7 days. The pool moves with it.</p>
+        <div class="news" id="xrp-news"><div class="k">RECENT</div><p class="chart-note">Latest XRP headlines load here.</p></div>
         <code>0xef50ba8e8e21681b3cd854a42f1a0fb866b367af</code>
         <div class="k" style="margin-top:16px">USDC POOL</div>
         <code>0x39dd455d59d29e2f1e8d727c94315d08e6c2fac1</code>
@@ -460,6 +465,28 @@
     var path = svg.querySelector("path");
     if (path) path.setAttribute("d", d);
   }
+
+  function loadNews() {
+    var box = document.getElementById("xrp-news");
+    if (!box) return;
+    var feed = "https://cointelegraph.com/rss/tag/ripple";
+    fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(feed))
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var items = (d.items || []).slice(0, 3);
+        if (!items.length) return;
+        box.innerHTML = '<div class="k">RECENT</div>' + items.map(function (it) {
+          var title = String(it.title || "").replace(/[&<>]/g, function (c) { return ({"&":"&","<":"<",">":">"})[c]; });
+          var when = "";
+          var t = Date.parse(String(it.pubDate || "").replace(" ", "T") + "Z");
+          if (!isNaN(t)) {
+            var mins = Math.max(1, Math.round((Date.now() - t) / 60000));
+            when = mins < 60 ? mins + "m" : mins < 1440 ? Math.round(mins / 60) + "h" : Math.round(mins / 1440) + "d";
+          }
+          return '<a class="headline" href="' + it.link + '" target="_blank" rel="noreferrer">' + title + '<span>' + (when ? when + " · " : "") + "Cointelegraph</span></a>";
+        }).join("");
+      }).catch(function () {});
+  }
   function loadWeek() {
     fetch("https://api.coingecko.com/api/v3/coins/ripple/market_chart?vs_currency=usd&days=7")
       .then(function (r) { return r.json(); })
@@ -527,11 +554,13 @@
   day();
   paintCharts();
   loadWeek();
+  loadNews();
   loadSpark();
   setInterval(tick, 60000);
   setInterval(day, 60000);
   setInterval(loadSpark, 300000);
   setInterval(loadWeek, 300000);
+  setInterval(loadNews, 600000);
 })();
 </script>
 </body>
