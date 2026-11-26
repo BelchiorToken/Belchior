@@ -43,6 +43,8 @@
     #bel-price-lg { animation: priceGlow 3.4s ease-in-out infinite; }
     @media (prefers-reduced-motion: reduce) { .glowchart, #bel-price-lg, .pip, .split .card::after { animation: none; } }
     .chart-note { margin-top: 12px; color: #c8c4bb; font-size: 14px; line-height: 1.55; }
+    .chart-note .up { color: #3dd68c; }
+    .chart-note .down { color: #f07167; }
     .news { margin-top: 16px; }
     .headline { display: block; text-decoration: none; color: #f4f1ea; padding: 11px 0; border-bottom: 1px solid #2a2a2a; line-height: 1.4; font-size: 14px; }
     .headline span { display: block; margin-top: 4px; color: #737373; font-size: 11px; letter-spacing: .08em; }
@@ -209,14 +211,15 @@
         <div class="px" id="bel-price-lg">0.0000622</div>
         <p id="bel-pool">Live BEL / USDC price.</p>
         <svg class="glowchart" id="bel-glow" viewBox="0 0 320 168" preserveAspectRatio="none" role="img" aria-label="BEL / USDC, last 7 days"></svg>
-        <p class="chart-note">BEL is bullish. After the big push, price is in a correction, waiting for the next pump.</p>
+        <p class="chart-note" id="bel-catch">This week’s BEL / USDC line loads here.</p>
+        <div class="news" id="bel-news"><div class="k">THIS WEEK</div><p class="chart-note">Dollar-side headlines load here.</p></div>
       </div>
       <div class="card" style="padding:20px">
         <div class="k">XRP LIQUIDITY <i class="pip"></i></div>
         <p style="margin-top:10px">3,000 XRP paired with 65,944,629 BEL. This is the large pool.</p>
         <svg class="glowchart" id="xrp-glow" viewBox="0 0 320 168" preserveAspectRatio="none" role="img" aria-label="XRP, last 7 days"></svg>
-        <p class="chart-note">XRP over the last 7 days. The pool moves with it.</p>
-        <div class="news" id="xrp-news"><div class="k">RECENT</div><p class="chart-note">Latest XRP headlines load here.</p></div>
+        <p class="chart-note" id="xrp-catch">This week’s XRP move loads here.</p>
+        <div class="news" id="xrp-news"><div class="k">THIS WEEK</div><p class="chart-note">XRP headlines load here.</p></div>
         <code>0xef50ba8e8e21681b3cd854a42f1a0fb866b367af</code>
         <div class="k" style="margin-top:16px">USDC POOL</div>
         <code>0x39dd455d59d29e2f1e8d727c94315d08e6c2fac1</code>
@@ -466,26 +469,71 @@
     if (path) path.setAttribute("d", d);
   }
 
+  function esc(s) {
+    return String(s || "").replace(/[&<>"]/g, function (c) {
+      return {"&":"&","<":"<",">":">","\"":"""}[c];
+    });
+  }
+  function age(pub) {
+    var t = Date.parse(String(pub || "").replace(" ", "T") + "Z");
+    if (isNaN(t)) return "";
+    var mins = Math.max(1, Math.round((Date.now() - t) / 60000));
+    return mins < 60 ? mins + "m" : mins < 1440 ? Math.round(mins / 60) + "h" : Math.round(mins / 1440) + "d";
+  }
+  function paintMove() {
+    if (!weekPts || weekPts.length < 2) return;
+    var pct = (weekPts[weekPts.length - 1] / weekPts[0] - 1) * 100;
+    var cls = pct > 0 ? "up" : pct < 0 ? "down" : "flat";
+    var bit = '<span class="' + cls + '">' + (pct > 0 ? "+" : "") + pct.toFixed(1) + "%</span>";
+    var x = document.getElementById("xrp-catch");
+    var b = document.getElementById("bel-catch");
+    if (x) x.innerHTML = "This week XRP is " + bit + ".";
+    if (b) b.innerHTML = "This week the BEL / USDC line is " + bit + ". It follows the XRP pool.";
+  }
+  function headlines(items) {
+    return items.slice(0, 3).map(function (it) {
+      var host = "News";
+      try { host = new URL(it.link).hostname.replace(/^www\./, "").split(".")[0]; } catch (e) {}
+      host = host.charAt(0).toUpperCase() + host.slice(1);
+      return '<a class="headline" href="' + esc(it.link) + '" target="_blank" rel="noreferrer">' + esc(it.title) + '<span>' + age(it.pubDate) + " · " + esc(host) + "</span></a>";
+    }).join("");
+  }
   function loadNews() {
-    var box = document.getElementById("xrp-news");
-    if (!box) return;
-    var feed = "https://cointelegraph.com/rss/tag/ripple";
-    fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(feed))
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        var items = (d.items || []).slice(0, 3);
-        if (!items.length) return;
-        box.innerHTML = '<div class="k">RECENT</div>' + items.map(function (it) {
-          var title = String(it.title || "").replace(/[&<>]/g, function (c) { return ({"&":"&","<":"<",">":">"})[c]; });
-          var when = "";
+    var feeds = [
+      "https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=xml",
+      "https://cointelegraph.com/rss",
+      "https://www.theblock.co/rss.xml"
+    ];
+    Promise.all(feeds.map(function (feed) {
+      return fetch("https://api.rss2json.com/v1/api.json?count=50&rss_url=" + encodeURIComponent(feed))
+        .then(function (r) { return r.json(); })
+        .then(function (d) { return d.items || []; })
+        .catch(function () { return []; });
+    })).then(function (groups) {
+      var all = [], seen = {};
+      groups.forEach(function (items) {
+        items.forEach(function (it) {
+          var key = String(it.title || "").toLowerCase();
+          if (!key || seen[key]) return;
+          seen[key] = 1;
           var t = Date.parse(String(it.pubDate || "").replace(" ", "T") + "Z");
-          if (!isNaN(t)) {
-            var mins = Math.max(1, Math.round((Date.now() - t) / 60000));
-            when = mins < 60 ? mins + "m" : mins < 1440 ? Math.round(mins / 60) + "h" : Math.round(mins / 1440) + "d";
-          }
-          return '<a class="headline" href="' + it.link + '" target="_blank" rel="noreferrer">' + title + '<span>' + (when ? when + " · " : "") + "Cointelegraph</span></a>";
-        }).join("");
-      }).catch(function () {});
+          it._t = isNaN(t) ? 0 : t;
+          all.push(it);
+        });
+      });
+      var week = Date.now() - 8 * 86400000;
+      function pick(re) {
+        return all.filter(function (it) {
+          return it._t >= week && re.test((it.title || "") + " " + (it.description || ""));
+        }).sort(function (a, b) { return b._t - a._t; });
+      }
+      var xrp = pick(/xrp|ripple|rlusd/i);
+      var usd = pick(/usdc|stablecoin/i);
+      var xb = document.getElementById("xrp-news");
+      var bb = document.getElementById("bel-news");
+      if (xb && xrp.length) xb.innerHTML = '<div class="k">THIS WEEK</div>' + headlines(xrp);
+      if (bb && usd.length) bb.innerHTML = '<div class="k">THIS WEEK</div>' + headlines(usd);
+    }).catch(function () {});
   }
   function loadWeek() {
     fetch("https://api.coingecko.com/api/v3/coins/ripple/market_chart?vs_currency=usd&days=7")
@@ -499,6 +547,7 @@
         if (pts[pts.length - 1] !== raw[raw.length - 1]) pts.push(raw[raw.length - 1]);
         weekPts = pts;
         paintCharts();
+        paintMove();
       }).catch(function () {});
   }
   function loadSpark() {
@@ -553,6 +602,7 @@
   tick();
   day();
   paintCharts();
+  paintMove();
   loadWeek();
   loadNews();
   loadSpark();
