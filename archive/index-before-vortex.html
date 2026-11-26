@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BEL TOKEN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #050505; color: #f4f1ea; font-family: Inter, system-ui, sans-serif; }
+    .bg { position: fixed; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 46%, rgba(243,234,215,.08) 46.3%, transparent 46.7%), linear-gradient(65deg, transparent 30%, rgba(255,255,255,.04) 30.25%, transparent 30.6%), radial-gradient(ellipse at 50% 0%, rgba(243,234,215,.08), transparent 55%); }
+    a { color: inherit; }
+    .wrap { position: relative; max-width: 880px; margin: 0 auto; padding: 28px 20px 80px; }
+    nav { display: flex; justify-content: space-between; align-items: center; letter-spacing: .28em; font-size: 11px; color: #8a8a8a; }
+    nav a { text-decoration: none; }
+    .navleft { display: flex; align-items: center; gap: 16px; }
+    .navleft a { color: #f3ead7; border: 1px solid rgba(243,234,215,.4); border-radius: 999px; padding: 6px 12px; box-shadow: 0 0 6px rgba(243,234,215,.16); }
+    .navleft a:hover, .navbtn:hover { color: #f4f1ea; }
+    .navbtn { background: none; border: 0; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; padding: 0; }
+    #open-add { color: #f3ead7; border: 1px solid rgba(243,234,215,.8); border-radius: 999px; padding: 6px 12px; box-shadow: 0 0 12px rgba(243,234,215,.4); animation: addglow 2.6s ease-in-out infinite; }
+    @keyframes addglow { 0%, 100% { box-shadow: 0 0 6px rgba(243,234,215,.25); } 50% { box-shadow: 0 0 18px rgba(243,234,215,.8); } }
+    .modal { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.72); display: grid; place-items: center; padding: 20px; }
+    .modal[hidden] { display: none; }
+    .modal-card { width: min(520px, 100%); background: #0c0c0c; border: 1px solid #2a2a2a; padding: 28px 22px 18px; position: relative; text-align: left; }
+    .modal-card h2 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 34px; margin-bottom: 8px; }
+    .modal-card p, .modal-card li { color: #c8c4bb; line-height: 1.55; font-size: 14px; }
+    .modal-card ol { margin: 16px 0 0 18px; }
+    .modal-card li { margin-bottom: 10px; }
+    .modal-card code { display: block; margin-top: 8px; word-break: break-all; color: #f4f1ea; font-size: 13px; }
+    .modal-x { position: absolute; top: 10px; right: 12px; background: none; border: 0; color: #f4f1ea; font-size: 18px; cursor: pointer; }
+    .modal-close { margin-top: 8px; width: 100%; background: #f3ead7; color: #111; border: 0; padding: 12px; font-weight: 700; letter-spacing: .12em; cursor: pointer; }
+    .hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 28px; }
+    .glowchart { width: 100%; height: 220px; display: block; margin-top: 16px; border: 1px solid #2a2a2a; background: radial-gradient(ellipse at 50% 88%, rgba(61,214,140,.14), transparent 60%), #050505; box-shadow: inset 0 0 48px rgba(61,214,140,.06); animation: chartBreathe 5s ease-in-out infinite; }
+    @keyframes chartBreathe { 0%, 100% { box-shadow: inset 0 0 28px rgba(61,214,140,.04); } 50% { box-shadow: inset 0 0 72px rgba(61,214,140,.18); } }
+    @keyframes drawSeg { to { stroke-dashoffset: 0; } }
+    @keyframes priceGlow { 0%, 100% { text-shadow: 0 0 0 transparent; } 50% { text-shadow: 0 0 16px rgba(124,255,178,.55); } }
+    .split .card { position: relative; overflow: hidden; }
+    .split .card::after { content: ""; position: absolute; top: 0; bottom: 0; width: 34%; left: -40%; background: linear-gradient(90deg, transparent, rgba(243,234,215,.07), transparent); animation: sheen 8s ease-in-out infinite; pointer-events: none; }
+    .split .card:last-child::after { animation-delay: 2.4s; }
+    @keyframes sheen { 0% { left: -40%; } 60%, 100% { left: 130%; } }
+    .pip { display: inline-block; width: 7px; height: 7px; margin-left: 8px; border-radius: 50%; background: #7CFFB2; box-shadow: 0 0 10px #7CFFB2; vertical-align: 1px; animation: pip 1.6s ease-in-out infinite; }
+    @keyframes pip { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .2; transform: scale(.7); } }
+    #bel-price-lg { animation: priceGlow 3.4s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) { .glowchart, #bel-price-lg, .pip, .split .card::after { animation: none; } }
+    .chart-note { margin-top: 12px; color: #c8c4bb; font-size: 14px; line-height: 1.55; }
+    .chart-note .up { color: #3dd68c; }
+    .chart-note .down { color: #f07167; }
+    .news { margin-top: 16px; }
+    .headline { display: block; text-decoration: none; color: #f4f1ea; padding: 11px 0; border-bottom: 1px solid #2a2a2a; line-height: 1.4; font-size: 14px; }
+    .headline span { display: block; margin-top: 4px; color: #737373; font-size: 11px; letter-spacing: .08em; }
+    .headline:hover { color: #7CFFB2; }
+    .now { margin-top: 10px; color: #8a8a8a; font-size: 13px; }
+    .now { margin-top: 4px; }
+    .now b { font-family: Inter, system-ui, sans-serif; font-weight: 600; font-size: 15px; }
+    .eyebrow { letter-spacing: .46em; font-size: 11px; color: #8a8a8a; }
+    h1 { font-family: "Libre Bodoni", Didot, serif; font-weight: 500; font-size: clamp(64px, 14vw, 128px); line-height: .86; margin: 18px 0 8px; }
+    .sub { max-width: 460px; color: #c8c4bb; line-height: 1.55; margin-top: 14px; }
+    .mark { width: min(220px, 56vw); height: min(220px, 56vw); margin: 22px auto 6px; position: relative; }
+    .ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(243,234,215,.25); }
+    .ring.spin { border-top-color: #f3ead7; border-right-color: #f3ead7; animation: spin 8s linear infinite; }
+    .ring.inner { inset: 18px; border-color: rgba(243,234,215,.18); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .b { position: absolute; inset: 0; display: grid; place-items: center; font-family: "Libre Bodoni", serif; font-size: clamp(92px, 22vw, 150px); color: #f3ead7; line-height: 1; }
+    .hint { letter-spacing: .32em; font-size: 11px; color: #8a8a8a; margin-top: 4px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; margin-top: 22px; }
+    .btn { display: inline-block; text-decoration: none; background: #f3ead7; color: #111; padding: 16px 22px; font-weight: 700; letter-spacing: .12em; font-size: 13px; }
+    .apple { display: inline-flex; align-items: center; gap: 8px; }
+    .apple svg { width: 15px; height: 15px; display: block; }
+    .dl { align-self: center; color: #8a8a8a; font-size: 12px; letter-spacing: .04em; }
+    .ghost { background: transparent; color: #f4f1ea; border: 1px solid rgba(244,241,234,.7); }
+    .soon { background: transparent; color: #8a8a8a; border: 1px solid #2a2a2a; cursor: default; }
+    .soon i { font-style: normal; margin-left: 8px; font-size: 10px; letter-spacing: .16em; color: #737373; }
+    .doors { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 28px; text-align: left; }
+    .door { border: 1px solid #2a2a2a; padding: 22px 20px 18px; }
+    .door h2 { margin: 8px 0 10px; font-size: 42px; }
+    .door p { color: #c8c4bb; line-height: 1.55; font-size: 14px; }
+    .door .actions { justify-content: flex-start; margin-top: 16px; }
+    .door .qr { margin: 16px 0 0; }
+    .door .coins { margin-top: 14px; color: #d6d3d1; font-size: 14px; line-height: 1.6; }
+    .door .quiet { margin-top: 12px; color: #8a8a8a; font-size: 13px; line-height: 1.5; }
+    .pxbox svg { width: 100%; height: 34px; display: block; margin-top: 12px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #2a2a2a; margin-top: 28px; text-align: left; width: 100%; }
+    .stats div { padding: 18px 16px; border-right: 1px solid #2a2a2a; }
+    .stats div:last-child { border-right: 0; }
+    .stats span { display: block; color: #737373; font-size: 11px; letter-spacing: .16em; }
+    .stats strong { display: block; margin-top: 8px; font-weight: 500; font-size: 22px; font-family: "Libre Bodoni", serif; }
+    .minute { display: block; margin-top: 8px; color: #a3a3a3; font-style: normal; font-size: 12px; letter-spacing: 0; line-height: 1.45; }
+    .dayline { display: flex; align-items: baseline; gap: 8px; margin-top: 10px; }
+    .dayline b { font-family: Inter, system-ui, sans-serif; font-weight: 600; font-size: 13px; }
+    .minute .up, .note .up { color: #3dd68c !important; }
+    .plus { font-style: normal; margin-left: 6px; }
+    .pair { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12px; row-gap: 4px; margin: 14px 0 0; }
+    .ratebox strong { font-size: 15px; margin-top: 6px; line-height: 1.25; }
+    .ratebox strong b { font-family: Inter, system-ui, sans-serif; font-weight: 600; font-size: 15px; }
+    .hourline { margin-top: 6px; }
+    .hourline span { color: #737373; font-style: normal; font-size: 10px; letter-spacing: .14em; }
+    .hourline b { font-family: Inter, system-ui, sans-serif; font-weight: 600; font-size: 12px; }
+    .pair b { display: block; font-family: Inter, system-ui, sans-serif; font-weight: 600; font-size: 14px; }
+    #minute-rate .up { color: #3dd68c !important; }
+    #minute-rate .down { color: #f07167 !important; }
+    .minute .down, .note .down { color: #f07167 !important; }
+    .dayline i { color: #737373; font-style: normal; font-size: 11px; letter-spacing: .16em; }
+    h2 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 36px; margin: 36px 0 8px; }
+    .lead { color: #c8c4bb; max-width: 560px; line-height: 1.6; }
+    .vaultrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .vaultrow .lead { margin: 0; }
+    .vaultbox { border: 1px solid #2a2a2a; padding: 12px 16px; min-width: 190px; text-align: right; }
+    .vaultbox span { display: block; color: #737373; font-size: 11px; letter-spacing: .16em; }
+    .vaultbox strong { display: block; margin-top: 6px; font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 22px; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
+    .step { border: 1px solid #2a2a2a; padding: 18px; min-height: 160px; }
+    .num { color: #8a8a8a; letter-spacing: .2em; font-size: 11px; }
+    .step h3 { font-family: "Libre Bodoni", serif; font-weight: 500; font-size: 26px; margin: 10px 0; }
+    .step p { color: #bdb8ae; line-height: 1.5; font-size: 14px; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+    .card { border: 1px solid #2a2a2a; padding: 8px 20px; }
+    .card p { color: #c8c4bb; line-height: 1.55; font-size: 14px; }
+    .k { color: #737373; letter-spacing: .16em; font-size: 11px; }
+    code { display: block; margin-top: 6px; word-break: break-all; color: #f4f1ea; font-size: 13px; }
+    .px { font-family: "Libre Bodoni", serif; font-size: 34px; margin: 8px 0 4px; }
+    .chart { margin-top: 16px; border: 1px solid #2a2a2a; padding: 14px 14px 8px; }
+    .chart svg { width: 100%; height: 92px; display: block; }
+    .board { margin-top: 14px; text-align: left; }
+    .pay { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid #2a2a2a; text-decoration: none; }
+    .pay:last-child { border-bottom: 0; }
+    .pay b { font-weight: 500; letter-spacing: .04em; }
+    .pay span { color: #f3ead7; font-variant-numeric: tabular-nums; }
+    .fine { margin-top: 28px; color: #737373; font-size: 12px; line-height: 1.5; }
+    footer { margin-top: 48px; display: flex; justify-content: space-between; gap: 12px; color: #737373; font-size: 12px; letter-spacing: .08em; }
+    .qr { margin: 18px auto 0; background: #f3ead7; color: #111; padding: 16px 16px 12px; display: inline-block; }
+    .qr img { display: block; width: 160px; height: 160px; }
+    .qr p { margin-top: 10px; letter-spacing: .18em; font-size: 11px; font-weight: 600; }
+    @media (max-width: 720px) {
+      .doors, .stats, .steps, .split, .vaultrow { grid-template-columns: 1fr; flex-direction: column; align-items: stretch; }
+      .stats div { border-right: 0; border-bottom: 1px solid #2a2a2a; }
+      .vaultbox { text-align: left; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="wrap">
+    <nav>
+      <div class="navleft">
+        <span>BEL TOKEN</span>
+        <a href="https://x.com/BelchiorToken" target="_blank" rel="noreferrer">X</a>
+        <a href="https://t.me/+LsSrv9TgJMA5YWZk" target="_blank" rel="noreferrer">TELEGRAM</a>
+        <button class="navbtn" id="open-add" type="button">ADD BEL</button>
+      </div>
+      <a href="whitepaper.html">WHITE PAPER</a>
+    </nav>
+    <header class="hero">
+      <p class="eyebrow">BNB SMART CHAIN</p>
+      <div class="mark" aria-hidden="true"><div class="ring spin"></div><div class="ring inner"></div><div class="b">B</div></div>
+      <p class="hint">BELCHIOR TOKEN</p>
+      <p class="sub">One token. Two doors. The price on this page is always BEL / USDC.</p>
+      <div class="actions">
+        <a class="btn" href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=BNB&outputCurrency=0x3c841c88d3819c901ec0fe29897146dca509552b" target="_blank" rel="noreferrer">BUY BEL</a>
+        <a class="btn ghost" href="whitepaper.html">READ THE PAPER</a>
+      </div>
+      <div class="doors">
+        <article class="door">
+          <p class="k">MINE</p>
+          <h2>The mine.</h2>
+          <p>One BEL an hour. The score stays on the phone, and it is still there tomorrow.</p>
+          <div class="actions">
+            <a class="btn" href="https://github.com/BelchiorToken/Belchior/releases/download/v1.0.0/bel.apk">DOWNLOAD THE APP</a>
+            <span class="dl" id="dlcount">3 downloads</span>
+            <a class="btn apple" href="mine.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.72c-.03-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.71-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.61 2.25 2.76 2.21 1.11-.05 1.53-.71 2.87-.71 1.34 0 1.72.71 2.89.69 1.19-.02 1.95-1.08 2.68-2.15.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.35-3.54zM14.7 6.85c.61-.74 1.02-1.77.91-2.8-.88.04-1.94.59-2.57 1.32-.56.65-1.06 1.7-.93 2.7.98.08 1.98-.5 2.59-1.22z"/></svg>IPHONE</a>
+          </div>
+          <div class="qr">
+            <img src="download-qr.svg" width="160" height="160" alt="Scan to download the BEL app" />
+            <p>SCAN TO DOWNLOAD</p>
+          </div>
+        </article>
+        <article class="door later">
+          <p class="k">VAULT</p>
+          <h2>The vault.</h2>
+          <p>Looking to secure your assets? We'll keep them safe for you.</p>
+          <p class="coins">A locker behind the wallet you already use. Only that wallet can take the coins out. Belchior cannot.</p>
+          <p class="coins">It accepts <b>BEL</b>, <b>BNB</b>, <b>USDT</b>, <b>USDC</b>, <b>Bitcoin</b>, <b>ETH</b>, and <b>XRP</b> on BNB Chain. Each coin is counted on its own.</p>
+          <p class="coins">Deposit costs <b>1 BEL</b>, about <b id="fee-bel">$0.000060</b>. Withdrawal is free.</p>
+          <p class="coins">Later, <b>1 BEL</b> a day for each <b>$10</b> of BNB, USDT, USDC, Bitcoin, ETH, and XRP. One wallet stops at 24 BEL a day. BEL in the vault does not count.</p>
+          <p class="quiet">Not open yet. Nothing is held there until the contract is deployed.</p>
+          <div class="actions">
+            <span class="btn soon" role="note">BELCHIOR VAULT <i>COMING SOON</i></span>
+          </div>
+        </article>
+      </div>
+      <div class="stats">
+        <div class="pxbox"><span>BEL / USDC</span><strong id="bel-price">0.0000622</strong><svg id="spark" viewBox="0 0 100 32" preserveAspectRatio="none" role="img" aria-label="BEL / USDC, last 24 hours"><path d="M0.0 12.5 L3.1 12.5 L6.2 15.3 L9.4 15.2 L12.5 16.4 L15.6 18.4 L18.8 18.5 L21.9 18.2 L25.0 18.0 L28.1 23.1 L31.2 24.2 L34.4 22.0 L37.5 23.2 L40.6 21.7 L43.8 23.6 L46.9 23.9 L50.0 22.3 L53.1 23.2 L56.2 24.3 L59.4 26.0 L62.5 22.0 L65.6 22.9 L68.8 22.2 L71.9 22.8 L75.0 18.2 L78.1 14.9 L81.2 5.1 L84.4 4.6 L87.5 4.0 L90.6 9.1 L93.8 10.9 L96.9 14.6 L100.0 11.5" fill="none" stroke="#f3ead7" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+        <div class="ratebox"><span>MINING BASE RATE</span><strong>1 BEL / hour + <b id="day-pct">…</b></strong><p class="now">= <b id="now-rate">…</b></p><p class="hourline"><span>LAST HOUR</span> <b id="minute-rate">…</b></p></div>
+        <div><span>XRP POOL</span><strong>3,000 XRP</strong></div>
+      </div>
+    </header>
+    <h2>Latest withdrawals.</h2>
+    <div class="vaultrow">
+      <p class="lead">BEL already sent by the mine.</p>
+      <div class="vaultbox"><span>STILL IN THE MINE</span><strong id="vault-left">99,997.63 BEL</strong></div>
+    </div>
+    <div class="card board" id="board">
+      <a class="pay" href="https://bscscan.com/tx/0x273662244fe88dc354d0891071c11a16527126f128f20b6e3e61b295112ccb89" target="_blank" rel="noreferrer"><b>0x7106…1b5d</b><span>2.373 BEL</span></a>
+      <a class="pay" href="https://bscscan.com/tx/0x3d99a22db098d9a76d625644ba9f507881b20fed0f5589cc9f93a32e1f0a078f" target="_blank" rel="noreferrer"><b>0x7106…1b5d</b><span>0.0387 BEL</span></a>
+    </div>
+    <h2>Price and liquidity.</h2>
+    <p class="lead">The deep pool is BEL / XRP. That is the liquidity behind the token. The price printed here is never in XRP. It is the BEL / USDC pool.</p>
+    <div class="split">
+      <div class="card">
+        <div class="k">BEL / USDC <i class="pip"></i></div>
+        <div class="px" id="bel-price-lg">0.0000622</div>
+        <p id="bel-pool">Live BEL / USDC price.</p>
+        <svg class="glowchart" id="bel-glow" viewBox="0 0 320 168" preserveAspectRatio="none" role="img" aria-label="BEL / USDC, last 7 days"></svg>
+        <p class="chart-note" id="bel-catch">This week’s BEL / USDC line loads here.</p>
+        <div class="news" id="bel-news"><div class="k">THIS WEEK</div><p class="chart-note">Dollar-side headlines load here.</p></div>
+      </div>
+      <div class="card" style="padding:20px">
+        <div class="k">XRP LIQUIDITY <i class="pip"></i></div>
+        <p style="margin-top:10px">3,000 XRP paired with 65,944,629 BEL. This is the large pool.</p>
+        <svg class="glowchart" id="xrp-glow" viewBox="0 0 320 168" preserveAspectRatio="none" role="img" aria-label="XRP, last 7 days"></svg>
+        <p class="chart-note" id="xrp-catch">This week’s XRP move loads here.</p>
+        <div class="news" id="xrp-news"><div class="k">THIS WEEK</div><p class="chart-note">XRP headlines load here.</p></div>
+        <code>0xef50ba8e8e21681b3cd854a42f1a0fb866b367af</code>
+        <div class="k" style="margin-top:16px">USDC POOL</div>
+        <code>0x39dd455d59d29e2f1e8d727c94315d08e6c2fac1</code>
+        <div class="k" style="margin-top:16px">TOKEN</div>
+        <code>0x3c841c88d3819c901ec0fe29897146dca509552b</code>
+      </div>
+    </div>
+    <p class="fine">The number on the phone is a mining score. It is not BEL in your wallet yet. A different coin also called BEL, beginning 0xC50c6, is not Belchior.</p>
+    <footer><span>BELCHIOR · 2026</span><a href="whitepaper.html">WHITE PAPER</a></footer>
+  </div>
+
+    <div class="modal" id="add-modal" hidden role="dialog" aria-modal="true" aria-labelledby="add-title">
+      <div class="modal-card">
+        <button class="modal-x" type="button" data-close aria-label="Close">×</button>
+        <h2 id="add-title">Add BEL</h2>
+        <p>Do this in Binance, Trust, MetaMask, or any wallet on BNB Smart Chain. Stay on that network before you add it.</p>
+        <ol>
+          <li>Open the wallet.</li>
+          <li>Switch the network to BNB Smart Chain.</li>
+          <li>Choose import, or add a custom token.</li>
+          <li>Paste this contract.
+            <code>0x3c841c88d3819c901ec0fe29897146dca509552b</code>
+          </li>
+          <li>Symbol <strong>BEL</strong>. Decimals <strong>18</strong>. If the wallet fills these in, check them before you save.</li>
+        </ol>
+        <p style="margin-top:14px">Another coin also called BEL, beginning 0xC50c6, is not this token.</p>
+        <button class="modal-close" type="button" data-close>CLOSE</button>
+      </div>
+    </div>
+
+  <script>
+    const BEL = "0x3c841c88d3819c901ec0fe29897146dca509552b";
+    const VAULT = "0xf1f263ef432c51e1a8c180ae0bcc5e873a23bfbc";
+    const TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
+    const FROM = "0x" + VAULT.slice(2).padStart(64, "0");
+    const RPCS = ["https://rpc-bsc.48.club", "https://bsc-dataseed.binance.org", "https://bsc.publicnode.com"];
+    async function rpc(method, params) {
+      let last;
+      for (const url of RPCS) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 8000);
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
+            signal: ctrl.signal
+          });
+          const out = await res.json();
+          if (out.error) throw out.error;
+          return out.result;
+        } catch (e) { last = e; }
+        finally { clearTimeout(timer); }
+      }
+      throw last;
+    }
+    function bel(hex) {
+      const v = BigInt(hex);
+      const whole = v / 1000000000000000000n;
+      const frac = (v % 1000000000000000000n).toString().padStart(18, "0").slice(0, 4).replace(/0+$/, "");
+      return frac ? whole.toString() + "." + frac : whole.toString();
+    }
+    function short(a) { return a.slice(0, 6) + "\u2026" + a.slice(-4); }
+    async function loadBoard() {
+      const board = document.getElementById("board");
+      try {
+        const latest = parseInt(await rpc("eth_blockNumber", []), 16);
+        const rows = [];
+        let end = latest;
+        const floor = Math.max(0, latest - 30000);
+        while (end >= floor && rows.length < 10) {
+          const start = Math.max(floor, end - 4900);
+          const part = await rpc("eth_getLogs", [{
+            address: BEL,
+            fromBlock: "0x" + start.toString(16),
+            toBlock: "0x" + end.toString(16),
+            topics: [TOPIC, FROM]
+          }]);
+          for (const lg of part) {
+            rows.push({
+              block: parseInt(lg.blockNumber, 16),
+              to: "0x" + lg.topics[2].slice(26),
+              amt: bel(lg.data),
+              tx: lg.transactionHash
+            });
+          }
+          end = start - 1;
+        }
+        rows.sort((a, b) => b.block - a.block);
+        const top = rows.slice(0, 10);
+        if (!top.length) return;
+        board.innerHTML = top.map((r) =>
+          '<a class="pay" href="https://bscscan.com/tx/' + r.tx + '" target="_blank" rel="noreferrer"><b>' +
+          short(r.to) + "</b><span>" + r.amt + " BEL</span></a>"
+        ).join("");
+      } catch (e) {}
+    }
+    async function loadVault() {
+      try {
+        const data = "0x70a08231" + VAULT.slice(2).padStart(64, "0");
+        const raw = await rpc("eth_call", [{ to: BEL, data }, "latest"]);
+        const v = BigInt(raw);
+        const whole = v / 1000000000000000000n;
+        const frac = (v % 1000000000000000000n).toString().padStart(18, "0").slice(0, 2);
+        const n = whole.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        document.getElementById("vault-left").textContent = n + "." + frac + " BEL";
+      } catch (e) {}
+    }
+    async function loadDownloads() {
+      try {
+        const res = await fetch("https://api.github.com/repos/BelchiorToken/Belchior/releases/tags/v1.0.0");
+        const data = await res.json();
+        const apk = (data.assets || []).find((a) => a.name === "bel.apk");
+        if (!apk || typeof apk.download_count !== "number") return;
+        const n = apk.download_count;
+        document.getElementById("dlcount").textContent = n + (n === 1 ? " download" : " downloads");
+      } catch (e) {}
+    }
+    loadBoard();
+    loadVault();
+    loadDownloads();
+
+    const addModal = document.getElementById("add-modal");
+    const closeAdd = () => { addModal.hidden = true; };
+    document.getElementById("open-add").addEventListener("click", () => { addModal.hidden = false; });
+    addModal.addEventListener("click", (e) => { if (e.target === addModal) closeAdd(); });
+    addModal.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", closeAdd));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeAdd(); });
+  </script>
+
+<script>
+(function () {
+  var PAIR = "0x39dd455d59d29E2F1e8D727c94315d08e6c2FaC1";
+  var RPCS = ["https://bsc-dataseed.binance.org", "https://bsc.publicnode.com", "https://rpc-bsc.48.club"];
+  var KEY = "bel_minute_px";
+  function rpc(params) {
+    var i = 0;
+    return new Promise(function (ok, bad) {
+      function next() {
+        if (i >= RPCS.length) return bad(new Error("rpc"));
+        fetch(RPCS[i++], { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: params }) })
+          .then(function (r) { return r.json(); })
+          .then(function (j) { if (!j.result) throw new Error("empty"); ok(j.result); })
+          .catch(next);
+      }
+      next();
+    });
+  }
+  function tick() {
+    var el = document.getElementById("minute-rate");
+    if (!el) return;
+    fetch("https://api.dexscreener.com/latest/dex/tokens/0x3c841c88d3819c901ec0fe29897146dca509552b")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var hit = null;
+        (d.pairs || []).forEach(function (pair) {
+          if ((pair.pairAddress || "").toLowerCase() === "0x39dd455d59d29e2f1e8d727c94315d08e6c2fac1") hit = pair;
+        });
+        if (!hit) return;
+        var ch = hit.priceChange || {};
+        var tx = (hit.txns && hit.txns.h1) || {};
+        var traded = (Number(tx.buys) || 0) + (Number(tx.sells) || 0);
+        var pct = ch.h1 == null ? (traded === 0 ? 0 : null) : Number(ch.h1);
+        if (pct == null || isNaN(pct)) {
+          el.textContent = el.getAttribute("data-long") ? "Last hour · …" : "…";
+          return;
+        }
+        var rate = 1 + pct / 100;
+        var klass = pct > 0 ? "up" : pct < 0 ? "down" : "flat";
+        var pctHtml = '<span class="' + klass + '">' + (pct > 0 ? "+" : "") + pct.toFixed(2) + "%</span>";
+        var line = "Last hour · " + rate.toFixed(3) + "/h · " + pctHtml;
+        el.innerHTML = el.getAttribute("data-long") ? line + ". The vault still pays the daily rate." : pctHtml;
+      }).catch(function () {});
+  }
+
+
+  var weekPts = [1.2725,1.2735,1.2742,1.3053,1.3091,1.3139,1.3125,1.3095,1.2974,1.3020,1.3023,1.2969,1.3055,1.3003,1.2924,1.2989,1.3221,1.3233,1.3328,1.3365,1.3315,1.3325,1.3554,1.3570,1.3799,1.3865,1.3822,1.3629,1.3442,1.3407,1.3281,1.3238,1.3208,1.3065,1.3070,1.3114,1.3204,1.3283,1.3178,1.3165,1.3116,1.3081,1.3048,1.2861,1.2900,1.2884,1.2760,1.2840,1.2673,1.2856,1.2916,1.3042,1.3100,1.2941,1.2934,1.2956,1.2981];
+  function glowChart(id, values) {
+    var svg = document.getElementById(id);
+    if (!svg || !values || values.length < 2) return;
+    var w = 320, h = 168, pad = 12;
+    var lo = Math.min.apply(null, values), hi = Math.max.apply(null, values);
+    var span = hi - lo || Math.abs(hi) * 0.02 || 1;
+    lo -= span * 0.12; hi += span * 0.12; span = hi - lo;
+    function X(i) { return pad + (i / (values.length - 1)) * (w - pad * 2); }
+    function Y(v) { return pad + (1 - (v - lo) / span) * (h - pad * 2); }
+    var gid = id + "g", rid = id + "r";
+    var defs = '<defs><filter id="' + gid + '" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="' + rid + '" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.1" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
+    var bits = [];
+    for (var g = 1; g < 4; g++) {
+      var gy = (pad + (h - pad * 2) * g / 4).toFixed(1);
+      bits.push('<line x1="' + pad + '" y1="' + gy + '" x2="' + (w - pad) + '" y2="' + gy + '" stroke="rgba(243,234,215,.08)" stroke-width="1" vector-effect="non-scaling-stroke"/>');
+    }
+    var trace = "M" + X(0).toFixed(1) + " " + Y(values[0]).toFixed(1);
+    var area = "M" + X(0).toFixed(1) + " " + (h - 6) + " L" + X(0).toFixed(1) + " " + Y(values[0]).toFixed(1);
+    var down = 0;
+    for (var i = 1; i < values.length; i++) {
+      var x1 = X(i - 1), y1 = Y(values[i - 1]), x2 = X(i), y2 = Y(values[i]);
+      trace += " L" + x2.toFixed(1) + " " + y2.toFixed(1);
+      area += " L" + x2.toFixed(1) + " " + y2.toFixed(1);
+      var len = Math.hypot(x2 - x1, y2 - y1).toFixed(1);
+      var delay = ((i - 1) * 0.045).toFixed(2);
+      var dash = ' stroke-dasharray="' + len + '" stroke-dashoffset="' + len + '" style="animation:drawSeg .5s ease ' + delay + 's forwards"';
+      var up = values[i] >= values[i - 1];
+      if (up) {
+        down = 0;
+        bits.push('<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#7CFFB2" stroke-width="2.6" stroke-linecap="round" filter="url(#' + gid + ')" vector-effect="non-scaling-stroke"' + dash + '/>');
+      } else {
+        down++;
+        var op = Math.max(0.18, 0.7 - (down - 1) * 0.14).toFixed(2);
+        bits.push('<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#ff6b62" stroke-opacity="' + op + '" stroke-width="1.8" stroke-linecap="round" filter="url(#' + rid + ')" vector-effect="non-scaling-stroke"' + dash + '/>');
+      }
+    }
+    area += " L" + X(values.length - 1).toFixed(1) + " " + (h - 6) + " Z";
+    var rising = values[values.length - 1] >= values[0];
+    var fill = rising ? "rgba(124,255,178,.16)" : "rgba(255,107,98,.07)";
+    var lx = X(values.length - 1).toFixed(1), ly = Y(values[values.length - 1]).toFixed(1);
+    var dot = '<circle cx="' + lx + '" cy="' + ly + '" r="2.6" fill="' + (rising ? "#b8ffd4" : "#ffb0aa") + '" filter="url(#' + gid + ')"><animate attributeName="r" values="2.2;4.2;2.2" dur="1.8s" repeatCount="indefinite"/></circle>';
+    var rider = '<circle r="3.1" fill="#f7fff9" filter="url(#' + gid + ')"><animateMotion dur="8s" repeatCount="indefinite" path="' + trace + '"/></circle>';
+    var rider2 = '<circle r="2" fill="#7CFFB2" opacity="0.55" filter="url(#' + gid + ')"><animateMotion dur="8s" begin="-4s" repeatCount="indefinite" path="' + trace + '"/></circle>';
+    svg.innerHTML = defs + '<path d="' + area + '" fill="' + fill + '"/>' + bits.join("") + dot + rider + rider2;
+  }
+  function paintCharts(bel) {
+    glowChart("xrp-glow", weekPts);
+    if (!bel) {
+      var shown = document.getElementById("bel-price");
+      bel = shown ? Number(shown.textContent) : 0;
+    }
+    if (!bel || !weekPts.length) return;
+    var last = weekPts[weekPts.length - 1];
+    glowChart("bel-glow", weekPts.map(function (v) { return bel * v / last; }));
+  }
+  var sparkPts = null;
+  function spark(bel) {
+    var svg = document.getElementById("spark");
+    if (!svg || !sparkPts || !bel) return;
+    var last = sparkPts[sparkPts.length - 1];
+    if (!last) return;
+    var ys = sparkPts.map(function (v) { return bel * v / last; });
+    var lo = Math.min.apply(null, ys), hi = Math.max.apply(null, ys), span = hi - lo || 1;
+    var d = ys.map(function (v, i) {
+      var x = (i / (ys.length - 1)) * 100;
+      var y = 26 - ((v - lo) / span) * 22;
+      return (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
+    }).join(" ");
+    var path = svg.querySelector("path");
+    if (path) path.setAttribute("d", d);
+  }
+
+  function esc(s) {
+    return String(s || "").replace(/[&<>"]/g, function (c) {
+      if (c === "&") return "&" + "amp;";
+      if (c === "<") return "&" + "lt;";
+      if (c === ">") return "&" + "gt;";
+      return "&" + "quot;";
+    });
+  }
+  function age(pub) {
+    var t = Date.parse(String(pub || "").replace(" ", "T") + "Z");
+    if (isNaN(t)) return "";
+    var mins = Math.max(1, Math.round((Date.now() - t) / 60000));
+    return mins < 60 ? mins + "m" : mins < 1440 ? Math.round(mins / 60) + "h" : Math.round(mins / 1440) + "d";
+  }
+  function paintMove() {
+    if (!weekPts || weekPts.length < 2) return;
+    var pct = (weekPts[weekPts.length - 1] / weekPts[0] - 1) * 100;
+    var cls = pct > 0 ? "up" : pct < 0 ? "down" : "flat";
+    var bit = '<span class="' + cls + '">' + (pct > 0 ? "+" : "") + pct.toFixed(1) + "%</span>";
+    var x = document.getElementById("xrp-catch");
+    var b = document.getElementById("bel-catch");
+    if (x) x.innerHTML = "This week XRP is " + bit + ".";
+    if (b) b.innerHTML = "This week the BEL / USDC line is " + bit + ". It follows the XRP pool.";
+  }
+  function headlines(items) {
+    return items.slice(0, 3).map(function (it) {
+      var host = "News";
+      try { host = new URL(it.link).hostname.replace(/^www\./, "").split(".")[0]; } catch (e) {}
+      host = host.charAt(0).toUpperCase() + host.slice(1);
+      return '<a class="headline" href="' + esc(it.link) + '" target="_blank" rel="noreferrer">' + esc(it.title) + '<span>' + age(it.pubDate) + " · " + esc(host) + "</span></a>";
+    }).join("");
+  }
+  function loadNews() {
+    var feeds = [
+      "https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=xml",
+      "https://cointelegraph.com/rss",
+      "https://www.theblock.co/rss.xml"
+    ];
+    Promise.all(feeds.map(function (feed) {
+      return fetch("https://api.rss2json.com/v1/api.json?count=50&rss_url=" + encodeURIComponent(feed))
+        .then(function (r) { return r.json(); })
+        .then(function (d) { return d.items || []; })
+        .catch(function () { return []; });
+    })).then(function (groups) {
+      var all = [], seen = {};
+      groups.forEach(function (items) {
+        items.forEach(function (it) {
+          var key = String(it.title || "").toLowerCase();
+          if (!key || seen[key]) return;
+          seen[key] = 1;
+          var t = Date.parse(String(it.pubDate || "").replace(" ", "T") + "Z");
+          it._t = isNaN(t) ? 0 : t;
+          all.push(it);
+        });
+      });
+      var week = Date.now() - 8 * 86400000;
+      function pick(re) {
+        return all.filter(function (it) {
+          return it._t >= week && re.test((it.title || "") + " " + (it.description || ""));
+        }).sort(function (a, b) { return b._t - a._t; });
+      }
+      var xrp = pick(/xrp|ripple|rlusd/i);
+      var usd = pick(/usdc|stablecoin/i);
+      var xb = document.getElementById("xrp-news");
+      var bb = document.getElementById("bel-news");
+      if (xb && xrp.length) xb.innerHTML = '<div class="k">THIS WEEK</div>' + headlines(xrp);
+      if (bb && usd.length) bb.innerHTML = '<div class="k">THIS WEEK</div>' + headlines(usd);
+    }).catch(function () {});
+  }
+  function loadWeek() {
+    fetch("https://api.coingecko.com/api/v3/coins/ripple/market_chart?vs_currency=usd&days=7")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var raw = (d.prices || []).map(function (row) { return row[1]; });
+        if (raw.length < 2) return;
+        var step = Math.max(1, Math.floor(raw.length / 56));
+        var pts = [];
+        for (var i = 0; i < raw.length; i += step) pts.push(raw[i]);
+        if (pts[pts.length - 1] !== raw[raw.length - 1]) pts.push(raw[raw.length - 1]);
+        weekPts = pts;
+        paintCharts();
+        paintMove();
+      }).catch(function () {});
+  }
+  function loadSpark() {
+    fetch("https://api.coingecko.com/api/v3/coins/ripple/market_chart?vs_currency=usd&days=1")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var raw = (d.prices || []).map(function (row) { return row[1]; });
+        if (raw.length < 2) return;
+        var step = Math.max(1, Math.floor(raw.length / 32));
+        var pts = [];
+        for (var i = 0; i < raw.length; i += step) pts.push(raw[i]);
+        if (pts[pts.length - 1] !== raw[raw.length - 1]) pts.push(raw[raw.length - 1]);
+        sparkPts = pts;
+        paintCharts();
+        var shown = document.getElementById("bel-price");
+        var bel = shown ? Number(shown.textContent) : 0;
+        if (bel) spark(bel);
+      }).catch(function () {});
+  }
+  function day() {
+    fetch("https://api.dexscreener.com/latest/dex/tokens/0x3c841c88d3819c901ec0fe29897146dca509552b")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var hit = null;
+        (d.pairs || []).forEach(function (pair) {
+          if ((pair.pairAddress || "").toLowerCase() === "0x39dd455d59d29e2f1e8d727c94315d08e6c2fac1") hit = pair;
+        });
+        var el = document.getElementById("day-pct");
+        if (!el || !hit || !hit.priceChange || hit.priceChange.h24 == null) return;
+        var pct = Number(hit.priceChange.h24);
+        var color = pct > 0 ? "#3dd68c" : pct < 0 ? "#f07167" : "#a3a3a3";
+        el.style.color = color;
+        el.textContent = (pct > 0 ? "+" : "") + pct.toFixed(2) + "%";
+        var now = document.getElementById("now-rate");
+        if (now) {
+          now.style.color = color;
+          now.textContent = (1 + pct / 100).toFixed(3) + " BEL / hour";
+        }
+        var px = Number(hit.priceUsd);
+        if (px) {
+          var text = px.toFixed(7).replace(/0$/, "");
+          var a = document.getElementById("bel-price");
+          var b = document.getElementById("bel-price-lg");
+          var fee = document.getElementById("fee-bel");
+          if (a) a.textContent = text;
+          if (b) b.textContent = text;
+          if (fee) fee.textContent = "$" + text;
+          spark(px);
+        }
+      }).catch(function () {});
+  }
+  tick();
+  day();
+  paintCharts();
+  paintMove();
+  loadWeek();
+  loadNews();
+  loadSpark();
+  setInterval(tick, 60000);
+  setInterval(day, 60000);
+  setInterval(loadSpark, 300000);
+  setInterval(loadWeek, 300000);
+  setInterval(loadNews, 600000);
+})();
+</script>
+</body>
+</html>
